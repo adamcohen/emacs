@@ -524,3 +524,5 @@ the line, to capture multiline input. (This only has effect if
 
 (global-set-key [f11] 'toggle-fullscreen)
 (toggle-fullscreen)
+
+(add-hook 'ruby-mode-hook       'esk-paredit-nonlisp)

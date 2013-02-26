@@ -14,10 +14,10 @@
 ;; Save a list of recent files visited.
 (recentf-mode 1)
 
-;; Highlight matching parentheses when the point is on them.
-(show-paren-mode 1)
-
-(ido-mode t)
+(global-set-key (kbd "C-x f") 'recentf-ido-find-file)
+(global-set-key (kbd "C-c y") 'bury-buffer)
+(global-set-key (kbd "C-c r") 'revert-buffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 (setq 
   tags-revert-without-query 1      ; automatically reload the TAGS

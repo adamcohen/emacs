@@ -17,3 +17,8 @@
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
+
+(set-face-attribute 'default nil
+                    :family "Monaco" :height (case system-type
+                                             ('gnu/linux 130)
+                                             ('darwin 160)) :weight 'normal)

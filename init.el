@@ -7,7 +7,7 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(starter-kit starter-kit-lisp starter-kit-bindings ace-jump-mode ack feature-mode find-file-in-project idle-highlight-mode magit markdown-mode paredit puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle starter-kit-ruby popup auto-complete starter-kit-js)
+(defvar my-packages '(starter-kit starter-kit-lisp starter-kit-bindings ace-jump-mode ack feature-mode find-file-in-project idle-highlight-mode magit markdown-mode paredit puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle starter-kit-ruby popup auto-complete starter-kit-js multiple-cursors)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)

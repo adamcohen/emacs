@@ -18,6 +18,13 @@
 (global-set-key (kbd "C-c y") 'bury-buffer)
 (global-set-key (kbd "C-c r") 'revert-buffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-c C-r") 'replace-string)
+
+(global-set-key (kbd "C-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 (setq 
   tags-revert-without-query 1      ; automatically reload the TAGS
@@ -36,8 +43,10 @@
   ido-max-work-file-list      50   ; remember many
   ido-use-filename-at-point nil    ; don't use filename at point (annoying)
   ido-use-url-at-point nil         ; don't use url at point (annoying)
- ; ido-enable-regexp t              ; use regexp matchin
-;  ido-enable-flex-matching nil     ; disabled so we can use regexp matching
+  ido-enable-regexp t              ; use regexp matchin
+  ido-enable-flex-matching nil     ; disabled so we can use regexp matching.
+                                   ; Flex matching is too slow when using
+                                   ; find files in project
   ido-max-prospects 8              ; don't spam my minibuffer
   ido-confirm-unique-completion t) ; wait for RET, even with unique completion
 
@@ -522,7 +531,40 @@ the line, to capture multiline input. (This only has effect if
      nil 'fullscreen
      (when (not (frame-parameter nil 'fullscreen)) 'fullboth))))
 
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
+
 (global-set-key [f11] 'toggle-fullscreen)
 (toggle-fullscreen)
 
 (add-hook 'ruby-mode-hook       'esk-paredit-nonlisp)
+
+(add-hook 'feature-mode-hook
+          '(lambda ()
+             (define-key feature-mode-map (kbd "M-t") 'toggle-truncate-lines)
+))
+
+(add-hook 'sql-interactive-mode-hook
+          '(lambda ()
+             (define-key sql-interactive-mode-map (kbd "M-t") 'toggle-truncate-lines)
+))
+
+(add-hook 'shell-mode-hook
+          '(lambda ()
+             (define-key shell-mode-map [f1] 'clear-shell)
+))
+
+(require 'dired-x)
+(require 'wdired)
+(setq wdired-allow-to-change-permissions 'advanced)
+(define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
+
+;;; to fix "void function inf-ruby-keys" error
+(defalias 'inf-ruby-keys 'inf-ruby-setup-keybindings)

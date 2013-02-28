@@ -431,16 +431,13 @@ searches all buffers."
 
 
 ;;; hack to ensure that flex matching is enabled for smex, since
-;;; ido-find-file-in-tag-files disabled flex matching because it's
+;;; I disabled flex matching for ido-find-file-in-tag-files because it's
 ;;; too slow
-(defun smex-with-flex ()
-  (interactive)
-  (setq ido-enable-flex-matching t
-              ido-enable-regexp nil)
-  (smex))
-
-(global-set-key (kbd "M-x") 'smex-with-flex)
-
+(global-set-key (kbd "M-x") (lambda ()
+                             (interactive)
+                             (setq ido-enable-flex-matching t
+                                   ido-enable-regexp nil)
+                             (smex)))
 
 (global-set-key [f8] 'ido-find-file-in-tag-files)
 
@@ -583,3 +580,4 @@ the line, to capture multiline input. (This only has effect if
 
 ;;; to fix "void function inf-ruby-keys" error
 (defalias 'inf-ruby-keys 'inf-ruby-setup-keybindings)
+(setq projectile-enable-caching t)

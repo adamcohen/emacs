@@ -43,12 +43,11 @@
   ido-max-work-file-list      50   ; remember many
   ido-use-filename-at-point nil    ; don't use filename at point (annoying)
   ido-use-url-at-point nil         ; don't use url at point (annoying)
-  ido-enable-regexp t              ; use regexp matchin
-  ido-enable-flex-matching nil     ; disabled so we can use regexp matching.
-                                   ; Flex matching is too slow when using
-                                   ; find files in project
+;  ido-enable-regexp t              ; use regexp matching
+  ido-enable-flex-matching t
   ido-max-prospects 8              ; don't spam my minibuffer
   ido-confirm-unique-completion t) ; wait for RET, even with unique completion
+
 
 ; enable tramp to open files using sudo on a remote machine by
 ; doing C-x C-f /sudo:root@host[#port]:/path/to/file
@@ -420,12 +419,28 @@ searches all buffers."
 (defun ido-find-file-in-tag-files ()
       (interactive)
       (save-excursion
+        ;; flex matching is too slow to be used with such a large file list
+        (setq ido-enable-flex-matching nil
+              ido-enable-regexp t)
         (let ((enable-recursive-minibuffers t))
           (visit-tags-table-buffer))
         (find-file
          (expand-file-name
           (ido-completing-read
            "Project file: " (tags-table-files) nil t)))))
+
+
+;;; hack to ensure that flex matching is enabled for smex, since
+;;; ido-find-file-in-tag-files disabled flex matching because it's
+;;; too slow
+(defun smex-with-flex ()
+  (interactive)
+  (setq ido-enable-flex-matching t
+              ido-enable-regexp nil)
+  (smex))
+
+(global-set-key (kbd "M-x") 'smex-with-flex)
+
 
 (global-set-key [f8] 'ido-find-file-in-tag-files)
 

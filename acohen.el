@@ -295,6 +295,11 @@ n    (forward-line n)
    (define-key ibuffer-mode-map (kbd "P") 'ibuffer-backward-line)
 ))
 
+(defun gfh ()
+  (interactive)
+  "copy the full path to the current buffer into the clipboard"
+  (kill-new (concat "spec " (replace-regexp-in-string "/home/acohen" "$HOME" buffer-file-name) ":" (number-to-string (line-number-at-pos)))))
+
 (defun gf ()
   (interactive)
 "copy the full path to the current buffer into the clipboard"
@@ -581,3 +586,6 @@ the line, to capture multiline input. (This only has effect if
 ;;; to fix "void function inf-ruby-keys" error
 (defalias 'inf-ruby-keys 'inf-ruby-setup-keybindings)
 (setq projectile-enable-caching t)
+
+;;; load my custom yas snippets
+(yas/load-directory (concat dotfiles-dir "snippets/"))

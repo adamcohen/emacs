@@ -46,7 +46,8 @@
 ;  ido-enable-regexp t              ; use regexp matching
   ido-enable-flex-matching t
   ido-max-prospects 8              ; don't spam my minibuffer
-  ido-confirm-unique-completion t) ; wait for RET, even with unique completion
+  ido-confirm-unique-completion t  ; wait for RET, even with unique completion
+  )
 
 
 ; enable tramp to open files using sudo on a remote machine by
@@ -558,6 +559,8 @@ the line, to capture multiline input. (This only has effect if
     (error (message "Invalid expression")
            (insert (current-kill 0)))))
 
+(global-set-key (kbd "C-c C-e") 'eval-and-replace)
+
 (global-set-key [f11] 'toggle-fullscreen)
 (toggle-fullscreen)
 
@@ -571,6 +574,7 @@ the line, to capture multiline input. (This only has effect if
 (add-hook 'sql-interactive-mode-hook
           '(lambda ()
              (define-key sql-interactive-mode-map (kbd "M-t") 'toggle-truncate-lines)
+             (define-key sql-interactive-mode-map (kbd "C-c SPC") 'ace-jump-mode)
 ))
 
 (add-hook 'shell-mode-hook

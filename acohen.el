@@ -19,16 +19,49 @@
 (global-set-key (kbd "C-c r") 'revert-buffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-c C-r") 'replace-string)
+
 
 (global-set-key (kbd "C-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
+
+;;; It turns out that global-set-key can be overridden by minors modes.
+;;; To prevent minor modes from overriding our keybindings, we have to
+;;; place them into a minor-mode, as follows:
+;;; BEGIN MINOR MODE KEYBINDINGS
+(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
+
+;;; place keybindings here that you want to be used globally and not overridden
+(define-key my-keys-minor-mode-map (kbd "M-r") 'replace-string)
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  t " my-keys" 'my-keys-minor-mode-map)
+
+(defun my-minibuffer-setup-hook ()
+  (my-keys-minor-mode 0))
+
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+
+(defadvice load (after give-my-keybindings-priority)
+  "Try to ensure that my keybindings always have priority."
+  (if (not (eq (car (car minor-mode-map-alist)) 'my-keys-minor-mode))
+      (let ((mykeys (assq 'my-keys-minor-mode minor-mode-map-alist)))
+        (assq-delete-all 'my-keys-minor-mode minor-mode-map-alist)
+        (add-to-list 'minor-mode-map-alist mykeys))))
+(ad-activate 'load)
+
+(my-keys-minor-mode 1)
+;;; END MINOR MODE KEYBINDINGS
+
+
 (setq 
   tags-revert-without-query 1      ; automatically reload the TAGS
                                    ; table if it changes
+  auto-mode-alist (cons '("README" . text-mode) auto-mode-alist)
+  auto-mode-alist (cons '("\\.pp$" . puppet-mode) auto-mode-alist)
   ;; when using ido, the confirmation is rather annoying...
   warning-suppress-types nil
   confirm-nonexistent-file-or-buffer nil

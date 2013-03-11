@@ -1,0 +1,4 @@
+#name : stub_chain
+#group : spec
+# --
+stub_chain(:${method1}, :${method2})

@@ -615,6 +615,17 @@ the line, to capture multiline input. (This only has effect if
              (define-key shell-mode-map [f1] 'clear-shell)
 ))
 
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+
+;;; remove some of the annoying parts of paredit in ruby mode
+             (define-key paredit-mode-map (kbd "M-C-b") 'ruby-backward-sexp)
+             (define-key paredit-mode-map (kbd "M-C-f") 'ruby-forward-sexp)
+             (define-key paredit-mode-map (kbd "M-C-p") 'ruby-beginning-of-block)
+             (define-key paredit-mode-map (kbd "M-C-n") 'ruby-end-of-block)
+             (define-key paredit-mode-map (kbd "M-;") 'comment-dwim)
+             ))
+
 (require 'dired-x)
 (require 'wdired)
 (setq wdired-allow-to-change-permissions 'advanced)
@@ -626,3 +637,4 @@ the line, to capture multiline input. (This only has effect if
 
 ;;; load my custom yas snippets
 (yas/load-directory (concat dotfiles-dir "snippets/"))
+

@@ -26,37 +26,6 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-
-;;; It turns out that global-set-key can be overridden by minors modes.
-;;; To prevent minor modes from overriding our keybindings, we have to
-;;; place them into a minor-mode, as follows:
-;;; BEGIN MINOR MODE KEYBINDINGS
-(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
-
-;;; place keybindings here that you want to be used globally and not overridden
-(define-key my-keys-minor-mode-map (kbd "M-r") 'replace-string)
-
-(define-minor-mode my-keys-minor-mode
-  "A minor mode so that my key settings override annoying major modes."
-  t " my-keys" 'my-keys-minor-mode-map)
-
-(defun my-minibuffer-setup-hook ()
-  (my-keys-minor-mode 0))
-
-(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
-
-(defadvice load (after give-my-keybindings-priority)
-  "Try to ensure that my keybindings always have priority."
-  (if (not (eq (car (car minor-mode-map-alist)) 'my-keys-minor-mode))
-      (let ((mykeys (assq 'my-keys-minor-mode minor-mode-map-alist)))
-        (assq-delete-all 'my-keys-minor-mode minor-mode-map-alist)
-        (add-to-list 'minor-mode-map-alist mykeys))))
-(ad-activate 'load)
-
-(my-keys-minor-mode 1)
-;;; END MINOR MODE KEYBINDINGS
-
-
 (setq 
   tags-revert-without-query 1      ; automatically reload the TAGS
                                    ; table if it changes
@@ -214,7 +183,6 @@
 (global-set-key "\M-p"  (lambda () (interactive) (scroll-down 1)) )
 (global-set-key "\M-g"  'goto-line)
 (global-set-key [f5] 'call-last-kbd-macro)
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 (defun move-line (n)
   "Move the current line up or down by N lines."
@@ -469,6 +437,39 @@ searches all buffers."
            "Project file: " (tags-table-files) nil t)))))
 
 
+(defun wrap-html-tag (tagName)
+  "Add a tag to beginning and ending of current word or text selection."
+  (interactive "sEnter tag name: ")
+  (let (p1 p2 inputText)
+    (if (use-region-p)
+        (progn 
+          (setq p1 (region-beginning) )
+          (setq p2 (region-end) )
+          )
+      (let ((bds (bounds-of-thing-at-point 'symbol)))
+        (setq p1 (car bds) )
+        (setq p2 (cdr bds) ) ) )
+
+    (goto-char p2)
+    (insert "</" tagName ">")
+    (goto-char p1)
+    (insert "<" tagName ">")
+    ))
+
+(defun my-tag-lines (b e tag)
+  "'tag' every line in the region with a tag"
+  (interactive "r\nMTag for line: ")
+  (save-restriction
+    (narrow-to-region b e)
+    (save-excursion
+      (goto-char (point-min))
+      (while (< (point) (point-max))
+        (beginning-of-line)
+        (insert (format "<%s>" tag))
+        (end-of-line)
+        (insert (format "</%s>" tag))
+        (forward-line 1)))))
+
 ;;; hack to ensure that flex matching is enabled for smex, since
 ;;; I disabled flex matching for ido-find-file-in-tag-files because it's
 ;;; too slow
@@ -604,12 +605,6 @@ the line, to capture multiline input. (This only has effect if
              (define-key feature-mode-map (kbd "M-t") 'toggle-truncate-lines)
 ))
 
-(add-hook 'sql-interactive-mode-hook
-          '(lambda ()
-             (define-key sql-interactive-mode-map (kbd "M-t") 'toggle-truncate-lines)
-             (define-key sql-interactive-mode-map (kbd "C-c SPC") 'ace-jump-mode)
-))
-
 (add-hook 'shell-mode-hook
           '(lambda ()
              (define-key shell-mode-map [f1] 'clear-shell)
@@ -638,3 +633,35 @@ the line, to capture multiline input. (This only has effect if
 ;;; load my custom yas snippets
 (yas/load-directory (concat dotfiles-dir "snippets/"))
 
+;;; It turns out that global-set-key can be overridden by minors modes.
+;;; To prevent minor modes from overriding our keybindings, we have to
+;;; place them into a minor-mode, as follows:
+;;; BEGIN MINOR MODE KEYBINDINGS
+(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
+
+;;; place keybindings here that you want to be used globally and not overridden
+(define-key my-keys-minor-mode-map (kbd "M-r") 'replace-string)
+(define-key my-keys-minor-mode-map (kbd "C-c y") 'djcb-duplicate-line)
+(define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
+(define-key my-keys-minor-mode-map (kbd "M-t") 'toggle-truncate-lines)
+
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  t " my-keys" 'my-keys-minor-mode-map)
+
+(defun my-minibuffer-setup-hook ()
+  (my-keys-minor-mode 0))
+
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+
+(defadvice load (after give-my-keybindings-priority)
+  "Try to ensure that my keybindings always have priority."
+  (if (not (eq (car (car minor-mode-map-alist)) 'my-keys-minor-mode))
+      (let ((mykeys (assq 'my-keys-minor-mode minor-mode-map-alist)))
+        (assq-delete-all 'my-keys-minor-mode minor-mode-map-alist)
+        (add-to-list 'minor-mode-map-alist mykeys))))
+(ad-activate 'load)
+
+(my-keys-minor-mode 1)
+;;; END MINOR MODE KEYBINDINGS

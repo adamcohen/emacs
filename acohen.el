@@ -27,6 +27,7 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 (setq 
+  global-hl-line-mode t
   tags-revert-without-query 1      ; automatically reload the TAGS
                                    ; table if it changes
   auto-mode-alist (cons '("README" . text-mode) auto-mode-alist)
@@ -665,3 +666,7 @@ the line, to capture multiline input. (This only has effect if
 
 (my-keys-minor-mode 1)
 ;;; END MINOR MODE KEYBINDINGS
+
+;; disable auto fill, 'cause it's annoying
+(turn-off-auto-fill)
+(remove-hook 'text-mode-hook 'turn-on-auto-fill)

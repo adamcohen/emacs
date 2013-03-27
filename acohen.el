@@ -26,12 +26,18 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
+(global-hl-line-mode)
+(make-variable-buffer-local 'global-hl-line-mode)
+
+(subword-mode 1)
+
 (setq 
-  global-hl-line-mode t
+  comment-auto-fill-only-comments t
   tags-revert-without-query 1      ; automatically reload the TAGS
                                    ; table if it changes
   auto-mode-alist (cons '("README" . text-mode) auto-mode-alist)
   auto-mode-alist (cons '("\\.pp$" . puppet-mode) auto-mode-alist)
+  auto-mode-alist (cons '("\\.md$" . markdown-mode) auto-mode-alist)
   ;; when using ido, the confirmation is rather annoying...
   warning-suppress-types nil
   confirm-nonexistent-file-or-buffer nil
@@ -289,6 +295,14 @@ n    (forward-line n)
  (lambda ()
    (define-key shell-mode-map (kbd "C-c C-f") 'find-file-at-point)
    (define-key shell-mode-map [f1] 'clear-shell)
+   (setq global-hl-line-mode nil)
+))
+
+;; might be called sql-interactive-mode-hook
+(add-hook 'sql-interactive-mode-hook
+          '(lambda ()
+             (define-key sql-interactive-mode-map [f1] 'clear-shell)
+             (setq global-hl-line-mode nil)
 ))
 
 ;; remove P (ibuffer-do-print) in ibuffer mode, since it's
@@ -601,25 +615,15 @@ the line, to capture multiline input. (This only has effect if
 
 (add-hook 'ruby-mode-hook       'esk-paredit-nonlisp)
 
-(add-hook 'feature-mode-hook
-          '(lambda ()
-             (define-key feature-mode-map (kbd "M-t") 'toggle-truncate-lines)
-))
-
-(add-hook 'shell-mode-hook
-          '(lambda ()
-             (define-key shell-mode-map [f1] 'clear-shell)
-))
-
 (add-hook 'ruby-mode-hook
           '(lambda ()
-
 ;;; remove some of the annoying parts of paredit in ruby mode
              (define-key paredit-mode-map (kbd "M-C-b") 'ruby-backward-sexp)
              (define-key paredit-mode-map (kbd "M-C-f") 'ruby-forward-sexp)
              (define-key paredit-mode-map (kbd "M-C-p") 'ruby-beginning-of-block)
              (define-key paredit-mode-map (kbd "M-C-n") 'ruby-end-of-block)
              (define-key paredit-mode-map (kbd "M-;") 'comment-dwim)
+             (auto-fill-mode)
              ))
 
 (require 'dired-x)
@@ -641,7 +645,7 @@ the line, to capture multiline input. (This only has effect if
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
 ;;; place keybindings here that you want to be used globally and not overridden
-(define-key my-keys-minor-mode-map (kbd "M-r") 'replace-string)
+(define-key my-keys-minor-mode-map (kbd "M-r") 'replace-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c y") 'djcb-duplicate-line)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "M-t") 'toggle-truncate-lines)
@@ -667,6 +671,35 @@ the line, to capture multiline input. (This only has effect if
 (my-keys-minor-mode 1)
 ;;; END MINOR MODE KEYBINDINGS
 
-;; disable auto fill, 'cause it's annoying
-(turn-off-auto-fill)
+;; disable auto fill in text mode, 'cause it's annoying
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)
+
+;; make C-n insert newlines if the point is at the end of the buffer
+(setq next-line-add-newlines t)
+
+;; Fixing The Mark Commands In Transient Mark Mode
+;; http://www.masteringemacs.org/articles/2010/12/22/fixing-mark-commands-transient-mark-mode/
+(defun push-mark-no-activate ()
+  "Pushes `point' to `mark-ring' and does not activate the region
+Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
+  (interactive)
+  (push-mark (point) t nil)
+  (message "Pushed mark to ring"))
+
+(defun jump-to-mark ()
+  "Jumps to the local mark, respecting the `mark-ring' order.
+This is the same as using \\[set-mark-command] with the prefix argument."
+  (interactive)
+  (set-mark-command 1))
+
+(global-set-key (kbd "M-'") 'jump-to-mark)
+(global-set-key (kbd "C-'") 'push-mark-no-activate)
+
+(defun exchange-point-and-mark-no-activate ()
+  "Identical to \\[exchange-point-and-mark] but will not activate the region."
+  (interactive)
+  (exchange-point-and-mark)
+  (deactivate-mark nil))
+(define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
+
+(global-set-key (kbd "M-i") 'imenu)

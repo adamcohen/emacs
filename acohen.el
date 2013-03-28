@@ -254,6 +254,12 @@ n    (forward-line n)
                 tags-file-name
                 register-alist)))
 
+
+;; use only one desktop
+(setq desktop-path '("~/.emacs.d/"))
+(setq desktop-dirname "~/.emacs.d/")
+(setq desktop-base-file-name "emacs-desktop")
+
 ;;; by default, desktop mode only saves when you cleanly exit emacs.
 ;;; We want to autosave the desktop file whenever emacs is idle, so we
 ;;; use the following

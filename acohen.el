@@ -14,6 +14,11 @@
 ;; Save a list of recent files visited.
 (recentf-mode 1)
 
+(set-face-attribute 'default nil
+                    :family "Monaco" :height (case system-type
+                                             ('gnu/linux 130)
+                                             ('darwin 160)) :weight 'normal)
+
 ;; key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
   (setq mac-option-modifier 'alt)

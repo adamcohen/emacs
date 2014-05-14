@@ -709,3 +709,12 @@ This is the same as using \\[set-mark-command] with the prefix argument."
 (define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
 
 (global-set-key (kbd "M-i") 'imenu)
+
+;; from http://lists.gnu.org/archive/html/emacs-devel/2010-05/msg00972.html
+(defun isearch-kill-found ()
+  "Kills the region that isearch has found."
+  (interactive)
+  (isearch-exit)
+  (kill-region isearch-other-end (point)))
+
+(global-set-key (kbd "M-C-m") 'isearch-kill-found)

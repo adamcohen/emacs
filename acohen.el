@@ -333,7 +333,7 @@ n    (forward-line n)
 (defun gfh ()
   (interactive)
   "copy the full path to the current buffer into the clipboard"
-  (kill-new (concat "spec " (replace-regexp-in-string "/home/acohen" "$HOME" buffer-file-name) ":" (number-to-string (line-number-at-pos)))))
+  (kill-new (concat "rspec " (replace-regexp-in-string abbreviated-home-dir "$HOME/" buffer-file-name) ":" (number-to-string (line-number-at-pos)))))
 
 (defun gf ()
   (interactive)
@@ -343,7 +343,7 @@ n    (forward-line n)
 (defun gff ()
   (interactive)
 "copy the relative path to the current buffer into the clipboard"
-(kill-new (replace-regexp-in-string "/home/acohen/.*?/" "" buffer-file-name)))
+(kill-new (replace-regexp-in-string "/Users/adam/.*?/" "" buffer-file-name)))
 
 (defun gfff ()
   (interactive)
@@ -730,3 +730,7 @@ This is the same as using \\[set-mark-command] with the prefix argument."
   (kill-region isearch-other-end (point)))
 
 (global-set-key (kbd "M-C-m") 'isearch-kill-found)
+
+;; KEYBOARD MACROS
+(fset 'copy_columns
+   [?\C-x ?b ?m ?y ?_ ?t ?e ?m ?p ?_ ?b ?u ?f ?f ?e ?r return ?\C-y ?\M-< C-return ?\M-> ?\C-s ?| ?\C-u ?2 ?\C-b ?\C-w ?\C-  ?\M-> ?\C-y ?\M-< ?\C-  ?\M-> ?\M-r ?^ ?  return return ?\M-< ?\C-  ?\M-> ?\M-r tab return return return ?\C-  ?\M-< ?\M-r ?  ?$ return return ?\M-< ?\C-  ?\M-> ?\M-r ?\\ ?\( ?. ?* ?\\ ?\) ?\C-q ?\C-j return ?\" ?\\ ?1 ?| backspace ?\" ?, ?  return backspace backspace ?\] ?\C-a ?\[ ?\C-a ?\C-  ?\M-> ?\M-w ?\C-x ?k return ?\C-y ?\C-a])

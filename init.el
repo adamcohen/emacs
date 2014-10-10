@@ -57,3 +57,5 @@
  '(comint-scroll-to-bottom-on-input t)
  '(protect-buffer-bury-p nil)
  '(warning-minimum-level :error))
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)

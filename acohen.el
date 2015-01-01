@@ -292,6 +292,27 @@ n    (forward-line n)
   (insert (concat "puts" logmsg))
   )
 
+(defun cln (arg)
+  "Prompt user to enter a string, with input history support."
+  (interactive (list (read-number "Line number to copy: ")) )
+  ;; (bookmark-set "my-book-mark")
+  (push-mark)
+  (goto-char (point-min))
+  (forward-line (1- arg))
+  (beginning-of-line)
+  (push-mark)
+  (end-of-line)
+
+  (let ((str (buffer-substring (region-beginning) (region-end))))
+    ;; (bookmark-jump "my-book-mark")
+    (pop-mark)
+    (jump-to-mark)
+    (insert-string str)
+    (beginning-of-line)
+    ;; (forward-line 1)
+    )
+  )
+
 (defun lp ()
   (interactive)
   "insert puts message containing clipboard contents"
@@ -320,6 +341,7 @@ n    (forward-line n)
 (add-hook 'sql-interactive-mode-hook
           '(lambda ()
              (define-key sql-interactive-mode-map [f1] 'clear-shell)
+             (define-key sql-interactive-mode-map (kbd "M-R") 'comint-history-isearch-backward-regexp)
              (setq global-hl-line-mode nil)
 ))
 

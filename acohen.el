@@ -26,6 +26,97 @@
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   )
 
+(require 'ido)
+(ido-mode t)
+
+;; SMART PARENS
+(require 'smartparens-config)
+(smartparens-global-mode t)
+
+;; highlights matching pairs
+(show-smartparens-global-mode t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; keybinding management
+
+(define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
+(define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
+
+(define-key sp-keymap (kbd "C-M-d") 'sp-down-sexp)
+(define-key sp-keymap (kbd "C-M-a") 'sp-backward-down-sexp)
+(define-key sp-keymap (kbd "C-S-a") 'sp-beginning-of-sexp)
+(define-key sp-keymap (kbd "C-S-d") 'sp-end-of-sexp)
+
+(define-key sp-keymap (kbd "C-M-e") 'sp-up-sexp)
+(define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
+(define-key sp-keymap (kbd "C-M-u") 'sp-backward-up-sexp)
+(define-key sp-keymap (kbd "C-M-t") 'sp-transpose-sexp)
+
+(define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
+(define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
+
+(define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
+(define-key sp-keymap (kbd "C-M-w") 'sp-copy-sexp)
+
+(define-key sp-keymap (kbd "M-<delete>") 'sp-unwrap-sexp)
+;; this one interferes with deleting a word
+;(define-key sp-keymap (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
+
+(define-key sp-keymap (kbd "C-<right>") 'sp-forward-slurp-sexp)
+(define-key sp-keymap (kbd "C-<left>") 'sp-forward-barf-sexp)
+(define-key sp-keymap (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+(define-key sp-keymap (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+
+(define-key sp-keymap (kbd "M-s") 'sp-splice-sexp)
+(define-key sp-keymap (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
+(define-key sp-keymap (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
+(define-key sp-keymap (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
+
+(define-key sp-keymap (kbd "C-]") 'sp-select-next-thing-exchange)
+(define-key sp-keymap (kbd "C-<left_bracket>") 'sp-select-previous-thing)
+(define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing)
+
+(define-key sp-keymap (kbd "M-F") 'sp-forward-symbol)
+(define-key sp-keymap (kbd "M-B") 'sp-backward-symbol)
+
+(define-key sp-keymap (kbd "H-t") 'sp-prefix-tag-object)
+(define-key sp-keymap (kbd "H-p") 'sp-prefix-pair-object)
+(define-key sp-keymap (kbd "H-s c") 'sp-convolute-sexp)
+(define-key sp-keymap (kbd "H-s a") 'sp-absorb-sexp)
+(define-key sp-keymap (kbd "H-s e") 'sp-emit-sexp)
+(define-key sp-keymap (kbd "H-s p") 'sp-add-to-previous-sexp)
+(define-key sp-keymap (kbd "H-s n") 'sp-add-to-next-sexp)
+(define-key sp-keymap (kbd "H-s j") 'sp-join-sexp)
+(define-key sp-keymap (kbd "H-s s") 'sp-split-sexp)
+
+;;;;;;;;;;;;;;;;;;
+;; pair management
+
+(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+
+;;; markdown-mode
+(sp-with-modes '(markdown-mode gfm-mode rst-mode)
+  (sp-local-pair "*" "*" :bind "C-*")
+  (sp-local-tag "2" "**" "**")
+  (sp-local-tag "s" "```scheme" "```")
+  (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
+
+;;; tex-mode latex-mode
+(sp-with-modes '(tex-mode plain-tex-mode latex-mode)
+  (sp-local-tag "i" "\"<" "\">"))
+
+;;; html-mode
+(sp-with-modes '(html-mode sgml-mode)
+  (sp-local-pair "<" ">"))
+
+;;; lisp modes
+(sp-with-modes sp--lisp-modes
+  (sp-local-pair "(" nil :bind "C-("))
+;; SMART PARENS
+
+;intelligently use hypen or space with smex 
+(require 'ido-complete-space-or-hyphen)
+
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
 (global-set-key (kbd "C-c y") 'bury-buffer)
 (global-set-key (kbd "C-c r") 'revert-buffer)
@@ -226,9 +317,8 @@ n    (forward-line n)
   (interactive "p")
   (move-line (if (null n) 1 n)))
 
-;;; disabled, since I rarely use these
-;; (global-set-key (kbd "M-<up>") 'move-line-up)
-;; (global-set-key (kbd "M-<down>") 'move-line-down)
+(global-set-key (kbd "M-P") 'move-line-up)
+(global-set-key (kbd "M-N") 'move-line-down)
 
 (global-set-key (kbd "<f9>")  ;make F9 switch to *scratch*     
   (lambda()(interactive)(switch-to-buffer "*scratch*")))
@@ -244,9 +334,11 @@ n    (forward-line n)
       (kill-buffer (current-buffer)))))
 (global-set-key [(super f10)] 'xacohen-save-current-directory)
 
+;(setq debug-on-error t)
+
 ;; save a list of open files in ~/.emacs.desktop
 ;; save the desktop file automatically if it already exists
-(setq desktop-save 'if-exists)
+;(setq desktop-save 'if-exists)
 (desktop-save-mode 1)
 
 ;; save a bunch of variables to the desktop file
@@ -271,15 +363,6 @@ n    (forward-line n)
 (setq desktop-path '("~/.emacs.d/"))
 (setq desktop-dirname "~/.emacs.d/")
 (setq desktop-base-file-name "emacs-desktop")
-
-;;; by default, desktop mode only saves when you cleanly exit emacs.
-;;; We want to autosave the desktop file whenever emacs is idle, so we
-;;; use the following
-  (defun my-desktop-save ()
-    (interactive)
-    ;; Don't call desktop-save-in-desktop-dir, as it prints a message.
-            (desktop-save desktop-dirname))
-  (add-hook 'auto-save-hook 'my-desktop-save)
 
 (defun lw ()
   (interactive)
@@ -653,19 +736,6 @@ the line, to capture multiline input. (This only has effect if
 (global-set-key [f11] 'toggle-fullscreen)
 (toggle-fullscreen)
 
-(add-hook 'ruby-mode-hook       'esk-paredit-nonlisp)
-
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-;;; remove some of the annoying parts of paredit in ruby mode
-             (define-key paredit-mode-map (kbd "M-C-b") 'ruby-backward-sexp)
-             (define-key paredit-mode-map (kbd "M-C-f") 'ruby-forward-sexp)
-             (define-key paredit-mode-map (kbd "M-C-p") 'ruby-beginning-of-block)
-             (define-key paredit-mode-map (kbd "M-C-n") 'ruby-end-of-block)
-             (define-key paredit-mode-map (kbd "M-;") 'comment-dwim)
-             (auto-fill-mode)
-             ))
-
 (require 'dired-x)
 (require 'wdired)
 (setq wdired-allow-to-change-permissions 'advanced)
@@ -673,7 +743,12 @@ the line, to capture multiline input. (This only has effect if
 
 ;;; to fix "void function inf-ruby-keys" error
 (defalias 'inf-ruby-keys 'inf-ruby-setup-keybindings)
+
+;; Projectile mode
+(projectile-global-mode)
+(add-hook 'projectile-mode-hook 'projectile-rails-on)
 (setq projectile-enable-caching t)
+;; Projectile mode
 
 ;;; load my custom yas snippets
 (yas/load-directory (concat dotfiles-dir "snippets/"))
@@ -689,7 +764,6 @@ the line, to capture multiline input. (This only has effect if
 (define-key my-keys-minor-mode-map (kbd "C-c y") 'djcb-duplicate-line)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "M-t") 'toggle-truncate-lines)
-
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."

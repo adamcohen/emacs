@@ -14,7 +14,7 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(starter-kit starter-kit-lisp starter-kit-bindings ace-jump-mode ack feature-mode find-file-in-project idle-highlight-mode magit markdown-mode paredit puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle starter-kit-ruby popup auto-complete starter-kit-js multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode)
+(defvar my-packages '(ace-jump-mode ack feature-mode projectile find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
@@ -29,9 +29,6 @@
 (require 'edit-server)
 (edit-server-start)
 
-;intelligently use hypen or space with smex 
-(require 'ido-complete-space-or-hyphen)
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -40,6 +37,18 @@
  '(hl-line ((t (:weight extra-bold))))
  '(idle-highlight ((t (:background "dark magenta"))))
  '(magit-item-highlight ((t (:weight extra-bold))) t))
+
+;; You can keep system- or user-specific customizations here
+(setq system-specific-config (concat dotfiles-dir system-name ".el")
+      user-specific-config (concat dotfiles-dir user-login-name ".el")
+      user-specific-dir (concat dotfiles-dir user-login-name))
+(add-to-list 'load-path user-specific-dir)
+
+(if (file-exists-p system-specific-config) (load system-specific-config))
+(if (file-exists-p user-specific-dir)
+  (mapc #'load (directory-files user-specific-dir nil ".*el$")))
+(if (file-exists-p user-specific-config) (load user-specific-config))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

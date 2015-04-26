@@ -3,6 +3,7 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'clarity t)
+
 (set-face-attribute 'default nil :height 120) ;set default font size. The value is in 1/10pt, so 100 will give you 10pt, etc.
 
 ;start the emacsclient server
@@ -112,7 +113,17 @@
 ;;; lisp modes
 (sp-with-modes sp--lisp-modes
   (sp-local-pair "(" nil :bind "C-("))
-;; SMART PARENS
+;; END SMART PARENS
+
+(defun my-coding-hook ()
+  (make-local-variable 'column-number-mode)
+  (column-number-mode t)
+  (if window-system (hl-line-mode t))
+  (idle-highlight-mode t))
+
+(add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
+(add-hook 'ruby-mode-hook 'my-coding-hook)
+(add-hook 'js2-mode-hook 'my-coding-hook)
 
 ;intelligently use hypen or space with smex 
 (require 'ido-complete-space-or-hyphen)
@@ -133,6 +144,11 @@
 (make-variable-buffer-local 'global-hl-line-mode)
 
 (subword-mode 1)
+(setq-default indent-tabs-mode nil)
+(setq js-indent-level 2)
+
+;; don't want ido to ask me if I really want to create a new buffer
+(setq ido-create-new-buffer 'always)
 
 (setq 
   comment-auto-fill-only-comments t
@@ -202,10 +218,6 @@
 
 ;; allow us to copy between emacs and other x programs
 (setq x-select-enable-clipboard t)
-
-
-(setq cua-enable-cua-keys nil) ;; only for rectangles
-(cua-mode t)
 
 
 ;; COPYING LINES WITHOUT SELECTING THEM

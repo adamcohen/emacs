@@ -1,9 +1,11 @@
-;;; clarity-theme.el --- White on black color theme by Richard Wellum, created 2003-01-16.
+;;; clarity-theme.el --- clarity theme
 
-;; Copyright (C) 2012  condotti
+;; Copyright (C) 2003 by Richard Wellum
+;; Copyright (C) 2013 by Syohei YOSHIDA
 
-;; Author: Akio Kondo <akondo21@gmail.com>
-;; Keywords: 
+;; Author: Syohei YOSHIDA <syohex@gmail.com>
+;; URL: https://github.com/emacs-jp/replace-colorthemes
+;; Version: 0.01
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -19,19 +21,27 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-
-;; Imported from color-theme
+;;
+;; Port of clarity theme from `color-themes'
 
 ;;; Code:
 
 (deftheme clarity
-  "White on black color theme by Richard Wellum, created 2003-01-16.")
+  "clarity theme")
 
 (custom-theme-set-faces
  'clarity
+
  '(default ((t (:background "black" :foreground "white"))))
- '(cursor ((t (:foreground "yellow"))))
- '(highlight ((t (:background "#444444"))))
+ '(mouse ((t (:foregound "white"))))
+ '(cursor ((t (:foregound "yellow"))))
+ '(border ((t (:foregound "white"))))
+
+ '(help-highlight-face ((t (:underline t))))
+ '(list-matching-lines-face ((t (:bold t :weight bold))))
+ '(view-highlight-face ((t (:background "darkolivegreen"))))
+ '(widget-mouse-face ((t (:background "darkolivegreen"))))
+
  '(CUA-global-mark-face ((t (:background "cyan" :foreground "black"))))
  '(CUA-rectangle-face ((t (:background "maroon" :foreground "white"))))
  '(CUA-rectangle-noselect-face ((t (:background "dimgray" :foreground "white"))))
@@ -56,6 +66,13 @@
  '(font-lock-type-face ((t (:foreground "PaleGreen"))))
  '(font-lock-variable-name-face ((t (:foreground "LightGoldenrod"))))
  '(font-lock-warning-face ((t (:bold t :foreground "Pink" :weight bold))))
+ '(ibuffer-dired-buffer-face ((t (:foreground "LightSkyBlue"))))
+ '(ibuffer-help-buffer-face ((t (:foreground "OrangeRed"))))
+ '(ibuffer-hidden-buffer-face ((t (:bold t :foreground "Pink" :weight bold))))
+ '(ibuffer-occur-match-face ((t (:bold t :foreground "Pink" :weight bold))))
+ '(ibuffer-read-only-buffer-face ((t (:foreground "PaleGreen"))))
+ '(ibuffer-special-buffer-face ((t (:foreground "Cyan"))))
+ '(ibuffer-title-face ((t (:foreground "PaleGreen"))))
  '(fringe ((t (:background "grey10"))))
  '(header-line ((t (:box (:line-width -1 :style released-button) :foreground "grey20" :background "grey90" :box nil))))
  '(highlight ((t (:background "darkolivegreen"))))
@@ -65,7 +82,8 @@
  '(isearch-lazy-highlight-face ((t (:background "paleturquoise4"))))
  '(italic ((t (:italic t :slant italic))))
  '(menu ((t (nil))))
- '(mode-line ((t (:foreground "yellow" :background "darkslateblue" :box (:line-width -1 :style released-button)))))
+ '(mode-line ((t (:foreground "yellow" :background "darkslateblue"
+                  :box (:line-width -1 :style released-button)))))
  '(mouse ((t (:background "white"))))
  '(region ((t (:background "blue"))))
  '(scroll-bar ((t (nil))))
@@ -81,7 +99,8 @@
  '(show-block-face9 ((t (:background "gray50"))))
  '(show-paren-match-face ((t (:background "turquoise"))))
  '(show-paren-mismatch-face ((t (:background "purple" :foreground "white"))))
- '(tool-bar ((t (:background "grey75" :foreground "black" :box (:line-width 1 :style released-button)))))
+ '(tool-bar ((t (:background "grey75" :foreground "black"
+                 :box (:line-width 1 :style released-button)))))
  '(tooltip ((t (:background "lightyellow" :foreground "black"))))
  '(trailing-whitespace ((t (:background "red"))))
  '(underline ((t (:underline t))))
@@ -99,4 +118,5 @@
                (file-name-as-directory (file-name-directory load-file-name))))
 
 (provide-theme 'clarity)
+
 ;;; clarity-theme.el ends here

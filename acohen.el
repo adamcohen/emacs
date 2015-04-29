@@ -387,6 +387,23 @@ n    (forward-line n)
   (insert (concat "puts" logmsg))
   )
 
+(defun lp ()
+  (interactive)
+  "insert puts message containing clipboard contents"
+
+(set 'logmsg
+  (case major-mode
+    ('ruby-mode (concat "puts \"XXXXXXXXXXXXXXXX\", " "(%|" ( upcase (car kill-ring)) ": #{" (car kill-ring) ".inspect}|), \"XXXXXXXXXXXXXXXX\""))
+    ('js-mode  (concat "console.log('" ( upcase (car kill-ring)) "', JSON.stringify(" (car kill-ring) ",null,2))"))
+    )
+  )
+
+(insert logmsg)
+)
+
+(global-set-key (kbd "C-c C-j") 'lw)
+(global-set-key (kbd "C-c C-p") 'lp)
+
 (defun cln (arg)
   "Prompt user to enter a string, with input history support."
   (interactive (list (read-number "Line number to copy: ")) )
@@ -407,16 +424,6 @@ n    (forward-line n)
     ;; (forward-line 1)
     )
   )
-
-(defun lp ()
-  (interactive)
-  "insert puts message containing clipboard contents"
-  (set 'logmsg (concat "(%|" ( upcase (car kill-ring)) ": #{" (car kill-ring) ".inspect}|)"))
-  (insert (concat "puts \"XXXXXXXXXXXXXXXX\", " logmsg ", \"XXXXXXXXXXXXXXXX\"\n"))
-)
-
-(global-set-key (kbd "C-c C-j") 'lw)
-(global-set-key (kbd "C-c C-p") 'lp)
 
 (defun clear-shell ()
    (interactive)

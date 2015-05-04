@@ -7,7 +7,10 @@
 (set-face-attribute 'default nil :height 120) ;set default font size. The value is in 1/10pt, so 100 will give you 10pt, etc.
 
 ;start the emacsclient server
-(server-start)
+(require 'server)
+(or (server-running-p)
+    (server-start))
+
 
 ;remove annoying "Buffer `buffername' still has clients; kill it?" message
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
@@ -62,6 +65,9 @@
 (define-key sp-keymap (kbd "M-<delete>") 'sp-unwrap-sexp)
 ;; this one interferes with deleting a word
 ;(define-key sp-keymap (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
+
+(define-key js-mode-map (kbd "C-,") (sp-restrict-to-pairs-interactive "{" 'sp-down-sexp))
+(define-key js-mode-map (kbd "C-.") (sp-restrict-to-pairs-interactive "{" 'sp-up-sexp))
 
 (define-key sp-keymap (kbd "C-<right>") 'sp-forward-slurp-sexp)
 (define-key sp-keymap (kbd "C-<left>") 'sp-forward-barf-sexp)

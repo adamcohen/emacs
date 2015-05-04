@@ -26,8 +26,8 @@
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
 
-(require 'edit-server)
-(edit-server-start)
+;(require 'edit-server)
+;(edit-server-start)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -64,6 +64,7 @@
  '(comint-prompt-read-only nil)
  '(comint-scroll-show-maximum-output t)
  '(comint-scroll-to-bottom-on-input t)
+ '(ns-alternate-modifier (quote super))
  '(protect-buffer-bury-p nil)
  '(warning-minimum-level :error))
 (put 'downcase-region 'disabled nil)

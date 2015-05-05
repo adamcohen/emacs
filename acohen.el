@@ -66,8 +66,8 @@
 ;; this one interferes with deleting a word
 ;(define-key sp-keymap (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
 
-(define-key js-mode-map (kbd "C-,") (sp-restrict-to-pairs-interactive "{" 'sp-down-sexp))
-(define-key js-mode-map (kbd "C-.") (sp-restrict-to-pairs-interactive "{" 'sp-up-sexp))
+(define-key js2-mode-map (kbd "C-,") (sp-restrict-to-pairs-interactive "{" 'sp-down-sexp))
+(define-key js2-mode-map (kbd "C-.") (sp-restrict-to-pairs-interactive "{" 'sp-up-sexp))
 
 (define-key sp-keymap (kbd "C-<right>") 'sp-forward-slurp-sexp)
 (define-key sp-keymap (kbd "C-<left>") 'sp-forward-barf-sexp)
@@ -129,7 +129,31 @@
 
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
 (add-hook 'ruby-mode-hook 'my-coding-hook)
+
+;; BEGIN JS2 MODE
 (add-hook 'js2-mode-hook 'my-coding-hook)
+(setq js-indent-level 2)
+
+(eval-after-load 'js2-mode
+  `(progn
+     ;; BUG: self is not a browser extern, just a convention that needs checking
+     (setq js2-browser-externs (delete "self" js2-browser-externs))
+
+     ;; Consider the chai 'expect()' statement to have side-effects, so we don't warn about it
+     (defun js2-add-strict-warning (msg-id &optional msg-arg beg end)
+       (if (and js2-compiler-strict-mode
+                (not (and (string= msg-id "msg.no.side.effects")
+                          (string= (buffer-substring-no-properties beg (+ beg 7)) "expect("))))
+           (js2-report-warning msg-id msg-arg beg
+                               (and beg end (- end beg)))))))
+
+;; Add support for some mocha testing externs
+(setq-default js2-additional-externs
+              (mapcar 'symbol-name
+                      '(after afterEach before beforeEach describe it)))
+
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; END JS2 MODE
 
 ;intelligently use hypen or space with smex 
 (require 'ido-complete-space-or-hyphen)
@@ -151,7 +175,6 @@
 
 (subword-mode 1)
 (setq-default indent-tabs-mode nil)
-(setq js-indent-level 2)
 
 ;; don't want ido to ask me if I really want to create a new buffer
 (setq ido-create-new-buffer 'always)
@@ -400,7 +423,7 @@ n    (forward-line n)
 (set 'logmsg
   (case major-mode
     ('ruby-mode (concat "puts \"XXXXXXXXXXXXXXXX\", " "(%|" ( upcase (car kill-ring)) ": #{" (car kill-ring) ".inspect}|), \"XXXXXXXXXXXXXXXX\""))
-    ('js-mode  (concat "console.log('" ( upcase (car kill-ring)) "', JSON.stringify(" (car kill-ring) ",null,2))"))
+    ('js2-mode  (concat "console.log('" ( upcase (car kill-ring)) "', JSON.stringify(" (car kill-ring) ", null, 2))"))
     )
   )
 

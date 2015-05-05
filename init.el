@@ -14,7 +14,7 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode)
+(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode js2-mode)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
@@ -36,7 +36,7 @@
  ;; If there is more than one, they won't work right.
  '(hl-line ((t (:weight extra-bold))))
  '(idle-highlight ((t (:background "dark magenta"))))
- '(magit-item-highlight ((t (:weight extra-bold))) t))
+ '(magit-item-highlight ((t (:weight extra-bold)))))
 
 ;; You can keep system- or user-specific customizations here
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
@@ -64,7 +64,8 @@
  '(comint-prompt-read-only nil)
  '(comint-scroll-show-maximum-output t)
  '(comint-scroll-to-bottom-on-input t)
- '(ns-alternate-modifier (quote super))
+ '(js2-basic-offset 2)
+ '(js2-strict-missing-semi-warning nil)
  '(protect-buffer-bury-p nil)
  '(warning-minimum-level :error))
 (put 'downcase-region 'disabled nil)

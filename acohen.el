@@ -66,9 +66,6 @@
 ;; this one interferes with deleting a word
 ;(define-key sp-keymap (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
 
-(define-key js2-mode-map (kbd "C-,") (sp-restrict-to-pairs-interactive "{" 'sp-down-sexp))
-(define-key js2-mode-map (kbd "C-.") (sp-restrict-to-pairs-interactive "{" 'sp-up-sexp))
-
 (define-key sp-keymap (kbd "C-<right>") 'sp-forward-slurp-sexp)
 (define-key sp-keymap (kbd "C-<left>") 'sp-forward-barf-sexp)
 (define-key sp-keymap (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
@@ -125,7 +122,10 @@
   (make-local-variable 'column-number-mode)
   (column-number-mode t)
   (if window-system (hl-line-mode t))
-  (idle-highlight-mode t))
+  (idle-highlight-mode t)
+  (define-key js2-mode-map (kbd "C-,") (sp-restrict-to-pairs-interactive "{" 'sp-down-sexp))
+  (define-key js2-mode-map (kbd "C-.") (sp-restrict-to-pairs-interactive "{" 'sp-up-sexp))
+)
 
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
 (add-hook 'ruby-mode-hook 'my-coding-hook)
@@ -169,6 +169,8 @@
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 (global-hl-line-mode)
 (make-variable-buffer-local 'global-hl-line-mode)

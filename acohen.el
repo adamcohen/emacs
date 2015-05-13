@@ -80,8 +80,10 @@
 (define-key sp-keymap (kbd "C-<left_bracket>") 'sp-select-previous-thing)
 (define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing)
 
-(define-key sp-keymap (kbd "M-F") 'sp-forward-symbol)
-(define-key sp-keymap (kbd "M-B") 'sp-backward-symbol)
+;; (define-key sp-keymap (kbd "M-F") 'sp-forward-symbol)
+;; (define-key sp-keymap (kbd "M-B") 'sp-backward-symbol)
+(define-key sp-keymap (kbd "M-F") 'subword-forward)
+(define-key sp-keymap (kbd "M-B") 'subword-backward)
 
 (define-key sp-keymap (kbd "H-t") 'sp-prefix-tag-object)
 (define-key sp-keymap (kbd "H-p") 'sp-prefix-pair-object)
@@ -134,6 +136,10 @@
 (add-hook 'js2-mode-hook 'my-coding-hook)
 (setq js-indent-level 2)
 
+(add-hook 'js2-mode-hook
+          (lambda ()
+            (slime-js-minor-mode 1)))
+
 (eval-after-load 'js2-mode
   `(progn
      ;; BUG: self is not a browser extern, just a convention that needs checking
@@ -171,6 +177,7 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 (global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "M-S-<backspace>") 'subword-backward-kill)
 
 (global-hl-line-mode)
 (make-variable-buffer-local 'global-hl-line-mode)
@@ -250,6 +257,9 @@
 ;; allow us to copy between emacs and other x programs
 (setq x-select-enable-clipboard t)
 
+;; SLIME
+(setq inferior-lisp-program (executable-find "sbcl"))
+(setq slime-contribs '(slime-fancy slime-repl slime-js))
 
 ;; COPYING LINES WITHOUT SELECTING THEM
 ;; http://emacs-fu.blogspot.com/2009/11/copying-lines-without-selecting-them.html
@@ -880,3 +890,9 @@ This is the same as using \\[set-mark-command] with the prefix argument."
 ;; KEYBOARD MACROS
 (fset 'copy_columns
    [?\C-x ?b ?m ?y ?_ ?t ?e ?m ?p ?_ ?b ?u ?f ?f ?e ?r return ?\C-y ?\M-< C-return ?\M-> ?\C-s ?| ?\C-u ?2 ?\C-b ?\C-w ?\C-  ?\M-> ?\C-y ?\M-< ?\C-  ?\M-> ?\M-r ?^ ?  return return ?\M-< ?\C-  ?\M-> ?\M-r tab return return return ?\C-  ?\M-< ?\M-r ?  ?$ return return ?\M-< ?\C-  ?\M-> ?\M-r ?\\ ?\( ?. ?* ?\\ ?\) ?\C-q ?\C-j return ?\" ?\\ ?1 ?| backspace ?\" ?, ?  return backspace backspace ?\] ?\C-a ?\[ ?\C-a ?\C-  ?\M-> ?\M-w ?\C-x ?k return ?\C-y ?\C-a])
+
+(fset 'kb
+      [?\C-a ?\C-  ?\C-  ?\C-e ?\C-b ?\C-\M-f ?\C-w ?\M-\' ?\C-w])
+
+(fset 'keb
+      [?\C-  ?\C-e ?\C-b ?\C-\M-f ?\C-e ?\C-w])

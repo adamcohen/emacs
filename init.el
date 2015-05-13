@@ -24,7 +24,7 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode js2-mode expand-region)
+(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode js2-mode expand-region undo-tree yaml-mode rhtml-mode)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
@@ -50,19 +50,26 @@
   (mapc #'load (directory-files user-specific-dir nil ".*el$")))
 (if (file-exists-p user-specific-config) (load user-specific-config))
 
-;; Set up appearance early
-(require 'appearance)
-
-(require 'setup-smartparens)
-
 ;; Functions (load all files in defuns-dir)
 (setq defuns-dir (expand-file-name "defuns" user-emacs-directory))
 (dolist (file (directory-files defuns-dir t "\\w+"))
   (when (file-regular-p file)
     (load file)))
 
+;; Set up appearance early
+(require 'appearance)
+
+;; Lets start with a smattering of sanity
+(require 'sane-defaults)
+
+(require 'keyboard-macros)
+(require 'setup-smartparens)
+
 ;; Setup key bindings
 (require 'key-bindings)
+
+;; Map files to modes
+(require 'mode-mappings)
 
 ;start the emacsclient server unless it's already running
 (require 'server)

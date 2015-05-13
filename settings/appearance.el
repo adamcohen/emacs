@@ -17,4 +17,6 @@
                                              ('gnu/linux 130)
                                              ('darwin 160)) :weight 'normal)
 
+(toggle-fullscreen)
+
 (provide 'appearance)

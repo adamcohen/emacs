@@ -4,9 +4,6 @@
 ;remove annoying "Buffer `buffername' still has clients; kill it?" message
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
-;; Save a list of recent files visited.
-(recentf-mode 1)
-
 ;; key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
   (setq mac-option-modifier 'alt)
@@ -52,14 +49,10 @@
               (mapcar 'symbol-name
                       '(after afterEach before beforeEach describe it)))
 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 ;; END JS2 MODE
 
 ;intelligently use hypen or space with smex 
 (require 'ido-complete-space-or-hyphen)
-
-(subword-mode 1)
-(setq-default indent-tabs-mode nil)
 
 ;; don't want ido to ask me if I really want to create a new buffer
 (setq ido-create-new-buffer 'always)
@@ -68,9 +61,6 @@
   comment-auto-fill-only-comments t
   tags-revert-without-query 1      ; automatically reload the TAGS
                                    ; table if it changes
-  auto-mode-alist (cons '("README" . text-mode) auto-mode-alist)
-  auto-mode-alist (cons '("\\.pp$" . puppet-mode) auto-mode-alist)
-  auto-mode-alist (cons '("\\.md$" . markdown-mode) auto-mode-alist)
   ;; when using ido, the confirmation is rather annoying...
   warning-suppress-types nil
   confirm-nonexistent-file-or-buffer nil
@@ -306,37 +296,6 @@
            (and (get-buffer buffer)
             (kill-buffer buffer)))))
 
-;; originally from http://sites.google.com/site/steveyegge2/my-dot-emacs-file
-;; adapted from http://stackoverflow.com/questions/384284/can-i-rename-an-open-file-in-emacs
-;; to support moving to a new directory
-(defun rename-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive
-   (progn
-     (if (not (buffer-file-name))
-         (error "Buffer '%s' is not visiting a file!" (buffer-name)))
-     (list (read-file-name (format "Rename %s to: " (file-name-nondirectory
-                                                     (buffer-file-name)))))))
-  (if (equal new-name "")
-      (error "Aborted rename"))
-  (setq new-name (if (file-directory-p new-name)
-                     (expand-file-name (file-name-nondirectory
-                                        (buffer-file-name))
-                                       new-name)
-                   (expand-file-name new-name)))
-  ;; If the file isn't saved yet, skip the file rename, but still update the
-  ;; buffer name and visited file.
-  (if (file-exists-p (buffer-file-name))
-      (rename-file (buffer-file-name) new-name 1))
-  (let ((was-modified (buffer-modified-p)))
-    ;; This also renames the buffer, and works with uniquify
-    (set-visited-file-name new-name)
-    (if was-modified
-        (save-buffer)
-      ;; Clear buffer-modified flag caused by set-visited-file-name
-      (set-buffer-modified-p nil))
-  (message "Renamed to %s." new-name)))
-
  (defun my-ido-project-files ()
       "Use ido to select a file from the project."
       (interactive)
@@ -369,8 +328,6 @@
       (find-file (gethash (ido-completing-read "project-files: " ido-list) tbl)))))
     ;; bind to a key for quick access
     (define-key global-map [f6] 'my-ido-project-files)
-
-(global-set-key [f7] 'search-all-buffers)
 
 (defun my-ido-find-tag ()
     "Find a tag using ido"
@@ -429,8 +386,6 @@
         (end-of-line)
         (insert (format "</%s>" tag))
         (forward-line 1)))))
-
-(global-set-key [f8] 'ido-find-file-in-tag-files)
 
   ;; Display ido results vertically, rather than horizontally
   (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
@@ -526,28 +481,6 @@ the line, to capture multiline input. (This only has effect if
 	(setq fname (concat "/sudo:root@localhost:" fname)))
       (find-alternate-file fname))))
 
-(defun toggle-fullscreen ()
-  "Toggle full screen on X11"
-  (interactive)
-  (when (eq window-system 'x)
-    (set-frame-parameter
-     nil 'fullscreen
-     (when (not (frame-parameter nil 'fullscreen)) 'fullboth))))
-
-(defun eval-and-replace ()
-  "Replace the preceding sexp with its value."
-  (interactive)
-  (backward-kill-sexp)
-  (condition-case nil
-      (prin1 (eval (read (current-kill 0)))
-             (current-buffer))
-    (error (message "Invalid expression")
-           (insert (current-kill 0)))))
-
-(global-set-key (kbd "C-c C-e") 'eval-and-replace)
-
-(toggle-fullscreen)
-
 (require 'dired-x)
 (require 'wdired)
 (setq wdired-allow-to-change-permissions 'advanced)
@@ -565,52 +498,10 @@ the line, to capture multiline input. (This only has effect if
 ;;; load my custom yas snippets
 (yas/load-directory (concat dotfiles-dir "snippets/"))
 
-;;; It turns out that global-set-key can be overridden by minors modes.
-;;; To prevent minor modes from overriding our keybindings, we have to
-;;; place them into a minor-mode, as follows:
-;;; BEGIN MINOR MODE KEYBINDINGS
-(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
-
-;;; place keybindings here that you want to be used globally and not overridden
-(define-key my-keys-minor-mode-map (kbd "M-r") 'replace-regexp)
-(define-key my-keys-minor-mode-map (kbd "C-c y") 'djcb-duplicate-line)
-(define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
-(define-key my-keys-minor-mode-map (kbd "M-t") 'toggle-truncate-lines)
-
-(define-minor-mode my-keys-minor-mode
-  "A minor mode so that my key settings override annoying major modes."
-  t " my-keys" 'my-keys-minor-mode-map)
-
-(defun my-minibuffer-setup-hook ()
-  (my-keys-minor-mode 0))
-
-(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
-
-(defadvice load (after give-my-keybindings-priority)
-  "Try to ensure that my keybindings always have priority."
-  (if (not (eq (car (car minor-mode-map-alist)) 'my-keys-minor-mode))
-      (let ((mykeys (assq 'my-keys-minor-mode minor-mode-map-alist)))
-        (assq-delete-all 'my-keys-minor-mode minor-mode-map-alist)
-        (add-to-list 'minor-mode-map-alist mykeys))))
-(ad-activate 'load)
-
-(my-keys-minor-mode 1)
-;;; END MINOR MODE KEYBINDINGS
-
 ;; disable auto fill in text mode, 'cause it's annoying
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;; make C-n insert newlines if the point is at the end of the buffer
 (setq next-line-add-newlines t)
 
-(global-set-key (kbd "M-i") 'imenu)
 
-;; KEYBOARD MACROS
-(fset 'copy_columns
-   [?\C-x ?b ?m ?y ?_ ?t ?e ?m ?p ?_ ?b ?u ?f ?f ?e ?r return ?\C-y ?\M-< C-return ?\M-> ?\C-s ?| ?\C-u ?2 ?\C-b ?\C-w ?\C-  ?\M-> ?\C-y ?\M-< ?\C-  ?\M-> ?\M-r ?^ ?  return return ?\M-< ?\C-  ?\M-> ?\M-r tab return return return ?\C-  ?\M-< ?\M-r ?  ?$ return return ?\M-< ?\C-  ?\M-> ?\M-r ?\\ ?\( ?. ?* ?\\ ?\) ?\C-q ?\C-j return ?\" ?\\ ?1 ?| backspace ?\" ?, ?  return backspace backspace ?\] ?\C-a ?\[ ?\C-a ?\C-  ?\M-> ?\M-w ?\C-x ?k return ?\C-y ?\C-a])
-
-(fset 'kb
-      [?\C-a ?\C-  ?\C-  ?\C-e ?\C-b ?\C-\M-f ?\C-w ?\M-\' ?\C-w])
-
-(fset 'keb
-      [?\C-  ?\C-e ?\C-b ?\C-\M-f ?\C-e ?\C-w])

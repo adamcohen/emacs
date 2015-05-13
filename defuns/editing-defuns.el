@@ -51,3 +51,26 @@ n    (forward-line n)
       (concat (if (= 0 (forward-line 1)) "" "\n") str "\n"))
     (forward-line -1)))
 ;; END DUPLICATING LINES AND COMMENTING THEM
+
+;; copies a line from the given line number and inserts it
+;; at the current point
+(defun cln (arg)
+  "Prompt user to enter a string, with input history support."
+  (interactive (list (read-number "Line number to copy: ")) )
+  ;; (bookmark-set "my-book-mark")
+  (push-mark)
+  (goto-char (point-min))
+  (forward-line (1- arg))
+  (beginning-of-line)
+  (push-mark)
+  (end-of-line)
+
+  (let ((str (buffer-substring (region-beginning) (region-end))))
+    ;; (bookmark-jump "my-book-mark")
+    (pop-mark)
+    (jump-to-mark)
+    (insert-string str)
+    (beginning-of-line)
+    ;; (forward-line 1)
+    )
+  )

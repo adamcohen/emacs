@@ -112,4 +112,18 @@ This is the same as using \\[set-mark-command] with the prefix argument."
         (save-buffer)
       ;; Clear buffer-modified flag caused by set-visited-file-name
       (set-buffer-modified-p nil))
-  (message "Renamed to %s." new-name)))
+    (message "Renamed to %s." new-name)))
+
+;if a file is already open in read only mode, use this to re-open the
+;file with sudo access
+(defun find-alternative-file-with-sudo ()
+  (interactive)
+  (let ((fname (or buffer-file-name
+		   dired-directory)))
+    (when fname
+      (if (string-match "^/sudo:root@localhost:" fname)
+	  (setq fname (replace-regexp-in-string
+		       "^/sudo:root@localhost:" ""
+		       fname))
+	(setq fname (concat "/sudo:root@localhost:" fname)))
+      (find-alternate-file fname))))

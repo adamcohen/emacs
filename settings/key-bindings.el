@@ -2,6 +2,12 @@
 (global-set-key (kbd "M-C-m") 'isearch-kill-found)
 (global-set-key (kbd "M-P") 'move-line-up)
 (global-set-key (kbd "M-N") 'move-line-down)
+(global-set-key (kbd "C-c C-j") 'lw)
+(global-set-key (kbd "C-c C-p") 'lp)
+
+;make F9 switch to *scratch*
+(global-set-key (kbd "<f9>")
+  (lambda()(interactive)(switch-to-buffer "*scratch*")))
 
 ;; duplicate a line
 (global-set-key (kbd "C-c y") 'djcb-duplicate-line)
@@ -21,6 +27,12 @@
 (global-set-key (kbd "C-c r") 'revert-buffer)
 (global-set-key [f11] 'toggle-fullscreen)
 (global-set-key (kbd "M-i") 'imenu)
+(global-set-key [f5] 'call-last-kbd-macro)
+
+;; moving around in a file
+(global-set-key "\M-g" 'goto-line)
+(global-set-key "\M-n"  (lambda () (interactive) (scroll-up   1)) )
+(global-set-key "\M-p"  (lambda () (interactive) (scroll-down 1)) )
 
 ;; file searching
 (global-set-key [f8] 'ido-find-file-in-tag-files)

@@ -38,8 +38,22 @@
 (setq gc-cons-threshold 20000000)
 
 ;; Represent undo-history as an actual tree (visualize with C-x u)
-(setq undo-tree-mode-lighter "")
-(require 'undo-tree)
-(global-undo-tree-mode)
+;; (setq undo-tree-mode-lighter "")
+;; (require 'undo-tree)
+;; (global-undo-tree-mode)
+
+;; disable auto fill in text mode, 'cause it's annoying
+(remove-hook 'text-mode-hook 'turn-on-auto-fill)
+
+;; make C-n insert newlines if the point is at the end of the buffer
+(setq next-line-add-newlines t)
+
+;; allow us to copy between emacs and other x programs
+(setq x-select-enable-clipboard t)
+
+;; Write backup files to own directory
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name
+                 (concat user-emacs-directory "backups")))))
 
 (provide 'sane-defaults)

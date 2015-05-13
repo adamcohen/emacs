@@ -114,15 +114,6 @@
             (expand-file-name
              (concat "#%" (buffer-name) "#")))))
 
-;; Put backup files (ie foo~) in one place too. (The backup-directory-alist
-;; list contains regexp=>directory mappings; filenames matching a regexp are
-;; backed up in the corresponding directory. Emacs will mkdir it if necessary.)
-(defvar backup-dir "~/tmp/emacs_autosaves/")
-(setq backup-directory-alist (list (cons "." backup-dir)))
-
-;; allow us to copy between emacs and other x programs
-(setq x-select-enable-clipboard t)
-
 ;; SLIME
 (setq inferior-lisp-program (executable-find "sbcl"))
 (setq slime-contribs '(slime-fancy slime-repl slime-js))
@@ -162,14 +153,6 @@
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on) 
 
-(global-set-key "\M-n"  (lambda () (interactive) (scroll-up   1)) )
-(global-set-key "\M-p"  (lambda () (interactive) (scroll-down 1)) )
-(global-set-key "\M-g"  'goto-line)
-(global-set-key [f5] 'call-last-kbd-macro)
-
-(global-set-key (kbd "<f9>")  ;make F9 switch to *scratch*     
-  (lambda()(interactive)(switch-to-buffer "*scratch*")))
-
 (defun xacohen-save-current-directory ()
   "Save the current directory to the file ~/.emacs.d/acohen/current-directory"
   (interactive)
@@ -182,83 +165,6 @@
 (global-set-key [(super f10)] 'xacohen-save-current-directory)
 
 (setq debug-on-error t)
-
-;; save a list of open files in ~/.emacs.desktop
-;; save the desktop file automatically if it already exists
-;(setq desktop-save 'if-exists)
-(desktop-save-mode 1)
-
-;; save a bunch of variables to the desktop file
-;; for lists specify the len of the maximal saved data also
-(setq desktop-globals-to-save
-      (append '((extended-command-history . 30)
-                (file-name-history        . 100)
-                (grep-history             . 30)
-                (compile-history          . 30)
-                (minibuffer-history       . 50)
-                (query-replace-history    . 60)
-                (read-expression-history  . 60)
-                (regexp-history           . 60)
-                (regexp-search-ring       . 20)
-                (search-ring              . 20)
-                (shell-command-history    . 50)
-                tags-file-name
-                register-alist)))
-
-
-;; use only one desktop
-(setq desktop-path '("~/.emacs.d/"))
-(setq desktop-dirname "~/.emacs.d/")
-(setq desktop-base-file-name "emacs-desktop")
-
-(defun lw ()
-  (interactive)
-  "insert log message containing clipboard contents"
-  (set 'logmsg (concat "(%|\\n\\n[XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX]\\n"))
-  (set 'logmsg (concat logmsg (concat "[" (car (last (split-string buffer-file-name "/"))) "]\\n")))
-  (set 'logmsg (concat logmsg ( upcase (car kill-ring)) ": #{" (car kill-ring) ".inspect}\\n"))
-  (set 'logmsg (concat logmsg "[XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX]\\n\\n|)" "\n"))
-  (insert (concat "Rails.logger.debug" logmsg))
-  (insert (concat "puts" logmsg))
-  )
-
-(defun lp ()
-  (interactive)
-  "insert puts message containing clipboard contents"
-
-(set 'logmsg
-  (case major-mode
-    ('ruby-mode (concat "puts \"XXXXXXXXXXXXXXXX\", " "(%|" ( upcase (car kill-ring)) ": #{" (car kill-ring) ".inspect}|), \"XXXXXXXXXXXXXXXX\""))
-    ('js2-mode  (concat "console.log('" ( upcase (car kill-ring)) "', JSON.stringify(" (car kill-ring) ", null, 2))"))
-    )
-  )
-
-(insert logmsg)
-)
-
-(global-set-key (kbd "C-c C-j") 'lw)
-(global-set-key (kbd "C-c C-p") 'lp)
-
-(defun cln (arg)
-  "Prompt user to enter a string, with input history support."
-  (interactive (list (read-number "Line number to copy: ")) )
-  ;; (bookmark-set "my-book-mark")
-  (push-mark)
-  (goto-char (point-min))
-  (forward-line (1- arg))
-  (beginning-of-line)
-  (push-mark)
-  (end-of-line)
-
-  (let ((str (buffer-substring (region-beginning) (region-end))))
-    ;; (bookmark-jump "my-book-mark")
-    (pop-mark)
-    (jump-to-mark)
-    (insert-string str)
-    (beginning-of-line)
-    ;; (forward-line 1)
-    )
-  )
 
 (defun clear-shell ()
    (interactive)
@@ -467,20 +373,6 @@ the line, to capture multiline input. (This only has effect if
   (flet ((end-of-line () (end-of-buffer)))
     ad-do-it))
 
-;if a file is already open in read only mode, use this to re-open the
-;file with sudo access
-(defun find-alternative-file-with-sudo ()
-  (interactive)
-  (let ((fname (or buffer-file-name
-		   dired-directory)))
-    (when fname
-      (if (string-match "^/sudo:root@localhost:" fname)
-	  (setq fname (replace-regexp-in-string
-		       "^/sudo:root@localhost:" ""
-		       fname))
-	(setq fname (concat "/sudo:root@localhost:" fname)))
-      (find-alternate-file fname))))
-
 (require 'dired-x)
 (require 'wdired)
 (setq wdired-allow-to-change-permissions 'advanced)
@@ -497,11 +389,4 @@ the line, to capture multiline input. (This only has effect if
 
 ;;; load my custom yas snippets
 (yas/load-directory (concat dotfiles-dir "snippets/"))
-
-;; disable auto fill in text mode, 'cause it's annoying
-(remove-hook 'text-mode-hook 'turn-on-auto-fill)
-
-;; make C-n insert newlines if the point is at the end of the buffer
-(setq next-line-add-newlines t)
-
 

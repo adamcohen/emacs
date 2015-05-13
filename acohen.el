@@ -1,19 +1,3 @@
-(setq cua-enable-cua-keys nil) ;; only for rectangles
-(cua-mode t)
-
-;remove annoying "Buffer `buffername' still has clients; kill it?" message
-(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
-
-;; key bindings
-(when (eq system-type 'darwin) ;; mac specific settings
-  (setq mac-option-modifier 'alt)
-  (setq mac-command-modifier 'meta)
-  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
-  )
-
-(require 'ido)
-(ido-mode t)
-
 (defun my-coding-hook ()
   (make-local-variable 'column-number-mode)
   (column-number-mode t)
@@ -51,37 +35,6 @@
 
 ;; END JS2 MODE
 
-;intelligently use hypen or space with smex 
-(require 'ido-complete-space-or-hyphen)
-
-;; don't want ido to ask me if I really want to create a new buffer
-(setq ido-create-new-buffer 'always)
-
-(setq 
-  comment-auto-fill-only-comments t
-  tags-revert-without-query 1      ; automatically reload the TAGS
-                                   ; table if it changes
-  ;; when using ido, the confirmation is rather annoying...
-  warning-suppress-types nil
-  confirm-nonexistent-file-or-buffer nil
-  ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
-  ido-ignore-buffers ;; ignore these guys
-  '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-     "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
-  ido-work-directory-list '("~/" "~/Desktop" "~/Documents" "~src")
-  ido-case-fold  t                 ; be case-insensitive
-  ido-enable-last-directory-history t ; remember last used dirs
-  ido-max-work-directory-list 30   ; should be enough
-  ido-max-work-file-list      50   ; remember many
-  ido-use-filename-at-point nil    ; don't use filename at point (annoying)
-  ido-use-url-at-point nil         ; don't use url at point (annoying)
-;  ido-enable-regexp t              ; use regexp matching
-  ido-enable-flex-matching t
-  ido-max-prospects 8              ; don't spam my minibuffer
-  ido-confirm-unique-completion t  ; wait for RET, even with unique completion
-  )
-
-
 ; enable tramp to open files using sudo on a remote machine by
 ; doing C-x C-f /sudo:root@host[#port]:/path/to/file
 (set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
@@ -92,12 +45,6 @@
     (lambda ()
       (make-local-variable 'resize-minibuffer-window-max-height)
       (setq resize-minibuffer-window-max-height 1))))
-
-(setq initial-scratch-message nil)
-(setq scroll-in-place t)
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 ;; Put autosave files (ie #foo#) in one place, *not*
 ;; scattered all over the file system!
@@ -117,38 +64,6 @@
 ;; SLIME
 (setq inferior-lisp-program (executable-find "sbcl"))
 (setq slime-contribs '(slime-fancy slime-repl slime-js))
-
-;; COPYING LINES WITHOUT SELECTING THEM
-;; http://emacs-fu.blogspot.com/2009/11/copying-lines-without-selecting-them.html
-;; When I'm programming, I often need to copy a line. Normally, this requires me to first select ('mark') the line I want to copy. That does not seem like a big deal, but when I'm in the 'flow' I want to avoid any little obstacle that can slow me down.
-
-;; So, how can I copy the current line without selection? I found a nice trick by MacChan on EmacsWiki to accomplish this. It also adds ta function to kill (cut) the current line (similar to kill-line (C-k), but kills the whole line, not just from point (cursor) to the end.
-
-;; The code below simply embellishes the normal functions with the functionality 'if nothing is selected, assume we mean the current line'. The key bindings stay the same (M-w, C-w).
-
-;; To enable this, put the following in your .emacs:
-
-(defadvice kill-ring-save (before slick-copy activate compile) "When called
-  interactively with no active region, copy a single line instead."
-  (interactive (if mark-active (list (region-beginning) (region-end)) (message
-  "Copied line") (list (line-beginning-position) (line-beginning-position
-  2)))))
-
-(defadvice kill-region (before slick-cut activate compile)
-  "When called interactively with no active region, kill a single line instead."
-  (interactive
-    (if mark-active (list (region-beginning) (region-end))
-      (list (line-beginning-position)
-        (line-beginning-position 2)))))
-
-;; END COPYING LINES WITHOUT SELECTING THEM
-
-(defun recentf-ido-find-file ()
-  "Find a recent file using ido."
-  (interactive)
-  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
-    (when file
-      (find-file file))))
 
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on) 
@@ -202,64 +117,6 @@
            (and (get-buffer buffer)
             (kill-buffer buffer)))))
 
- (defun my-ido-project-files ()
-      "Use ido to select a file from the project."
-      (interactive)
-      (let (my-project-root project-files tbl)
-      (unless project-details (project-root-fetch))
-      (setq my-project-root (cdr project-details))
-      ;; get project files
-      (setq project-files 
-	    (split-string 
-	     (shell-command-to-string 
-	      (concat "find "
-		      my-project-root
-		      " \\( -name \"*.svn\" -o -name \"*.git\" \\) -prune -o -type f -print | grep -E -v \"\.(pyc)$\""
-		      )) "\n"))
-      ;; populate hash table (display repr => path)
-      (setq tbl (make-hash-table :test 'equal))
-      (let (ido-list)
-      (mapc (lambda (path)
-	      ;; format path for display in ido list
-	      (setq key (replace-regexp-in-string "\\(.*?\\)\\([^/]+?\\)$" "\\2|\\1" path))
-	      ;; strip project root
-	      (setq key (replace-regexp-in-string my-project-root "" key))
-	      ;; remove trailing | or /
-	      (setq key (replace-regexp-in-string "\\(|\\|/\\)$" "" key))
-	      (puthash key path tbl)
-	      (push key ido-list)
-	      )
-	    project-files
-	    )
-      (find-file (gethash (ido-completing-read "project-files: " ido-list) tbl)))))
-    ;; bind to a key for quick access
-    (define-key global-map [f6] 'my-ido-project-files)
-
-(defun my-ido-find-tag ()
-    "Find a tag using ido"
-    (interactive)
-    (tags-completion-table)
-    (let (tag-names)
-      (mapc (lambda (x)
-              (unless (integerp x)
-                (push (prin1-to-string x t) tag-names)))
-            tags-completion-table)
-      (find-tag (ido-completing-read "Tag: " tag-names))))
-
-(defun ido-find-file-in-tag-files ()
-      (interactive)
-      (save-excursion
-        ;; flex matching is too slow to be used with such a large file list
-        (setq ido-enable-flex-matching nil
-              ido-enable-regexp t)
-        (let ((enable-recursive-minibuffers t))
-          (visit-tags-table-buffer))
-        (find-file
-         (expand-file-name
-          (ido-completing-read
-           "Project file: " (tags-table-files) nil t)))))
-
-
 (defun wrap-html-tag (tagName)
   "Add a tag to beginning and ending of current word or text selection."
   (interactive "sEnter tag name: ")
@@ -302,23 +159,6 @@
   '("*shell0*" "*shell1*" "*shell2*" "*shell3*"))
 
 (defvar my-shells (append my-local-shells))
-
-(custom-set-variables
- '(comint-scroll-to-bottom-on-input t)  ; always insert at the bottom
- '(comint-scroll-to-bottom-on-output nil) ; always add output at the bottom
- '(comint-scroll-show-maximum-output t) ; scroll to show max possible output
- ;; '(comint-completion-autolist t)     ; show completion list when ambiguous
- '(comint-input-ignoredups t)           ; no duplicates in command history
- '(comint-completion-addsuffix t)       ; insert space/slash after file completion
- '(comint-buffer-maximum-size 1000)    ; max length of the buffer in lines
- '(comint-prompt-read-only nil)         ; if this is t, it breaks shell-command
- '(comint-get-old-input (lambda () "")) ; what to run when i press enter on a
-                                        ; line above the current prompt
- '(comint-input-ring-size 5000)         ; max shell history size
- '(protect-buffer-bury-p nil)
-)
-
-(setenv "PAGER" "cat")
 
 ;; truncate buffers continuously
 (add-hook 'comint-output-filter-functions 'comint-truncate-buffer)

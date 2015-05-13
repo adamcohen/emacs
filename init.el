@@ -11,6 +11,9 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
+;; Are we on a mac?
+(setq is-mac (equal system-type 'darwin))
+
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/")  t)
@@ -24,7 +27,7 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode js2-mode expand-region yaml-mode rhtml-mode)
+(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
@@ -72,6 +75,18 @@
 
 ;; Map files to modes
 (require 'mode-mappings)
+
+(require 'setup-ido)
+
+;; Fill column indicator
+(require 'fill-column-indicator)
+(setq fci-rule-color "#FF00FF")
+
+;; Browse kill ring
+(require 'browse-kill-ring)
+(setq browse-kill-ring-quit-action 'save-and-restore)
+
+(when is-mac (require 'mac))
 
 ;start the emacsclient server unless it's already running
 (require 'server)

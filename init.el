@@ -1,6 +1,16 @@
 (setq dotfiles-dir (file-name-directory
                     (or (buffer-file-name) load-file-name)))
 
+(setq settings-dir
+      (expand-file-name "settings" user-emacs-directory))
+
+;; Set up load path
+(add-to-list 'load-path settings-dir)
+
+;; Keep emacs Custom-settings in separate file
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/")  t)
@@ -29,15 +39,6 @@
 ;(require 'edit-server)
 ;(edit-server-start)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(hl-line ((t (:weight extra-bold))))
- '(idle-highlight ((t (:background "dark magenta"))))
- '(magit-item-highlight ((t (:weight extra-bold)))))
-
 ;; You can keep system- or user-specific customizations here
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
       user-specific-config (concat dotfiles-dir user-login-name ".el")
@@ -49,24 +50,26 @@
   (mapc #'load (directory-files user-specific-dir nil ".*el$")))
 (if (file-exists-p user-specific-config) (load user-specific-config))
 
+;; Set up appearance early
+(require 'appearance)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(comint-buffer-maximum-size 1000)
- '(comint-completion-addsuffix t)
- '(comint-get-old-input (lambda nil "") t)
- '(comint-input-ignoredups t)
- '(comint-input-ring-size 5000)
- '(comint-move-point-for-output nil)
- '(comint-prompt-read-only nil)
- '(comint-scroll-show-maximum-output t)
- '(comint-scroll-to-bottom-on-input t)
- '(js2-basic-offset 2)
- '(js2-strict-missing-semi-warning nil)
- '(protect-buffer-bury-p nil)
- '(warning-minimum-level :error))
+(require 'setup-smartparens)
+
+;; Functions (load all files in defuns-dir)
+(setq defuns-dir (expand-file-name "defuns" user-emacs-directory))
+(dolist (file (directory-files defuns-dir t "\\w+"))
+  (when (file-regular-p file)
+    (load file)))
+
+;; Setup key bindings
+(require 'key-bindings)
+
+;start the emacsclient server unless it's already running
+(require 'server)
+(or (server-running-p)
+    (server-start))
+
+;; Run at full power please
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)

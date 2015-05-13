@@ -1,27 +1,11 @@
 (setq cua-enable-cua-keys nil) ;; only for rectangles
 (cua-mode t)
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'clarity t)
-
-(set-face-attribute 'default nil :height 120) ;set default font size. The value is in 1/10pt, so 100 will give you 10pt, etc.
-
-;start the emacsclient server
-(require 'server)
-(or (server-running-p)
-    (server-start))
-
-
 ;remove annoying "Buffer `buffername' still has clients; kill it?" message
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
 ;; Save a list of recent files visited.
 (recentf-mode 1)
-
-(set-face-attribute 'default nil
-                    :family "Monaco" :height (case system-type
-                                             ('gnu/linux 130)
-                                             ('darwin 160)) :weight 'normal)
 
 ;; key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
@@ -33,100 +17,14 @@
 (require 'ido)
 (ido-mode t)
 
-;; SMART PARENS
-(require 'smartparens-config)
-(smartparens-global-mode t)
-
-;; highlights matching pairs
-(show-smartparens-global-mode t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;
-;; keybinding management
-
-(define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
-(define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
-
-(define-key sp-keymap (kbd "C-M-d") 'sp-down-sexp)
-(define-key sp-keymap (kbd "C-M-a") 'sp-backward-down-sexp)
-(define-key sp-keymap (kbd "C-S-a") 'sp-beginning-of-sexp)
-(define-key sp-keymap (kbd "C-S-d") 'sp-end-of-sexp)
-
-(define-key sp-keymap (kbd "C-M-e") 'sp-up-sexp)
-(define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
-(define-key sp-keymap (kbd "C-M-u") 'sp-backward-up-sexp)
-(define-key sp-keymap (kbd "C-M-t") 'sp-transpose-sexp)
-
-(define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
-(define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
-
-(define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
-(define-key sp-keymap (kbd "C-M-w") 'sp-copy-sexp)
-
-(define-key sp-keymap (kbd "M-<delete>") 'sp-unwrap-sexp)
-;; this one interferes with deleting a word
-;(define-key sp-keymap (kbd "M-<backspace>") 'sp-backward-unwrap-sexp)
-
-(define-key sp-keymap (kbd "C-<right>") 'sp-forward-slurp-sexp)
-(define-key sp-keymap (kbd "C-<left>") 'sp-forward-barf-sexp)
-(define-key sp-keymap (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-(define-key sp-keymap (kbd "C-M-<right>") 'sp-backward-barf-sexp)
-
-(define-key sp-keymap (kbd "M-s") 'sp-splice-sexp)
-(define-key sp-keymap (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
-(define-key sp-keymap (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
-(define-key sp-keymap (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
-
-(define-key sp-keymap (kbd "C-]") 'sp-select-next-thing-exchange)
-(define-key sp-keymap (kbd "C-<left_bracket>") 'sp-select-previous-thing)
-(define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing)
-
-;; (define-key sp-keymap (kbd "M-F") 'sp-forward-symbol)
-;; (define-key sp-keymap (kbd "M-B") 'sp-backward-symbol)
-(define-key sp-keymap (kbd "M-F") 'subword-forward)
-(define-key sp-keymap (kbd "M-B") 'subword-backward)
-
-(define-key sp-keymap (kbd "H-t") 'sp-prefix-tag-object)
-(define-key sp-keymap (kbd "H-p") 'sp-prefix-pair-object)
-(define-key sp-keymap (kbd "H-s c") 'sp-convolute-sexp)
-(define-key sp-keymap (kbd "H-s a") 'sp-absorb-sexp)
-(define-key sp-keymap (kbd "H-s e") 'sp-emit-sexp)
-(define-key sp-keymap (kbd "H-s p") 'sp-add-to-previous-sexp)
-(define-key sp-keymap (kbd "H-s n") 'sp-add-to-next-sexp)
-(define-key sp-keymap (kbd "H-s j") 'sp-join-sexp)
-(define-key sp-keymap (kbd "H-s s") 'sp-split-sexp)
-
-;;;;;;;;;;;;;;;;;;
-;; pair management
-
-(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-
-;;; markdown-mode
-(sp-with-modes '(markdown-mode gfm-mode rst-mode)
-  (sp-local-pair "*" "*" :bind "C-*")
-  (sp-local-tag "2" "**" "**")
-  (sp-local-tag "s" "```scheme" "```")
-  (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
-
-;;; tex-mode latex-mode
-(sp-with-modes '(tex-mode plain-tex-mode latex-mode)
-  (sp-local-tag "i" "\"<" "\">"))
-
-;;; html-mode
-(sp-with-modes '(html-mode sgml-mode)
-  (sp-local-pair "<" ">"))
-
-;;; lisp modes
-(sp-with-modes sp--lisp-modes
-  (sp-local-pair "(" nil :bind "C-("))
-;; END SMART PARENS
-
 (defun my-coding-hook ()
   (make-local-variable 'column-number-mode)
   (column-number-mode t)
   (if window-system (hl-line-mode t))
   (idle-highlight-mode t)
-  (define-key js2-mode-map (kbd "C-,") (sp-restrict-to-pairs-interactive "{" 'sp-down-sexp))
-  (define-key js2-mode-map (kbd "C-.") (sp-restrict-to-pairs-interactive "{" 'sp-up-sexp))
+  ;; TODO: re-enable
+  ;; (define-key js2-mode-map (kbd "C-,") (sp-restrict-to-pairs-interactive "{" 'sp-down-sexp))
+  ;; (define-key js2-mode-map (kbd "C-.") (sp-restrict-to-pairs-interactive "{" 'sp-up-sexp))
 )
 
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
@@ -135,10 +33,6 @@
 ;; BEGIN JS2 MODE
 (add-hook 'js2-mode-hook 'my-coding-hook)
 (setq js-indent-level 2)
-
-(add-hook 'js2-mode-hook
-          (lambda ()
-            (slime-js-minor-mode 1)))
 
 (eval-after-load 'js2-mode
   `(progn
@@ -163,24 +57,6 @@
 
 ;intelligently use hypen or space with smex 
 (require 'ido-complete-space-or-hyphen)
-
-(global-set-key (kbd "C-x f") 'recentf-ido-find-file)
-(global-set-key (kbd "C-c y") 'bury-buffer)
-(global-set-key (kbd "C-c r") 'revert-buffer)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x g") 'magit-status)
-
-
-(global-set-key (kbd "C-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-(global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "M-S-<backspace>") 'subword-backward-kill)
-
-(global-hl-line-mode)
-(make-variable-buffer-local 'global-hl-line-mode)
 
 (subword-mode 1)
 (setq-default indent-tabs-mode nil)
@@ -286,30 +162,6 @@
 
 ;; END COPYING LINES WITHOUT SELECTING THEM
 
-
-;; DUPLICATING LINES AND COMMENTING THEM
-;; http://emacs-fu.blogspot.com/
-;; Someone on the Emacs Help mailing list asked for an easy way to duplicate a line
-;; and, optionally, comment-out the first one.
-
-;; I hacked up something quickly to solve both questions, and it has evolved a
-;; little bit since – to answer both of the questions. The bit of weirdness in
-;; the end is because of the special case of the last line in a buffer. It
-;; defines key bindings C-c y for duplicating a line, and C-c c for
-;; duplicating + commenting – but of course you can change those.
-(defun djcb-duplicate-line (&optional commentfirst)
-  "comment line at point; if COMMENTFIRST is non-nil, comment the original" 
-  (interactive)
-  (beginning-of-line)
-  (push-mark)
-  (end-of-line)
-  (let ((str (buffer-substring (region-beginning) (region-end))))
-    (when commentfirst
-    (comment-region (region-beginning) (region-end)))
-    (insert-string
-      (concat (if (= 0 (forward-line 1)) "" "\n") str "\n"))
-    (forward-line -1)))
-
 (defun recentf-ido-find-file ()
   "Find a recent file using ido."
   (interactive)
@@ -317,61 +169,13 @@
     (when file
       (find-file file))))
 
-;; duplicate a line
-(global-set-key (kbd "C-c y") 'djcb-duplicate-line)
-
-;; duplicate a line and comment the first
-(global-set-key (kbd "C-c c") (lambda()(interactive)(djcb-duplicate-line t)))
-
-;; END DUPLICATING LINES AND COMMENTING THEM
-(global-linum-mode t)
-
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on) 
 
-(defun transpose-buffers (arg)
-  "Transpose the buffers shown in two windows."
-  (interactive "p")
-  (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
-    (while (/= arg 0)
-      (let ((this-win (window-buffer))
-            (next-win (window-buffer (funcall selector))))
-        (set-window-buffer (selected-window) next-win)
-        (set-window-buffer (funcall selector) this-win)
-        (select-window (funcall selector)))
-      (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
-
-(global-set-key (kbd "C-x C-j") 'dired-jump)
 (global-set-key "\M-n"  (lambda () (interactive) (scroll-up   1)) )
 (global-set-key "\M-p"  (lambda () (interactive) (scroll-down 1)) )
 (global-set-key "\M-g"  'goto-line)
 (global-set-key [f5] 'call-last-kbd-macro)
-
-(defun move-line (n)
-  "Move the current line up or down by N lines."
-  (interactive "p")
-  (setq col (current-column))
-  (beginning-of-line) (setq start (point))
-  (end-of-line) (forward-char) (setq end (point))
-  (let ((line-text (delete-and-extract-region start end)))
-n    (forward-line n)
-    (insert line-text)
-    ;; restore point to original column in moved line
-    (forward-line -1)
-    (forward-char col)))
-
-(defun move-line-up (n)
-  "Move the current line up by N lines."
-  (interactive "p")
-  (move-line (if (null n) -1 (- n))))
-
-(defun move-line-down (n)
-  "Move the current line down by N lines."
-  (interactive "p")
-  (move-line (if (null n) 1 n)))
-
-(global-set-key (kbd "M-P") 'move-line-up)
-(global-set-key (kbd "M-N") 'move-line-down)
 
 (global-set-key (kbd "<f9>")  ;make F9 switch to *scratch*     
   (lambda()(interactive)(switch-to-buffer "*scratch*")))
@@ -387,7 +191,7 @@ n    (forward-line n)
       (kill-buffer (current-buffer)))))
 (global-set-key [(super f10)] 'xacohen-save-current-directory)
 
-;(setq debug-on-error t)
+(setq debug-on-error t)
 
 ;; save a list of open files in ~/.emacs.desktop
 ;; save the desktop file automatically if it already exists
@@ -495,26 +299,6 @@ n    (forward-line n)
    (define-key ibuffer-mode-map (kbd "P") 'ibuffer-backward-line)
 ))
 
-(defun gfh ()
-  (interactive)
-  "copy the full path to the current buffer into the clipboard"
-  (kill-new (concat "rspec " (replace-regexp-in-string abbreviated-home-dir "$HOME/" buffer-file-name) ":" (number-to-string (line-number-at-pos)))))
-
-(defun gf ()
-  (interactive)
-"copy the full path to the current buffer into the clipboard"
-(kill-new buffer-file-name))
-
-(defun gff ()
-  (interactive)
-"copy the relative path to the current buffer into the clipboard"
-(kill-new (replace-regexp-in-string "/Users/adam/.*?/" "" buffer-file-name)))
-
-(defun gfff ()
-  (interactive)
-  "copy the file name of the current buffer into the clipboard"
-  (kill-new (file-name-nondirectory buffer-file-name)))
-
 ;; Remove completion buffer when done
 (add-hook 'minibuffer-exit-hook 
       '(lambda ()
@@ -586,28 +370,6 @@ n    (forward-line n)
     ;; bind to a key for quick access
     (define-key global-map [f6] 'my-ido-project-files)
 
-;; I know that string is in my Emacs somewhere!
-(defcustom search-all-buffers-ignored-files (list (rx-to-string '(and bos (or ".bash_history" "TAGS") eos)))
-  "Files to ignore when searching buffers via \\[search-all-buffers]."
-  :type 'editable-list)
-
-(require 'grep)
-(defun search-all-buffers (regexp prefix)
-  "Searches file-visiting buffers for occurence of REGEXP.  With
-prefix > 1 (i.e., if you type C-u \\[search-all-buffers]),
-searches all buffers."
-  (interactive (list (grep-read-regexp)
-                     current-prefix-arg))
-  (message "Regexp is %s; prefix is %s" regexp prefix)
-  (multi-occur
-   (if (member prefix '(4 (4)))
-       (buffer-list)
-     (remove-if
-      (lambda (b) (some (lambda (rx) (string-match rx  (file-name-nondirectory (buffer-file-name b)))) search-all-buffers-ignored-files))
-      (remove-if-not 'buffer-file-name (buffer-list))))
-
-   regexp))
-
 (global-set-key [f7] 'search-all-buffers)
 
 (defun my-ido-find-tag ()
@@ -667,15 +429,6 @@ searches all buffers."
         (end-of-line)
         (insert (format "</%s>" tag))
         (forward-line 1)))))
-
-;;; hack to ensure that flex matching is enabled for smex, since
-;;; I disabled flex matching for ido-find-file-in-tag-files because it's
-;;; too slow
-(global-set-key (kbd "M-x") (lambda ()
-                             (interactive)
-                             (setq ido-enable-flex-matching t
-                                   ido-enable-regexp nil)
-                             (smex)))
 
 (global-set-key [f8] 'ido-find-file-in-tag-files)
 
@@ -793,7 +546,6 @@ the line, to capture multiline input. (This only has effect if
 
 (global-set-key (kbd "C-c C-e") 'eval-and-replace)
 
-(global-set-key [f11] 'toggle-fullscreen)
 (toggle-fullscreen)
 
 (require 'dired-x)
@@ -851,41 +603,7 @@ the line, to capture multiline input. (This only has effect if
 ;; make C-n insert newlines if the point is at the end of the buffer
 (setq next-line-add-newlines t)
 
-;; Fixing The Mark Commands In Transient Mark Mode
-;; http://www.masteringemacs.org/articles/2010/12/22/fixing-mark-commands-transient-mark-mode/
-(defun push-mark-no-activate ()
-  "Pushes `point' to `mark-ring' and does not activate the region
-Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
-  (interactive)
-  (push-mark (point) t nil)
-  (message "Pushed mark to ring"))
-
-(defun jump-to-mark ()
-  "Jumps to the local mark, respecting the `mark-ring' order.
-This is the same as using \\[set-mark-command] with the prefix argument."
-  (interactive)
-  (set-mark-command 1))
-
-(global-set-key (kbd "M-'") 'jump-to-mark)
-(global-set-key (kbd "C-'") 'push-mark-no-activate)
-
-(defun exchange-point-and-mark-no-activate ()
-  "Identical to \\[exchange-point-and-mark] but will not activate the region."
-  (interactive)
-  (exchange-point-and-mark)
-  (deactivate-mark nil))
-(define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
-
 (global-set-key (kbd "M-i") 'imenu)
-
-;; from http://lists.gnu.org/archive/html/emacs-devel/2010-05/msg00972.html
-(defun isearch-kill-found ()
-  "Kills the region that isearch has found."
-  (interactive)
-  (isearch-exit)
-  (kill-region isearch-other-end (point)))
-
-(global-set-key (kbd "M-C-m") 'isearch-kill-found)
 
 ;; KEYBOARD MACROS
 (fset 'copy_columns

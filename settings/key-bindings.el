@@ -63,6 +63,7 @@
                              (smex)))
 
 (global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C--") 'er/contract-region)
 (global-set-key (kbd "M-S-<backspace>") 'subword-backward-kill)
 
 ;;; It turns out that global-set-key can be overridden by minors modes.
@@ -76,6 +77,9 @@
 (define-key my-keys-minor-mode-map (kbd "C-c y") 'djcb-duplicate-line)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "M-t") 'toggle-truncate-lines)
+
+(define-key my-keys-minor-mode-map (kbd "C-s") 'isearch-forward-regexp)
+(define-key my-keys-minor-mode-map (kbd "C-r") 'isearch-backward-regexp)
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."

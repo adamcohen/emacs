@@ -62,9 +62,6 @@
 ;; Set up appearance early
 (require 'appearance)
 
-;; Lets start with a smattering of sanity
-(require 'sane-defaults)
-
 (require 'setup-desktop)
 
 (require 'keyboard-macros)
@@ -92,6 +89,9 @@
 (require 'server)
 (or (server-running-p)
     (server-start))
+
+;; Lets start with a smattering of sanity
+(require 'sane-defaults)
 
 ;; Run at full power please
 (put 'downcase-region 'disabled nil)

@@ -63,7 +63,7 @@ n    (forward-line n)
 ;; defines key bindings C-c y for duplicating a line, and C-c c for
 ;; duplicating + commenting – but of course you can change those.
 (defun djcb-duplicate-line (&optional commentfirst)
-  "comment line at point; if COMMENTFIRST is non-nil, comment the original" 
+  "comment line at point; if COMMENTFIRST is non-nil, comment the original"
   (interactive)
   (beginning-of-line)
   (push-mark)

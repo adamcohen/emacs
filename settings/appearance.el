@@ -15,6 +15,10 @@
                                              ('gnu/linux 130)
                                              ('darwin 160)) :weight 'normal)
 
+(font-lock-add-keywords
+ 'js2-mode `(("\\(function *\\)("
+              (0 (progn (compose-region (match-beginning 1) (match-end 1) "ƒ")
+                        nil)))))
 
 (toggle-fullscreen)
 

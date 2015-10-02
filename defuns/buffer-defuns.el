@@ -38,6 +38,12 @@ searches all buffers."
   "copy the path to the current buffer for use with rspec"
   (kill-new (concat "rspec " (replace-regexp-in-string abbreviated-home-dir "$HOME/" buffer-file-name) ":" (number-to-string (line-number-at-pos)))))
 
+;; retrieving name/path of current buffer
+(defun gfm ()
+  (interactive)
+  "copy the path to the current buffer for use with mocha"
+  (kill-new (concat "npm run mocha " (replace-regexp-in-string abbreviated-home-dir "$HOME/" buffer-file-name))))
+
 (defun gf ()
   (interactive)
 "copy the full path to the current buffer into the clipboard"

@@ -11,6 +11,7 @@
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
 (add-hook 'ruby-mode-hook 'my-coding-hook)
 
+;; TODO: move this to JS2 setup
 ;; BEGIN JS2 MODE
 (add-hook 'js2-mode-hook 'my-coding-hook)
 (setq js-indent-level 2)
@@ -33,6 +34,10 @@
               (mapcar 'symbol-name
                       '(after afterEach before beforeEach describe it)))
 
+
+;; Prevent JS2 from complaining about the following keywords
+(setq-default js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "process" "exports" "context"))
+
 ;; END JS2 MODE
 
 ; enable tramp to open files using sudo on a remote machine by
@@ -40,7 +45,7 @@
 (set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
 
 ;; increase minibuffer size when ido completion is active
-(add-hook 'ido-minibuffer-setup-hook 
+(add-hook 'ido-minibuffer-setup-hook
   (function
     (lambda ()
       (make-local-variable 'resize-minibuffer-window-max-height)
@@ -66,7 +71,7 @@
 (setq slime-contribs '(slime-fancy slime-repl slime-js))
 
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on) 
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (defun xacohen-save-current-directory ()
   "Save the current directory to the file ~/.emacs.d/acohen/current-directory"
@@ -111,7 +116,7 @@
 ))
 
 ;; Remove completion buffer when done
-(add-hook 'minibuffer-exit-hook 
+(add-hook 'minibuffer-exit-hook
       '(lambda ()
          (let ((buffer "*Completions*"))
            (and (get-buffer buffer)
@@ -122,7 +127,7 @@
   (interactive "sEnter tag name: ")
   (let (p1 p2 inputText)
     (if (use-region-p)
-        (progn 
+        (progn
           (setq p1 (region-beginning) )
           (setq p2 (region-end) )
           )
@@ -229,4 +234,3 @@ the line, to capture multiline input. (This only has effect if
 
 ;;; load my custom yas snippets
 (yas/load-directory (concat dotfiles-dir "snippets/"))
-

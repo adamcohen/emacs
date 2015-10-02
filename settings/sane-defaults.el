@@ -2,8 +2,18 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 100) ;; just 20 is too recent
 
+;; enable SSL mode
+(setenv "PGSSLMODE" "require")
+(setq sql-postgres-program "/usr/local/bin/psql")
+;; this needs to be changed on an app by app basis, should
+;; make a function that parses the sql connect string for us
+(setq sql-mysql-login-params (append sql-mysql-login-params '(5642)))
+
 ;; Answering just 'y' or 'n' will do
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+;; don't drop me into the debugger on an error
+(setq debug-on-error nil)
 
 ;; UTF-8 please
 (setq locale-coding-system 'utf-8) ; pretty
@@ -20,6 +30,9 @@
 
 ;; Remove text in active region if inserting text
 (delete-selection-mode 1)
+
+;; Remove trailing whitespace from the entire buffer
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Lines should be 80 characters wide, not 72
 (setq fill-column 80)

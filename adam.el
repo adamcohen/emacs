@@ -3,6 +3,7 @@
   (column-number-mode t)
   (if window-system (hl-line-mode t))
   (idle-highlight-mode t)
+  (subword-mode t)
   ;; TODO: re-enable
   ;; (define-key js2-mode-map (kbd "C-,") (sp-restrict-to-pairs-interactive "{" 'sp-down-sexp))
   ;; (define-key js2-mode-map (kbd "C-.") (sp-restrict-to-pairs-interactive "{" 'sp-up-sexp))

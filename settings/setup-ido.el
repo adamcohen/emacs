@@ -2,14 +2,15 @@
 (require 'ido)
 (ido-mode t)
 
-;intelligently use hypen or space with smex 
+;intelligently use hyphen or space with smex
 (require 'ido-complete-space-or-hyphen)
 
 (setq
   ido-save-directory-list-file "~/.emacs.d/cache/ido.last"
   ido-ignore-buffers ;; ignore these guys
-  '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
-     "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+  ;; '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
+  ;;    "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+  '("\\` " "^\*")
   ido-work-directory-list '("~/" "~/Desktop" "~/Documents" "~src")
   ido-case-fold  t                    ; be case-insensitive
   ido-create-new-buffer 'always       ; don't want ido to ask me if I really want to create a new buffer
@@ -41,9 +42,9 @@
       (unless project-details (project-root-fetch))
       (setq my-project-root (cdr project-details))
       ;; get project files
-      (setq project-files 
-	    (split-string 
-	     (shell-command-to-string 
+      (setq project-files
+	    (split-string
+	     (shell-command-to-string
 	      (concat "find "
 		      my-project-root
 		      " \\( -name \"*.svn\" -o -name \"*.git\" \\) -prune -o -type f -print | grep -E -v \"\.(pyc)$\""

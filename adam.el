@@ -11,6 +11,9 @@
 
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
 (add-hook 'ruby-mode-hook 'my-coding-hook)
+;; (require 'rubocop)
+(add-hook 'ruby-mode-hook #'rubocop-mode)
+
 
 ;; TODO: move this to JS2 setup
 ;; BEGIN JS2 MODE

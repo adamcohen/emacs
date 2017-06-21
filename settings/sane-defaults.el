@@ -15,6 +15,12 @@
 (set-selection-coding-system 'utf-8) ; please
 (prefer-coding-system 'utf-8) ; with sugar on top
 
+;; make sure emacs alerts me if a buffer is changed on disk so I don't
+;; inadvertently overwrite it. I have no idea what this does really
+;;(setq magit-auto-revert-mode nil)
+;; get rid of this warning https://github.com/magit/magit/issues/1839
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 ;; Show active region
 (transient-mark-mode 1)
 (make-variable-buffer-local 'transient-mark-mode)
@@ -89,5 +95,11 @@
 (setq-default backup-directory-alist
       `(("." . ,(expand-file-name
                  (concat user-emacs-directory "backups")))))
+
+;; use Shift+arrow_keys to move cursor around split panes
+(windmove-default-keybindings)
+
+;; when cursor is on edge, move to the other side, as in a torus space
+(setq windmove-wrap-around t )
 
 (provide 'sane-defaults)

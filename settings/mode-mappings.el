@@ -3,6 +3,9 @@
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("jsTestDriver\\.conf$" . yaml-mode))
 
+;; restclient-mode
+(add-to-list 'auto-mode-alist '("\\.rc$" . restclient-mode))
+
 ;; Emacs lisp
 (add-to-list 'auto-mode-alist '("Carton$" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("Cask$" . emacs-lisp-mode))

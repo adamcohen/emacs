@@ -41,10 +41,31 @@
 
 ;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+;; remap M-g to goto-line
+(eval-after-load 'ibuffer
+  '(define-key ibuffer-mode-map (kbd "M-g") 'goto-line))
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
 (autoload 'magit-status "magit")
+
+;; eww navigation
+(defun oleh-eww-hook ()
+  (define-key eww-mode-map "j" 'oww-down)
+  (define-key eww-mode-map "k" 'oww-up)
+  (define-key eww-mode-map "l" 'forward-char)
+  (define-key eww-mode-map "L" 'eww-back-url)
+  (define-key eww-mode-map "h" 'backward-char)
+  (define-key eww-mode-map "v" 'recenter-top-bottom)
+  (define-key eww-mode-map "V" 'eww-view-source)
+  (define-key eww-mode-map "m" 'eww-follow-link)
+  (define-key eww-mode-map "a" 'move-beginning-of-line)
+  (define-key eww-mode-map "e" 'move-end-of-line)
+  (define-key eww-mode-map "o" 'ace-link-eww)
+  (define-key eww-mode-map "y" 'eww)
+  (define-key eww-mode-map "\M-n" (lambda () (interactive) (scroll-up 1)) )
+  (define-key eww-mode-map "\M-p" (lambda () (interactive) (scroll-down 1)) ))
+(add-hook 'eww-mode-hook 'oleh-eww-hook)
 
 ;; Experimental multiple-cursors
 (global-set-key (kbd "C-c C-S-c") 'mc/edit-lines)
@@ -66,9 +87,13 @@
 (global-set-key (kbd "C--") 'er/contract-region)
 (global-set-key (kbd "M-S-<backspace>") 'subword-backward-kill)
 
+(define-key (current-global-map) (kbd "M-o") 'other-window)
+(define-key (current-global-map) (kbd "M-O") 'frame-bck)
+
 ;;; It turns out that global-set-key can be overridden by minors modes.
 ;;; To prevent minor modes from overriding our keybindings, we have to
 ;;; place them into a minor-mode, as follows:
+;;; TODO: might be able to use current-global-map instead
 ;;; BEGIN MINOR MODE KEYBINDINGS
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 

@@ -21,3 +21,20 @@
   )
 (insert logmsg)
 )
+
+;; URL ENCODING/DECODING
+(defun func-region (start end func)
+  "run a function over the region between START and END in current buffer."
+  (save-excursion
+    (let ((text (delete-and-extract-region start end)))
+      (insert (funcall func text)))))
+
+(defun hex-region (start end)
+  "urlencode the region between START and END in current buffer."
+  (interactive "r")
+  (func-region start end #'url-hexify-string))
+
+(defun unhex-region (start end)
+  "de-urlencode the region between START and END in current buffer."
+  (interactive "r")
+  (func-region start end #'url-unhex-string))

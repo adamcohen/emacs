@@ -27,7 +27,7 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine)
+(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
@@ -94,6 +94,8 @@
 (require 'sane-defaults)
 
 (require 'setup-ruby-rails)
+
+(require 'setup-golang)
 
 (add-to-list 'load-path (concat user-emacs-directory "/plugins/realtime-emacs-markdown-view/" ))
 (require 'realtime-emacs-markdown-view)

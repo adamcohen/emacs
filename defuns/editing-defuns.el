@@ -21,6 +21,41 @@ n    (forward-line n)
   (interactive "p")
   (move-line (if (null n) 1 n)))
 
+(defun insert-epoch ()
+  "Inserts the current epoch."
+  (interactive)
+  (insert (number-to-string (float-time)))
+  )
+
+;; BEGIN SHIFT-REGION
+;; Allows you to press control-shift-right arrow or left arrow
+;; after marking a region, and it'll move it left or right
+(defun shift-region (distance)
+  (let ((mark (mark)))
+    (save-excursion
+      (indent-rigidly (region-beginning) (region-end) distance)
+      (push-mark mark t t)
+      ;; Tell the command loop not to deactivate the mark
+      ;; for transient mark mode
+      (setq deactivate-mark nil))))
+
+(defun shift-right ()
+  (interactive)
+  (shift-region 1))
+
+(defun shift-left ()
+  (interactive)
+  (shift-region -1))
+
+;; Bind (shift-right) and (shift-left) function to your favorite keys. I use
+;; the following so that Ctrl-Shift-Right Arrow moves selected text one
+;; column to the right, Ctrl-Shift-Left Arrow moves selected text one
+;; column to the left:
+
+(global-set-key [C-S-right] 'shift-right)
+(global-set-key [C-S-left] 'shift-left)
+;; END SHIFT-REGION
+
 ;; COPYING LINES WITHOUT SELECTING THEM
 ;; http://emacs-fu.blogspot.com/2009/11/copying-lines-without-selecting-them.html
 ;; When I'm programming, I often need to copy a line. Normally, this requires me to first select ('mark') the line I want to copy. That does not seem like a big deal, but when I'm in the 'flow' I want to avoid any little obstacle that can slow me down.

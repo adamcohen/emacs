@@ -237,4 +237,4 @@ the line, to capture multiline input. (This only has effect if
 ;; Projectile mode
 
 ;;; load my custom yas snippets
-(yas/load-directory (concat dotfiles-dir "snippets/"))
+;;(yas/load-directory (concat dotfiles-dir "snippets/"))

@@ -14,6 +14,10 @@
 ;; Are we on a mac?
 (setq is-mac (equal system-type 'darwin))
 
+;; need to require Common Lisp to enable certain functions, such as the case statement
+;; see https://www.emacswiki.org/emacs/CommonLispForEmacs
+(require 'cl)
+
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/")  t)
@@ -27,17 +31,15 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yas-jit yasnippet-bundle popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder)
-  "A list of packages to ensure are installed at launch.")
+;; (defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yasnippet popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder protobuf-mode exec-path-from-shell go-autocomplete go-guru gorepl-mode mocha rust-mode go-mode)
+;;    "A list of packages to ensure are installed at launch.")
+
+(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode company company-go popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder protobuf-mode exec-path-from-shell go-guru gorepl-mode mocha rust-mode go-mode)
+   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-
-;;; unobtrusive auto-complete mode (http://cx4a.org/software/auto-complete/)
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-(ac-config-default)
 
 ;(require 'edit-server)
 ;(edit-server-start)
@@ -90,12 +92,18 @@
 (or (server-running-p)
     (server-start))
 
+;; for autocomplete
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+
 ;; Lets start with a smattering of sanity
 (require 'sane-defaults)
 
 (require 'setup-ruby-rails)
 
 (require 'setup-golang)
+
+(require 'setup-rust)
 
 (add-to-list 'load-path (concat user-emacs-directory "/plugins/realtime-emacs-markdown-view/" ))
 (require 'realtime-emacs-markdown-view)

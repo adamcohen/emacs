@@ -42,7 +42,7 @@ searches all buffers."
 (defun gfm ()
   (interactive)
   "copy the path to the current buffer for use with mocha"
-  (kill-new (concat "npm run mocha " (replace-regexp-in-string abbreviated-home-dir "$HOME/" buffer-file-name))))
+  (kill-new (concat "node ./node_modules/.bin/mocha " (replace-regexp-in-string abbreviated-home-dir "$HOME/" buffer-file-name))))
 
 (defun gf ()
   (interactive)

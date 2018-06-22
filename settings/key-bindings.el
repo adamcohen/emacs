@@ -4,6 +4,7 @@
 (global-set-key (kbd "M-N") 'move-line-down)
 (global-set-key (kbd "C-c C-j") 'lw)
 (global-set-key (kbd "C-c C-p") 'lp)
+(global-set-key (kbd "C-c C-g") 'generate-testing-email-address)
 
 ;make F9 switch to *scratch*
 (global-set-key (kbd "<f9>")
@@ -31,6 +32,7 @@
 
 ;; moving around in a file
 (global-set-key "\M-g" 'goto-line)
+(global-set-key "\M-G" 'goto-local-line)
 (global-set-key "\M-n"  (lambda () (interactive) (scroll-up   1)) )
 (global-set-key "\M-p"  (lambda () (interactive) (scroll-down 1)) )
 
@@ -101,8 +103,9 @@
 (define-key my-keys-minor-mode-map (kbd "M-r") 'replace-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c y") 'djcb-duplicate-line)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
+(define-key my-keys-minor-mode-map (kbd "C-c C-SPC") 'ace-jump-mode)
+(define-key my-keys-minor-mode-map (kbd "M-S-SPC") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "M-t") 'toggle-truncate-lines)
-
 (define-key my-keys-minor-mode-map (kbd "C-s") 'isearch-forward-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-r") 'isearch-backward-regexp)
 

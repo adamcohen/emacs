@@ -143,9 +143,6 @@
   (interactive "r")
   (func-region start end #'url-unhex-string))
 
-(read-shell-command "git remote -v | grep 'upstream.*fetch' | cut -f 2 | sed 's/(fetch)//' | xargs git ls-remote | head -n 1 | cut -f 1")
-
-
 (defun git-url-to-file ()
   "copies the git URL to the current version of the buffer file"
   (interactive)
@@ -156,7 +153,13 @@ cut -f 2 | sed 's/\.git (fetch)//' | tr -d '\n'")))
             (format "git ls-remote %s | head -n 1 | cut -f 1 | tr -d '\n'" (concat git-remote ".git")))))
       (let ((project-name (file-name-nondirectory git-remote)))
         (let ((project-and-file-path (replace-regexp-in-string (format ".*?%s/" project-name) "" buffer-file-name)))
-          (kill-new (format "%s/blob/%s/%s" git-remote most-recent-sha project-and-file-path))
+
+          (let (beg end)
+            (if (region-active-p)
+                (setq beg (line-number-at-pos (region-beginning)) end (line-number-at-pos (region-end)))
+              (setq beg (line-number-at-pos (line-beginning-position)) end (line-number-at-pos (line-end-position))))
+            (kill-new (format "%s/blob/%s/%s#L%d-L%d" git-remote most-recent-sha project-and-file-path beg end))
+            )
           )
         )
       )

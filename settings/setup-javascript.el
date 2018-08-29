@@ -10,4 +10,6 @@
     )
   )
 
+(add-to-list 'ido-ignore-files "package-lock.json")
+
 (provide 'setup-javascript)

@@ -30,11 +30,7 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; Add in your own as you wish:
-;; (defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode yasnippet popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder protobuf-mode exec-path-from-shell go-autocomplete go-guru gorepl-mode mocha rust-mode go-mode)
-;;    "A list of packages to ensure are installed at launch.")
-
-(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode company company-go popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder protobuf-mode exec-path-from-shell go-guru gorepl-mode mocha rust-mode go-mode)
+(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode company company-go popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder protobuf-mode exec-path-from-shell go-guru gorepl-mode mocha rust-mode go-mode hydra helm yasnippet-snippets auto-yasnippet helm-gtags)
    "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
@@ -69,6 +65,11 @@
 (require 'keyboard-macros)
 (require 'setup-smartparens)
 
+;; Setup hydra must be run before setting up keybindings,
+;; because the keybindings use some of the definitions from
+;; setup-hydra
+(require 'setup-hydra)
+
 ;; Setup key bindings
 (require 'key-bindings)
 
@@ -76,6 +77,8 @@
 (require 'mode-mappings)
 
 (require 'setup-ido)
+
+(require 'setup-helm-gtags)
 
 ;; Fill column indicator
 (require 'fill-column-indicator)
@@ -93,17 +96,20 @@
     (server-start))
 
 ;; for autocomplete
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
+(require 'setup-company)
 
 ;; Lets start with a smattering of sanity
 (require 'sane-defaults)
 
 (require 'setup-ruby-rails)
 
+(require 'setup-javascript)
+
 (require 'setup-golang)
 
 (require 'setup-rust)
+
+(require 'setup-yasnippet)
 
 (add-to-list 'load-path (concat user-emacs-directory "/plugins/realtime-emacs-markdown-view/" ))
 (require 'realtime-emacs-markdown-view)

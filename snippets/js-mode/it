@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: itblock
+# key: it
+# contributor : @adamcohen
+# --
+it('$1', () => {
+  $0
+})

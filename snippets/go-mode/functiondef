@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: functiondef
+# key: fd
+# contributor : @adamcohen
+# --
+func $1($2) ($3) {
+  $0
+}

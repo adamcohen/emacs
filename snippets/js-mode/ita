@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: itasyncblock
+# key: ita
+# contributor : @adamcohen
+# --
+it('$1', async () => {
+  $0
+})

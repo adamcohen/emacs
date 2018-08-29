@@ -1,0 +1,3 @@
+#name: find_active_products
+# --
+select p.id, retail_chain_id, rc.retailer_code from products p, retail_chains rc where rc.id = p.retail_chain_id and active_start_date <= now() and active_end_date >= now() and retail_chain_id = $0;

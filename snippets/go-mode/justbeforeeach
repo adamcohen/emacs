@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: justbeforeeach
+# key: jbe
+# contributor : @adamcohen
+# --
+JustBeforeEach("$1", func() {
+  $0
+})

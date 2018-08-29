@@ -7,4 +7,7 @@
 (fset 'keb
       [?\C-  ?\C-e ?\C-b ?\C-\M-f ?\C-e ?\C-w])
 
+(fset 'select-block
+   [?\M-m ?\C-  ?\C-e ?\C-b ?\C-\M-l ?\C-e])
+
 (provide 'keyboard-macros)

@@ -17,6 +17,11 @@
 (global-set-key (kbd "C-c c") (lambda()(interactive)(djcb-duplicate-line t)))
 ;; END CUSTOM DEFUNS
 
+;; allow yasnippet to work with company mode by pressing C-o for completion
+(global-set-key "\C-o" 'aya-open-line)
+
+(global-set-key (kbd "C-M-;") (lambda()(interactive)(insert ";")))
+
 ;; setting the mark
 (global-set-key (kbd "M-'") 'jump-to-mark)
 (global-set-key (kbd "C-'") 'push-mark-no-activate)
@@ -33,6 +38,7 @@
 ;; moving around in a file
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\M-G" 'goto-local-line)
+(global-set-key (kbd "C-M-g") 'goto-local-line)
 (global-set-key "\M-n"  (lambda () (interactive) (scroll-up   1)) )
 (global-set-key "\M-p"  (lambda () (interactive) (scroll-down 1)) )
 
@@ -40,6 +46,24 @@
 (global-set-key [f8] 'ido-find-file-in-tag-files)
 (global-set-key [f7] 'search-all-buffers)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
+
+;; helm
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-.") 'helm-gtags-dwim)
+;; ;; bookmark-jump
+(global-set-key (kbd "C-x r b") 'bookmark-jump)
+;; ;; compose-mail
+(global-set-key (kbd "C-x m") 'helm-M-x)
+
+;; this is necessary because of https://github.com/emacs-helm/helm/issues/1539
+(with-eval-after-load 'helm
+  ;; original helm-execute-persistent-action C-z, C-j
+  (define-key helm-map (kbd "C-j") 'helm-next-line)
+  (define-key helm-map (kbd "C-k") 'helm-previous-line)
+  ;; original delete-char
+  (define-key helm-map (kbd "C-d") 'helm-buffer-run-kill-persistent)
+  (define-key helm-map (kbd "C-o") 'hydra-helm2/body)
+)
 
 ;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -89,6 +113,8 @@
 (global-set-key (kbd "C--") 'er/contract-region)
 (global-set-key (kbd "M-S-<backspace>") 'subword-backward-kill)
 
+(global-set-key (kbd "C-c k") 'describe-key)
+
 (define-key (current-global-map) (kbd "M-o") 'other-window)
 (define-key (current-global-map) (kbd "M-O") 'frame-bck)
 
@@ -105,9 +131,38 @@
 (define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c C-SPC") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "M-S-SPC") 'ace-jump-mode)
+(define-key my-keys-minor-mode-map (kbd "C-;") 'comment-or-uncomment-region-or-line)
+(define-key my-keys-minor-mode-map (kbd "C-z") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "M-t") 'toggle-truncate-lines)
 (define-key my-keys-minor-mode-map (kbd "C-s") 'isearch-forward-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-r") 'isearch-backward-regexp)
+(define-key my-keys-minor-mode-map (kbd "C-<down>") 'sp-end-of-sexp)
+(define-key my-keys-minor-mode-map (kbd "C-<up>") 'sp-beginning-of-sexp)
+
+;; vi keybindings ;-(
+(define-key my-keys-minor-mode-map (kbd "C-j") 'next-line)
+(define-key my-keys-minor-mode-map (kbd "C-k") 'previous-line)
+(define-key my-keys-minor-mode-map (kbd "C-h") 'backward-char)
+(define-key my-keys-minor-mode-map (kbd "M-h") 'backward-word)
+(define-key my-keys-minor-mode-map (kbd "C-l") 'forward-char)
+(define-key my-keys-minor-mode-map (kbd "M-l") 'forward-word)
+(define-key my-keys-minor-mode-map (kbd "C-c l") 'recenter-top-bottom)
+(define-key my-keys-minor-mode-map (kbd "M-C-l") 'sp-forward-sexp)
+;; (define-key my-keys-minor-mode-map (kbd "M-C-h") 'mark-defun)
+(define-key my-keys-minor-mode-map (kbd "M-C-h") 'sp-backward-sexp)
+
+;; (define-key my-keys-minor-mode-map (kbd "SPC f") 'ido-find-file)
+;; (define-key my-keys-minor-mode-map (kbd "SPC a") 'mark-whole-buffer)
+
+;; old mapping
+;; (define-key my-keys-minor-mode-map (kbd "M-j") 'indent-new-comment-line)
+(define-key my-keys-minor-mode-map (kbd "M-j") (lambda () (interactive) (scroll-up   1)))
+
+;; (define-key my-keys-minor-mode-map (kbd "M-k") 'kill-sentence)
+(define-key my-keys-minor-mode-map (kbd "M-k") (lambda () (interactive) (scroll-down   1)))
+
+;; to unbind a key:
+;; (define-key my-keys-minor-mode-map (kbd "C-p") nil)
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
@@ -129,5 +184,7 @@
 (my-keys-minor-mode 1)
 ;;; END MINOR MODE KEYBINDINGS
 
+;; disable go repl because the keybinding annoys me
+(global-set-key (kbd "C-c C-l") 'recenter-top-bottom)
 
 (provide 'key-bindings)

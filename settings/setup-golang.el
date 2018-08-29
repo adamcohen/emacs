@@ -24,8 +24,8 @@
 (add-to-list 'exec-path "/Users/adam/golang/bin")
 (setq gofmt-command "goimports")
 
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-golangci-lint-setup))
+;; (eval-after-load 'flycheck
+;;   '(add-hook 'flycheck-mode-hook #'flycheck-golangci-lint-setup))
 
 (add-hook 'go-mode-hook
   (lambda ()
@@ -39,7 +39,9 @@
     (prettify-symbols-mode)
     (add-hook 'before-save-hook 'gofmt-before-save)
     (subword-mode)
+    (helm-gtags-mode)
     (gorepl-mode)
+    (flycheck-mode)
     (setq tab-width 2)
     (setq indent-tabs-mode 1)
     (hs-minor-mode)

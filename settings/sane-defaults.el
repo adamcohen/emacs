@@ -102,4 +102,7 @@
 ;; when cursor is on edge, move to the other side, as in a torus space
 (setq windmove-wrap-around t )
 
+;; flex (fuzzy) matching for helm (https://github.com/emacs-helm/helm/wiki/Fuzzy-matching)
+(setq helm-buffers-fuzzy-matching t)
+
 (provide 'sane-defaults)

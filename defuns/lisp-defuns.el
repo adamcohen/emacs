@@ -15,3 +15,8 @@
       (insert (concat "\n\n" (shell-command-to-string
                               (buffer-substring (mark) (point)))))
     'no))
+
+(defun project-and-file-path ()
+  "return the project and file path to the current buffer"
+  (replace-regexp-in-string "/Users/adam/.*?/" "" buffer-file-name)
+  )

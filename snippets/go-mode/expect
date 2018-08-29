@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: expect
+# key: ex
+# contributor : @adamcohen
+# --
+Expect($1).To($0)

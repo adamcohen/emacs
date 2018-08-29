@@ -1,0 +1,3 @@
+#name: count_active_products
+# --
+select count(*) from products where active_start_date <= now() and active_end_date >= now() and retail_chain_id = $0;

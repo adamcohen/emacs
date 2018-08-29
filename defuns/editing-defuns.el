@@ -106,7 +106,7 @@ n    (forward-line n)
   (let ((str (buffer-substring (region-beginning) (region-end))))
     (when commentfirst
     (comment-region (region-beginning) (region-end)))
-    (insert-string
+    (insert
       (concat (if (= 0 (forward-line 1)) "" "\n") str "\n"))
     (forward-line -1)))
 ;; END DUPLICATING LINES AND COMMENTING THEM
@@ -128,8 +128,27 @@ n    (forward-line n)
     ;; (bookmark-jump "my-book-mark")
     (pop-mark)
     (jump-to-mark)
-    (insert-string str)
+    (insert str)
     (beginning-of-line)
     ;; (forward-line 1)
+    )
+  )
+
+(defun current-line-empty-p ()
+  (save-excursion
+    (beginning-of-line)
+    (looking-at "[[:space:]]*$")))
+
+;; from https://stackoverflow.com/a/9697222/740997
+(defun comment-or-uncomment-region-or-line ()
+  "Comments or uncomments the region or the current line if there's no active region."
+  (interactive)
+  (if (current-line-empty-p)
+      (comment-dwim nil)
+    (let (beg end)
+      (if (region-active-p)
+          (setq beg (region-beginning) end (region-end))
+        (setq beg (line-beginning-position) end (line-end-position)))
+      (comment-or-uncomment-region beg end))
     )
   )

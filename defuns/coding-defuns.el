@@ -137,3 +137,28 @@
   "de-urlencode the region between START and END in current buffer."
   (interactive "r")
   (func-region start end #'url-unhex-string))
+
+(defun unhex-region (start end)
+  "de-urlencode the region between START and END in current buffer."
+  (interactive "r")
+  (func-region start end #'url-unhex-string))
+
+(read-shell-command "git remote -v | grep 'upstream.*fetch' | cut -f 2 | sed 's/(fetch)//' | xargs git ls-remote | head -n 1 | cut -f 1")
+
+
+(defun git-url-to-file ()
+  "copies the git URL to the current version of the buffer file"
+  (interactive)
+  (let ((git-remote (shell-command-to-string "git remote -v | grep 'upstream.*fetch' | \
+cut -f 2 | sed 's/\.git (fetch)//' | tr -d '\n'")))
+    (let ((most-recent-sha
+           (shell-command-to-string
+            (format "git ls-remote %s | head -n 1 | cut -f 1 | tr -d '\n'" (concat git-remote ".git")))))
+      (let ((project-name (file-name-nondirectory git-remote)))
+        (let ((project-and-file-path (replace-regexp-in-string (format ".*?%s/" project-name) "" buffer-file-name)))
+          (kill-new (format "%s/blob/%s/%s" git-remote most-recent-sha project-and-file-path))
+          )
+        )
+      )
+    )
+  )

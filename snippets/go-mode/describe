@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: describe
+# key: ds
+# contributor : @adamcohen
+# --
+Describe("$1", func() {
+  $0
+})

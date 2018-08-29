@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: expectequals
+# key: ee
+# contributor : @adamcohen
+# --
+Expect($1).To(Equal($0))

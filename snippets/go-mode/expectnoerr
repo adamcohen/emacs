@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: expectnoerr
+# key: ene
+# contributor : @adamcohen
+# --
+Expect(err).NotTo(HaveOccurred())
+$0

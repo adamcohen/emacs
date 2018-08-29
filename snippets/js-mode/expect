@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: expect
+# key: ex
+# contributor : @adamcohen
+# --
+expect($1).to.$0

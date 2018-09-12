@@ -22,12 +22,15 @@
  '(comint-scroll-show-maximum-output t)
  '(comint-scroll-to-bottom-on-input t)
  '(comint-scroll-to-bottom-on-output nil)
+ '(helm-gtags-auto-update t)
+ '(helm-gtags-ignore-case t)
+ '(helm-gtags-path-style (quote relative))
  '(js2-basic-offset 2)
  '(js2-strict-missing-semi-warning nil)
  '(nodejs-repl-command "/usr/local/opt/nvm/versions/io.js/v2.2.1/bin/node")
  '(package-selected-packages
    (quote
-    (ggtags helm-gtags inf-mongo auto-yasnippet yasnippet-snippets hydra helm-swoop magit-gh-pulls yasnippet linum-relative helm flycheck flycheck-golangci-lint company company-go go-autocomplete magit rust-mode go-dlv mocha js2-mode gorepl-mode go-guru lineno exec-path-from-shell protobuf-mode solidity-mode rails-log-mode reveal-in-osx-finder iy-go-to-char restclient yaml-mode websocket w3 smex smartparens slime-js rvm rubocop rspec-mode rinari rhtml-mode redis rainbow-mode rainbow-delimiters puppet-mode projectile-rails nodejs-repl multiple-cursors markdown-mode json-mode ido-complete-space-or-hyphen idle-highlight-mode haml-mode go-mode git-timemachine find-file-in-project fill-column-indicator feature-mode expand-region edit-server coffee-mode browse-kill-ring ack ace-jump-mode ac-ispell)))
+    (all-the-icons-dired pyvenv all-the-icons ace-window ggtags helm-gtags inf-mongo auto-yasnippet yasnippet-snippets hydra helm-swoop magit-gh-pulls yasnippet linum-relative helm flycheck flycheck-golangci-lint company company-go go-autocomplete magit rust-mode go-dlv mocha js2-mode gorepl-mode go-guru lineno exec-path-from-shell protobuf-mode solidity-mode rails-log-mode reveal-in-osx-finder iy-go-to-char restclient yaml-mode websocket w3 smex smartparens slime-js rvm rubocop rspec-mode rinari rhtml-mode redis rainbow-mode rainbow-delimiters puppet-mode projectile-rails nodejs-repl multiple-cursors markdown-mode json-mode ido-complete-space-or-hyphen idle-highlight-mode haml-mode go-mode git-timemachine find-file-in-project fill-column-indicator feature-mode expand-region edit-server coffee-mode browse-kill-ring ack ace-jump-mode ac-ispell)))
  '(protect-buffer-bury-p nil)
  '(redis-cli-executable "/usr/local/bin/redis-cli")
  '(sort-fold-case t t)

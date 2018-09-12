@@ -3,6 +3,6 @@
 # key: jbe
 # contributor : @adamcohen
 # --
-JustBeforeEach("$1", func() {
+JustBeforeEach(func() {
   $0
 })

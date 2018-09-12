@@ -11,4 +11,4 @@
                        ("be" "beforeEach(() => {\n  $0\n})\n" "beforeeach" nil nil nil "/Users/adam/.emacs.d/snippets/js-mode/beforeeach" nil nil)))
 
 
-;;; Do not edit! File generated at Sat Aug 25 13:44:59 2018
+;;; Do not edit! File generated at Mon Sep 10 16:29:45 2018

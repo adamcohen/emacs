@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: when
-# key: when
+# key: wh
 # --
 When("$1", func() {
   $0

@@ -5,6 +5,9 @@
 ;; Answering just 'y' or 'n' will do
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; ignore case when completing input in shell/eshell mode
+(setq pcomplete-ignore-case t)
+
 ;; don't drop me into the debugger on an error
 (setq-default debug-on-error nil)
 

@@ -47,6 +47,11 @@
 (global-set-key [f7] 'search-all-buffers)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
 
+(with-eval-after-load "js2-mode"
+  (define-key js2-mode-map (kbd "C-c t") 'mocha-test-at-point)
+  (define-key js2-mode-map (kbd "C-x t") 'hs-toggle-hiding)
+)
+
 ;; helm
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-.") 'helm-gtags-dwim)
@@ -151,6 +156,9 @@
 ;; (define-key my-keys-minor-mode-map (kbd "M-C-h") 'mark-defun)
 (define-key my-keys-minor-mode-map (kbd "M-C-h") 'sp-backward-sexp)
 
+;; disable go repl because the keybinding annoys me
+(define-key my-keys-minor-mode-map (kbd "C-c C-l") 'recenter-top-bottom)
+
 ;; (define-key my-keys-minor-mode-map (kbd "SPC f") 'ido-find-file)
 ;; (define-key my-keys-minor-mode-map (kbd "SPC a") 'mark-whole-buffer)
 
@@ -160,6 +168,9 @@
 
 ;; (define-key my-keys-minor-mode-map (kbd "M-k") 'kill-sentence)
 (define-key my-keys-minor-mode-map (kbd "M-k") (lambda () (interactive) (scroll-down   1)))
+
+;; golang
+(define-key my-keys-minor-mode-map (kbd "C-c C-d") 'godef-describe-and-copy)
 
 ;; to unbind a key:
 ;; (define-key my-keys-minor-mode-map (kbd "C-p") nil)
@@ -183,8 +194,5 @@
 
 (my-keys-minor-mode 1)
 ;;; END MINOR MODE KEYBINDINGS
-
-;; disable go repl because the keybinding annoys me
-(global-set-key (kbd "C-c C-l") 'recenter-top-bottom)
 
 (provide 'key-bindings)

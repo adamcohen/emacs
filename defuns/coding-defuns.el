@@ -24,7 +24,6 @@
 (defun lp ()
   (interactive)
   "insert puts message containing clipboard contents"
-
   (set 'logmsg
        (case major-mode
          ('ruby-mode (concat "puts \"XXXXXXXXXXXXXXXX\", " "(%|"
@@ -34,9 +33,10 @@
                      )
          ('js2-mode  (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
                              (upcase (car kill-ring))
-                             ":', JSON.stringify("
+                             ":', (() => { try { return JSON.stringify("
                              (car kill-ring)
-                             ", null, 2), '\\nXXXXXXXXXXXXXXXX\\n');")
+                             ", null, 2) } catch(_) { return "
+                             (car kill-ring) " }})(), '\\nXXXXXXXXXXXXXXXX\\n');")
                      )
          ('js-mode  (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
                              (upcase (car kill-ring))
@@ -45,34 +45,8 @@
                              ", null, 2), '\\nXXXXXXXXXXXXXXXX\\n');")
                      )
          ('go-mode
-          (setq format_string ":\\n %# v [TYPE: %T]\\nXXXXXXXXXXXXXXXX\\n\", ")
-          (cond ((string-match "\"fmt\"" (buffer-string) 0)
-                 (concat "pretty.Printf(\"\\nXXXXXXXXXXXXXXXX\\n "
-                         (car kill-ring)
-                         format_string
-                         (car kill-ring)
-                         ", "
-                         (car kill-ring)
-                         ")")
-                 )
-                ((string-match "log \"github\.com\/sirupsen\/logrus\"" (buffer-string) 0)
-                 (concat "pretty.Printf(\"\\nXXXXXXXXXXXXXXXX\\n "
-                         (car kill-ring)
-                         format_string
-                         (car kill-ring)
-                         ", "
-                         (car kill-ring)
-                         ")")
-                 )
-                (t (concat "pretty.Printf(\"\\nXXXXXXXXXXXXXXXX\\n "
-                           (car kill-ring)
-                           format_string
-                           (car kill-ring)
-                           ", "
-                           (car kill-ring)
-                           ")")
-                   )
-                )
+          (format "pretty.Printf(\"\\nXXXXXXXXXXXXXXXX\\n %s:\\n \
+%%# v \\nXXXXXXXXXXXXXXXX\\n\", %s)" (car kill-ring) (car kill-ring))
           )
          )
        )
@@ -143,7 +117,7 @@
   (interactive "r")
   (func-region start end #'url-unhex-string))
 
-(defun git-url-to-file ()
+(defun github-url-to-file ()
   "copies the git URL to the current version of the buffer file"
   (interactive)
   (let ((git-remote (shell-command-to-string "git remote -v | grep 'upstream.*fetch' | \
@@ -164,4 +138,10 @@ cut -f 2 | sed 's/\.git (fetch)//' | tr -d '\n'")))
         )
       )
     )
+  )
+
+(defun godef-describe-and-copy ()
+  "runs godef-describe at point and saves result to kill ring"
+  (interactive)
+  (kill-new (godef-describe (point)))
   )

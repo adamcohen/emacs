@@ -70,7 +70,8 @@
   (sp-local-pair "*" "*" :bind "C-*")
   (sp-local-tag "2" "**" "**")
   (sp-local-tag "s" "```scheme" "```")
-  (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
+  (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags)
+  )
 
 ;;; tex-mode latex-mode
 (sp-with-modes '(tex-mode plain-tex-mode latex-mode)

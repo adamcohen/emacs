@@ -35,3 +35,12 @@
     )
   (toggle-truncate-lines nil)
 )
+
+(defun other-window-or-frame ()
+  "If the current frame has two windows, switch to the other window, otherwise, switch to another frame."
+  (interactive)
+  (if (equal (length (window-list)) 2)
+      (other-window 1)
+      (other-frame 1)
+      )
+)

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: require
+# key: re
+# --
+const ${1:enumerate} = require('$1')
+$0

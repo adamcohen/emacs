@@ -121,18 +121,18 @@
   "copies the git URL to the current version of the buffer file"
   (interactive)
   (let ((git-remote (shell-command-to-string "git remote -v | grep 'upstream.*fetch' | \
-cut -f 2 | sed 's/\.git (fetch)//' | tr -d '\n'")))
+cut -f 2 | sed 's/ (fetch)//' | tr -d '\n'")))
     (let ((most-recent-sha
            (shell-command-to-string
-            (format "git ls-remote %s | head -n 1 | cut -f 1 | tr -d '\n'" (concat git-remote ".git")))))
-      (let ((project-name (file-name-nondirectory git-remote)))
+            (format "git ls-remote %s | head -n 1 | cut -f 1 | tr -d '\n'" git-remote))))
+      (let ((project-name (file-name-nondirectory (replace-regexp-in-string "\.git$" "" git-remote))))
         (let ((project-and-file-path (replace-regexp-in-string (format ".*?%s/" project-name) "" buffer-file-name)))
 
           (let (beg end)
             (if (region-active-p)
                 (setq beg (line-number-at-pos (region-beginning)) end (line-number-at-pos (region-end)))
               (setq beg (line-number-at-pos (line-beginning-position)) end (line-number-at-pos (line-end-position))))
-            (kill-new (format "%s/blob/%s/%s#L%d-L%d" git-remote most-recent-sha project-and-file-path beg end))
+            (kill-new (format "%s/blob/%s/%s#L%d-L%d" (replace-regexp-in-string "\.git$" "" git-remote) most-recent-sha project-and-file-path beg end))
             )
           )
         )

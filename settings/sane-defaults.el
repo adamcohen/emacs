@@ -108,4 +108,11 @@
 ;; flex (fuzzy) matching for helm (https://github.com/emacs-helm/helm/wiki/Fuzzy-matching)
 (setq helm-buffers-fuzzy-matching t)
 
+;; dired-dwim-target is a variable defined in `dired.el'. Its value is nil
+
+;; Documentation: If non-nil, Dired tries to guess a default target directory. This means: if there is a Dired buffer displayed in the next window, use its current directory, instead of this Dired buffer's current directory.
+
+;; The target is used in the prompt for file copy, rename etc.
+(setq dired-dwim-target t)
+
 (provide 'sane-defaults)

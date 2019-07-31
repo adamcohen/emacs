@@ -152,3 +152,20 @@ n    (forward-line n)
       (comment-or-uncomment-region beg end))
     )
   )
+
+;; attempt to add a comment only to end of line if the cursor is at the end of the line
+;; (defun comment-or-uncomment-region-or-line ()
+;;   ;; "Comments or uncomments the region or the current line if there's no active region."
+;;   (interactive)
+;;   (if (current-line-empty-p)
+;;       (comment-dwim nil)
+;;     (let (beg end)
+;;       (if (region-active-p)
+;;           (setq beg (region-beginning) end (region-end))
+;;         (setq beg (line-beginning-position) end (line-end-position)))
+
+;;       (if (equal end (point))
+;;           (comment-indent)
+;;         (comment-or-uncomment-region beg end)))
+;;     )
+;;   )

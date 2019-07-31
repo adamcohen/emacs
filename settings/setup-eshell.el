@@ -92,6 +92,7 @@
             ))
 
 (defun eshell/clear ()
+  (interactive)
    (let ((eshell-buffer-maximum-lines 0)) (eshell-truncate-buffer)))
 
 (provide 'setup-eshell)

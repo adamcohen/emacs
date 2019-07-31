@@ -54,11 +54,18 @@
 
 ;; helm
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
+;; was ido-find-file
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-.") 'helm-gtags-dwim)
 ;; ;; bookmark-jump
 (global-set-key (kbd "C-x r b") 'bookmark-jump)
 ;; ;; compose-mail
 (global-set-key (kbd "C-x m") 'helm-M-x)
+
+;; org-mode
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "C-M-<return>") 'org-insert-heading-respect-content)
+)
 
 ;; this is necessary because of https://github.com/emacs-helm/helm/issues/1539
 (with-eval-after-load 'helm
@@ -70,6 +77,26 @@
   (define-key helm-map (kbd "C-o") 'hydra-helm2/body)
 )
 
+;; can also set keybindings for multiple maps in a loop
+;; (with-eval-after-load 'helm
+;;   (dolist (keymap (list helm-find-files-map helm-read-file-map))
+;;     (define-key keymap (kbd "<DEL>") 'helm-find-files-up-one-level)))
+
+
+;; eshell
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (define-key eshell-mode-map (kbd "C-c C-f") #'find-file-at-point)))
+
+(add-hook 'term-mode-hook
+          (lambda ()
+            (define-key term-raw-map (kbd "C-M-j") 'term-line-mode)
+            (define-key term-mode-map (kbd "C-M-j") 'term-char-mode)
+            (define-key term-raw-map (kbd "C-t") 'term-line-mode)
+            (define-key term-mode-map (kbd "C-t") 'term-char-mode)
+            (define-key term-mode-map (kbd "C-c C-f") #'find-file-at-point)
+            ))
+
 ;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;; remap M-g to goto-line
@@ -78,6 +105,11 @@
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
+(with-eval-after-load 'magit-status
+  ;; original command magit-diff-visit-file-worktree
+  (define-key magit-hunk-section-map (kbd "C-j") 'next-line)
+  (define-key magit-file-section-map (kbd "C-j") 'next-line)
+  )
 (autoload 'magit-status "magit")
 
 ;; eww navigation
@@ -118,10 +150,13 @@
 (global-set-key (kbd "C--") 'er/contract-region)
 (global-set-key (kbd "M-S-<backspace>") 'subword-backward-kill)
 
+(global-set-key (kbd "C-c C-l") 'recenter-top-bottom)
 (global-set-key (kbd "C-c k") 'describe-key)
 
-(define-key (current-global-map) (kbd "M-o") 'other-window)
-(define-key (current-global-map) (kbd "M-O") 'frame-bck)
+;; (define-key (current-global-map) (kbd "M-o") 'other-window)
+(define-key (current-global-map) (kbd "M-o") 'other-window-or-frame)
+(define-key (current-global-map) (kbd "M-O") 'other-frame)
+;; (define-key (current-global-map) (kbd "M-O") 'frame-bck)
 
 ;;; It turns out that global-set-key can be overridden by minors modes.
 ;;; To prevent minor modes from overriding our keybindings, we have to
@@ -133,7 +168,6 @@
 ;;; place keybindings here that you want to be used globally and not overridden
 (define-key my-keys-minor-mode-map (kbd "M-r") 'replace-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c y") 'djcb-duplicate-line)
-(define-key my-keys-minor-mode-map (kbd "C-c SPC") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c C-SPC") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "M-S-SPC") 'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-;") 'comment-or-uncomment-region-or-line)
@@ -157,7 +191,7 @@
 (define-key my-keys-minor-mode-map (kbd "M-C-h") 'sp-backward-sexp)
 
 ;; disable go repl because the keybinding annoys me
-(define-key my-keys-minor-mode-map (kbd "C-c C-l") 'recenter-top-bottom)
+;; (define-key my-keys-minor-mode-map (kbd "C-c C-l") 'recenter-top-bottom)
 
 ;; (define-key my-keys-minor-mode-map (kbd "SPC f") 'ido-find-file)
 ;; (define-key my-keys-minor-mode-map (kbd "SPC a") 'mark-whole-buffer)
@@ -169,8 +203,11 @@
 ;; (define-key my-keys-minor-mode-map (kbd "M-k") 'kill-sentence)
 (define-key my-keys-minor-mode-map (kbd "M-k") (lambda () (interactive) (scroll-down   1)))
 
+
 ;; golang
-(define-key my-keys-minor-mode-map (kbd "C-c C-d") 'godef-describe-and-copy)
+(add-hook 'go-mode-hook
+          (lambda ()
+            (define-key go-mode-map (kbd "C-c C-d") 'godef-describe-and-copy)))
 
 ;; to unbind a key:
 ;; (define-key my-keys-minor-mode-map (kbd "C-p") nil)

@@ -97,6 +97,14 @@
             (define-key term-mode-map (kbd "C-c C-f") #'find-file-at-point)
             ))
 
+(defun ido-define-keys ()
+  (define-key ido-completion-map (kbd "C-j") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-k") 'ido-prev-match)
+  (define-key ido-completion-map (kbd "M-k") 'ido-delete-file-at-head)
+  (define-key ido-completion-map (kbd "M-j") 'ido-select-text))
+
+(add-hook 'ido-setup-hook 'ido-define-keys)
+
 ;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;; remap M-g to goto-line

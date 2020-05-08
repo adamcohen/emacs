@@ -144,3 +144,9 @@
   (interactive)
   (kill-new (godef-describe (point)))
   )
+
+;; (defun labelfy ()
+;;   "adds gitlab labels to the text in the clipboard"
+;;   (interactive)
+;;   (insert (shell-command-to-string (concat "ruby /Users/adam/bin/labelfy.rb " (concat (concat "\"" (car kill-ring)) "\""))))
+;;   )

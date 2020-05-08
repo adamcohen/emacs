@@ -23,6 +23,7 @@
 
 (add-to-list 'exec-path "/Users/adam/golang/bin")
 (setq gofmt-command "goimports")
+(setq gofmt-args (list "-local" "gitlab.com/gitlab-org"))
 
 ;; (eval-after-load 'flycheck
 ;;   '(add-hook 'flycheck-mode-hook #'flycheck-golangci-lint-setup))

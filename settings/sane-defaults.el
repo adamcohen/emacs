@@ -34,7 +34,12 @@
 (delete-selection-mode 1)
 
 ;; Remove trailing whitespace from the entire buffer
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook
+          (lambda ()
+            (unless (derived-mode-p 'diff-mode)
+              (delete-trailing-whitespace)
+              )))
 
 ;; Lines should be 80 characters wide, not 72
 (setq-default fill-column 80)

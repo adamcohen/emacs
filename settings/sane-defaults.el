@@ -33,7 +33,7 @@
 ;; Remove text in active region if inserting text
 (delete-selection-mode 1)
 
-;; Remove trailing whitespace from the entire buffer
+;; Remove trailing whitespace from the entire buffer, except for diff mode
 ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'before-save-hook
           (lambda ()

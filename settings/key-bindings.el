@@ -36,9 +36,12 @@
 (global-set-key [f5] 'call-last-kbd-macro)
 
 ;; moving around in a file
+;; moving around in a file
 (global-set-key "\M-g" 'goto-local-line)
-(global-set-key (kbd "C-M-g") 'goto-line)
-(global-set-key "\M-G" 'ace-jump-mode)
+(global-set-key (kbd "C-M-g") 'ace-jump-mode)
+;; (global-set-key (kbd "M-RET") 'helm-buffers-list)
+(global-set-key (kbd "M-RET") 'ace-jump-mode)
+(global-set-key "\M-G" 'goto-line)
 (global-set-key "\M-n"  (lambda () (interactive) (scroll-up   1)) )
 (global-set-key "\M-p"  (lambda () (interactive) (scroll-down 1)) )
 
@@ -224,8 +227,17 @@
   "A minor mode so that my key settings override annoying major modes."
   t " my-keys" 'my-keys-minor-mode-map)
 
+;; looks like I tried to disable my custom keys in the minibuffer, not sure why, they're useful.
+;; I'll comment it out for now and see if I can figure out why I disabled it in the first place
+;; now I understand why I disabled this in the first place. If you try to use find-file (C-x-f)
+;; you can't use C-j or C-k to go next/previous entry
 (defun my-minibuffer-setup-hook ()
-  (my-keys-minor-mode 0))
+  (my-keys-minor-mode 0)
+  ;; (define-key minibuffer-local-map (kbd "C-h") 'backward-char)
+  ;; (define-key minibuffer-local-map (kbd "M-h") 'backward-word)
+  ;; (define-key minibuffer-local-map (kbd "C-l") 'forward-char)
+  ;; (define-key minibuffer-local-map (kbd "M-l") 'forward-word)
+  )
 
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 

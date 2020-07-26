@@ -75,6 +75,7 @@
   ;; original helm-execute-persistent-action C-z, C-j
   (define-key helm-map (kbd "C-j") 'helm-next-line)
   (define-key helm-map (kbd "C-k") 'helm-previous-line)
+  (define-key helm-map (kbd "M-t") 'helm-toggle-truncate-line)
   ;; original delete-char
   (define-key helm-map (kbd "C-d") 'helm-buffer-run-kill-persistent)
   (define-key helm-map (kbd "C-o") 'hydra-helm2/body)

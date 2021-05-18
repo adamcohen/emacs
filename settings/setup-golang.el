@@ -1,6 +1,6 @@
 (provide 'setup-golang)
 
-(require 'go-guru)
+(require 'lsp-mode)
 
 ;; settings for company-mode
 (setq company-tooltip-limit 20)                      ; bigger popup window
@@ -38,6 +38,8 @@
              "go generate && go build -v && go test -v && go vet"))
     (push '("func" . ?ƒ) prettify-symbols-alist)
     (prettify-symbols-mode)
+    ;; (add-hook 'go-mode-hook #'lsp-deferred)
+    (lsp-deferred)
     (add-hook 'before-save-hook 'gofmt-before-save)
     (subword-mode)
     (helm-gtags-mode)
@@ -47,7 +49,7 @@
     (setq indent-tabs-mode 1)
     (hs-minor-mode)
     ; Godef jump key binding
-    (local-set-key (kbd "M-.") 'godef-jump)
+    (local-set-key (kbd "M-.") 'lsp-ui-peek-find-definitions)
     (local-set-key (kbd "M-*") 'pop-tag-mark)
     ;; hs mode key bindings
     (local-set-key (kbd "C-c s") 'hs-show-block)

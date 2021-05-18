@@ -30,19 +30,17 @@
  '(comint-scroll-to-bottom-on-output nil)
  '(flycheck-go-vet-shadow t)
  '(helm-boring-file-regexp-list
-   (quote
-    ("^\\..*$" "\\.o$" "~$" "\\.bin$" "\\.lbin$" "\\.so$" "\\.a$" "\\.ln$" "\\.blg$" "\\.bbl$" "\\.elc$" "\\.lof$" "\\.glo$" "\\.idx$" "\\.lot$" "\\.svn\\(/\\|$\\)" "\\.hg\\(/\\|$\\)" "\\.git\\(/\\|$\\)" "\\.bzr\\(/\\|$\\)" "CVS\\(/\\|$\\)" "_darcs\\(/\\|$\\)" "_MTN\\(/\\|$\\)" "\\.fmt$" "\\.tfm$" "\\.class$" "\\.fas$" "\\.lib$" "\\.mem$" "\\.x86f$" "\\.sparcf$" "\\.dfsl$" "\\.pfsl$" "\\.d64fsl$" "\\.p64fsl$" "\\.lx64fsl$" "\\.lx32fsl$" "\\.dx64fsl$" "\\.dx32fsl$" "\\.fx64fsl$" "\\.fx32fsl$" "\\.sx64fsl$" "\\.sx32fsl$" "\\.wx64fsl$" "\\.wx32fsl$" "\\.fasl$" "\\.ufsl$" "\\.fsl$" "\\.dxl$" "\\.lo$" "\\.la$" "\\.gmo$" "\\.mo$" "\\.toc$" "\\.aux$" "\\.cp$" "\\.fn$" "\\.ky$" "\\.pg$" "\\.tp$" "\\.vr$" "\\.cps$" "\\.fns$" "\\.kys$" "\\.pgs$" "\\.tps$" "\\.vrs$" "\\.pyc$" "\\.pyo$")))
+   '("^\\..*$" "\\.o$" "~$" "\\.bin$" "\\.lbin$" "\\.so$" "\\.a$" "\\.ln$" "\\.blg$" "\\.bbl$" "\\.elc$" "\\.lof$" "\\.glo$" "\\.idx$" "\\.lot$" "\\.svn\\(/\\|$\\)" "\\.hg\\(/\\|$\\)" "\\.git\\(/\\|$\\)" "\\.bzr\\(/\\|$\\)" "CVS\\(/\\|$\\)" "_darcs\\(/\\|$\\)" "_MTN\\(/\\|$\\)" "\\.fmt$" "\\.tfm$" "\\.class$" "\\.fas$" "\\.lib$" "\\.mem$" "\\.x86f$" "\\.sparcf$" "\\.dfsl$" "\\.pfsl$" "\\.d64fsl$" "\\.p64fsl$" "\\.lx64fsl$" "\\.lx32fsl$" "\\.dx64fsl$" "\\.dx32fsl$" "\\.fx64fsl$" "\\.fx32fsl$" "\\.sx64fsl$" "\\.sx32fsl$" "\\.wx64fsl$" "\\.wx32fsl$" "\\.fasl$" "\\.ufsl$" "\\.fsl$" "\\.dxl$" "\\.lo$" "\\.la$" "\\.gmo$" "\\.mo$" "\\.toc$" "\\.aux$" "\\.cp$" "\\.fn$" "\\.ky$" "\\.pg$" "\\.tp$" "\\.vr$" "\\.cps$" "\\.fns$" "\\.kys$" "\\.pgs$" "\\.tps$" "\\.vrs$" "\\.pyc$" "\\.pyo$"))
  '(helm-gtags-auto-update t)
  '(helm-gtags-ignore-case t)
- '(helm-gtags-path-style (quote relative))
+ '(helm-gtags-path-style 'relative)
  '(js2-basic-offset 2)
  '(js2-strict-missing-semi-warning nil)
  '(nodejs-repl-command "/usr/local/opt/nvm/versions/io.js/v2.2.1/bin/node")
- '(org-export-backends (quote (ascii html icalendar latex md odt confluence)))
+ '(org-export-backends '(ascii html icalendar latex md odt confluence))
  '(org-support-shift-select nil)
  '(package-selected-packages
-   (quote
-    (dockerfile-mode csv-mode vue-mode flymake-ruby htmlize utop multi-term tuareg helm-projectile ox-gfm org-bullets protobuf-mode css-eldoc pacmacs all-the-icons-dired pyvenv all-the-icons ace-window ggtags helm-gtags inf-mongo auto-yasnippet yasnippet-snippets hydra helm-swoop magit-gh-pulls yasnippet linum-relative helm flycheck flycheck-golangci-lint company company-go go-autocomplete magit rust-mode go-dlv mocha js2-mode gorepl-mode go-guru lineno exec-path-from-shell solidity-mode rails-log-mode reveal-in-osx-finder iy-go-to-char restclient yaml-mode websocket w3 smex smartparens slime-js rvm rubocop rspec-mode rinari rhtml-mode redis rainbow-mode rainbow-delimiters puppet-mode projectile-rails nodejs-repl multiple-cursors markdown-mode json-mode ido-complete-space-or-hyphen idle-highlight-mode haml-mode go-mode git-timemachine find-file-in-project fill-column-indicator feature-mode expand-region edit-server coffee-mode browse-kill-ring ack ace-jump-mode ac-ispell)))
+   '(org-roam tide flycheck-mode dockerfile-mode csv-mode utop htmlize tuareg helm-projectile org-bullets helm-gtags yasnippet-snippets helm rust-mode mocha gorepl-mode exec-path-from-shell protobuf-mode reveal-in-osx-finder rubocop websocket rinari browse-kill-ring fill-column-indicator rhtml-mode yaml-mode expand-region js2-mode json-mode haml-mode ido-complete-space-or-hyphen edit-server smex multiple-cursors company-go company rspec-mode rainbow-mode rainbow-delimiters puppet-mode smartparens idle-highlight-mode find-file-in-project projectile-rails projectile feature-mode coffee-mode rvm vterm magit git-timemachine lsp-treemacs flycheck lsp-ui xref async auto-yasnippet vue-mode flymake-ruby ox-gfm css-eldoc all-the-icons ace-window inf-mongo go-autocomplete lineno iy-go-to-char w3 slime-js ack ace-jump-mode ac-ispell))
  '(protect-buffer-bury-p nil)
  '(redis-cli-executable "/usr/local/bin/redis-cli")
  '(sort-fold-case t)

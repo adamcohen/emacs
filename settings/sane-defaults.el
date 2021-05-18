@@ -9,7 +9,8 @@
 (setq pcomplete-ignore-case t)
 
 ;; don't drop me into the debugger on an error
-(setq-default debug-on-error nil)
+;; disabled because this makes it really difficult to debug errors in init files!!
+;; (setq-default debug-on-error nil)
 
 ;; UTF-8 please
 (setq-default locale-coding-system 'utf-8) ; pretty

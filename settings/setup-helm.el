@@ -8,6 +8,7 @@
  ;; selects that option
  ff-auto-update-initial-value t
  helm-ff-auto-update-initial-value t
+ helm-buffer-max-length 50
   )
 
 (provide 'setup-helm)

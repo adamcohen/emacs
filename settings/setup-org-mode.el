@@ -1,7 +1,9 @@
+;; needed to enable <s - <TAB>
+(require 'org-tempo)
+
 ;; enable org-mode github-flavoured-markdown
 ;; can also use M-x org-gfm-export-to-markdown
-(eval-after-load "org"
-  '(require 'ox-gfm nil t))
+(require 'ox-gfm nil t)
 
 ;; https://orgmode.org/manual/Clean-view.html
 ;; use only one star and indents text to line with the heading

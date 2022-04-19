@@ -122,6 +122,26 @@
   (interactive "r")
   (func-region start end #'url-unhex-string))
 
+(defun mr-for-line ()
+  "copies the Merge Request for the current line"
+  (interactive)
+  (let* (
+        (sha (shell-command-to-string (format "git blame -L%s,%s %s | cut -f 1 -d ' ' | tr -d '\n'"  (line-number-at-pos) (line-number-at-pos) (buffer-file-name))))
+        (merge (shell-command-to-string (format "(git rev-list %s..HEAD --ancestry-path | cat -n; git rev-list %s..HEAD --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2" sha sha)))
+        (merge_commit (shell-command-to-string (format "git show %s" merge)))
+        )
+    (save-match-data
+      (and (string-match "See merge request \\(.*\\)" merge_commit)
+           (let* (
+                  (mr_url (match-string 1 merge_commit))
+                  )
+             (kill-new (replace-regexp-in-string "!" "/-/merge_requests/" (format "https://gitlab.com/%s" mr_url)))
+             )
+           )
+      )
+    )
+  )
+
 (defun git-url-to-file ()
   "copies the git URL to the current version of the buffer file"
   (interactive)
@@ -135,11 +155,19 @@
         (if (region-active-p)
             (setq beg (line-number-at-pos (region-beginning)) end (line-number-at-pos (region-end)))
           (setq beg (line-number-at-pos (line-beginning-position)) end (line-number-at-pos (line-end-position))))
-        ;; github uses L%d-L%d, while gitlab uses L%d-%d
+        ;; github uses L%d-L%d, while GitLab uses L%d-%d
+        ;; Update February 11, 2022: It seems GitLab now supports L%d-L%d as well as L%d-%d
         (kill-new (format "%s/blob/%s%s#L%d-%d" (replace-regexp-in-string "^git@gitlab\.com:\\(.*?\\)\.git$" "https://gitlab.com/\\1" git-remote) most-recent-sha project-and-file-path beg end))
         )
       )
     )
+  )
+
+(defun git-url-to-file-with-text ()
+  "creates a makrdown link to the git URL using the clipboard contents as the link name"
+  (interactive)
+  (kill-new (format "[%s](%s)" (car kill-ring) (git-url-to-file)))
+  (deactivate-mark)
   )
 
 (defun godef-describe-and-copy ()

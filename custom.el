@@ -28,6 +28,8 @@
  '(comint-scroll-show-maximum-output t)
  '(comint-scroll-to-bottom-on-input t)
  '(comint-scroll-to-bottom-on-output nil)
+ '(debug-ignored-errors
+   '("^Exit the snippet first!$" beginning-of-line beginning-of-buffer end-of-line end-of-buffer end-of-file buffer-read-only file-supersession mark-inactive user-error "Command attempted to use minibuffer"))
  '(flycheck-go-vet-shadow t)
  '(helm-boring-file-regexp-list
    '("^\\..*$" "\\.o$" "~$" "\\.bin$" "\\.lbin$" "\\.so$" "\\.a$" "\\.ln$" "\\.blg$" "\\.bbl$" "\\.elc$" "\\.lof$" "\\.glo$" "\\.idx$" "\\.lot$" "\\.svn\\(/\\|$\\)" "\\.hg\\(/\\|$\\)" "\\.git\\(/\\|$\\)" "\\.bzr\\(/\\|$\\)" "CVS\\(/\\|$\\)" "_darcs\\(/\\|$\\)" "_MTN\\(/\\|$\\)" "\\.fmt$" "\\.tfm$" "\\.class$" "\\.fas$" "\\.lib$" "\\.mem$" "\\.x86f$" "\\.sparcf$" "\\.dfsl$" "\\.pfsl$" "\\.d64fsl$" "\\.p64fsl$" "\\.lx64fsl$" "\\.lx32fsl$" "\\.dx64fsl$" "\\.dx32fsl$" "\\.fx64fsl$" "\\.fx32fsl$" "\\.sx64fsl$" "\\.sx32fsl$" "\\.wx64fsl$" "\\.wx32fsl$" "\\.fasl$" "\\.ufsl$" "\\.fsl$" "\\.dxl$" "\\.lo$" "\\.la$" "\\.gmo$" "\\.mo$" "\\.toc$" "\\.aux$" "\\.cp$" "\\.fn$" "\\.ky$" "\\.pg$" "\\.tp$" "\\.vr$" "\\.cps$" "\\.fns$" "\\.kys$" "\\.pgs$" "\\.tps$" "\\.vrs$" "\\.pyc$" "\\.pyo$"))
@@ -38,10 +40,11 @@
  '(js2-strict-missing-semi-warning nil)
  '(nodejs-repl-command "/usr/local/opt/nvm/versions/io.js/v2.2.1/bin/node")
  '(org-export-backends '(ascii html icalendar latex md odt confluence))
+ '(org-src-preserve-indentation t)
  '(org-support-shift-select nil)
  '(package-selected-packages
-   '(org-roam tide flycheck-mode dockerfile-mode csv-mode utop htmlize tuareg helm-projectile org-bullets helm-gtags yasnippet-snippets helm rust-mode mocha gorepl-mode exec-path-from-shell protobuf-mode reveal-in-osx-finder rubocop websocket rinari browse-kill-ring fill-column-indicator rhtml-mode yaml-mode expand-region js2-mode json-mode haml-mode ido-complete-space-or-hyphen edit-server smex multiple-cursors company-go company rspec-mode rainbow-mode rainbow-delimiters puppet-mode smartparens idle-highlight-mode find-file-in-project projectile-rails projectile feature-mode coffee-mode rvm vterm magit git-timemachine lsp-treemacs flycheck lsp-ui xref async auto-yasnippet vue-mode flymake-ruby ox-gfm css-eldoc all-the-icons ace-window inf-mongo go-autocomplete lineno iy-go-to-char w3 slime-js ack ace-jump-mode ac-ispell))
+   '(groovy-mode flycheck-golangci-lint use-package vscode-icon dired-sidebar dired-subtree scala-mode kotlin-mode mermaid-mode gradle-mode graphql-mode org-roam tide flycheck-mode dockerfile-mode csv-mode utop htmlize tuareg helm-projectile org-bullets helm-gtags yasnippet-snippets helm rust-mode mocha gorepl-mode exec-path-from-shell protobuf-mode reveal-in-osx-finder rubocop websocket rinari browse-kill-ring fill-column-indicator rhtml-mode yaml-mode expand-region js2-mode json-mode haml-mode ido-complete-space-or-hyphen edit-server smex multiple-cursors company-go company rspec-mode rainbow-mode rainbow-delimiters puppet-mode smartparens idle-highlight-mode find-file-in-project projectile-rails projectile feature-mode coffee-mode rvm vterm magit git-timemachine lsp-treemacs flycheck lsp-ui xref async auto-yasnippet vue-mode flymake-ruby ox-gfm css-eldoc all-the-icons ace-window inf-mongo go-autocomplete lineno iy-go-to-char w3 slime-js ack ace-jump-mode ac-ispell))
  '(protect-buffer-bury-p nil)
  '(redis-cli-executable "/usr/local/bin/redis-cli")
- '(sort-fold-case t)
+ '(sort-fold-case t t)
  '(warning-minimum-level :error))

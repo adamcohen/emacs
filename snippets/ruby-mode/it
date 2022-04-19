@@ -1,5 +1,6 @@
-#name : it 'should' do end
+# -*- mode: snippet -*-
+# name: it 'should do something'
 # --
-it 'should ${do_something}' do
+it "should ${do_something}" do
    $0
 end

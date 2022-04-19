@@ -44,5 +44,5 @@
                                                                        (kill-ring-save (point) (mark t))
                                                                        ))))
 
-  (define-key vterm-mode-map (kbd "C-SPC") '(lambda () (interactive) (send-command-input 'set-mark-command)))
+  ;; (define-key vterm-mode-map (kbd "C-SPC") '(lambda () (interactive) (send-command-input 'set-mark-command)))
   )

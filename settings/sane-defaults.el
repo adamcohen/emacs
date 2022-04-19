@@ -9,8 +9,7 @@
 (setq pcomplete-ignore-case t)
 
 ;; don't drop me into the debugger on an error
-;; disabled because this makes it really difficult to debug errors in init files!!
-;; (setq-default debug-on-error nil)
+(setq-default debug-on-error nil)
 
 ;; UTF-8 please
 (setq-default locale-coding-system 'utf-8) ; pretty
@@ -55,6 +54,9 @@
 ;; Never insert tabs
 (set-default 'indent-tabs-mode nil)
 
+;; Two spaces indentation for shell mode
+(setq-default sh-basic-offset 2)
+
 ;; Searches and matches should ignore case
 (setq-default case-fold-search t)
 
@@ -72,6 +74,9 @@
 (setq-default warning-suppress-types nil)
 
 ;; use cua mode only for rectangles
+;; NOTE: it's necessary to enable cua-mode otherwise the function
+;; (defadvice kill-region in defuns/editing-defuns.el will interfere
+;; with rectangle-mark-mode and cause strange behaviour when using C-w
 (setq-default cua-enable-cua-keys nil)
 (cua-mode t)
 
@@ -120,5 +125,8 @@
 
 ;; The target is used in the prompt for file copy, rename etc.
 (setq dired-dwim-target t)
+
+;; disable warning message `Symbolic link to Git-controlled source file; follow link? (y or n)' and default the answser to `yes`
+(setq vc-follow-symlinks t)
 
 (provide 'sane-defaults)

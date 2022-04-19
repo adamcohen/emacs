@@ -88,8 +88,6 @@
       (kill-buffer (current-buffer)))))
 (global-set-key [(super f10)] 'xacohen-save-current-directory)
 
-(setq debug-on-error t)
-
 (defun clear-shell ()
    (interactive)
    (let ((comint-buffer-maximum-size 0))

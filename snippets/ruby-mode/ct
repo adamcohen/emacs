@@ -1,6 +1,7 @@
+# -*- mode: snippet -*-
 # name: context
-# key: ct
+# key: wt
 # --
-context '$1' do
+context "$1" do
   $0
 end

@@ -28,7 +28,7 @@ n    (forward-line n)
   )
 
 ;; BEGIN SHIFT-REGION
-;; Allows you to press control-shift-right arrow or left arrow
+;; Allows you to press Command-[ or Command-]
 ;; after marking a region, and it'll move it left or right
 (defun shift-region (distance)
   (let ((mark (mark)))
@@ -52,8 +52,11 @@ n    (forward-line n)
 ;; column to the right, Ctrl-Shift-Left Arrow moves selected text one
 ;; column to the left:
 
-(global-set-key [C-S-right] 'shift-right)
-(global-set-key [C-S-left] 'shift-left)
+;; (global-set-key [C-S-right] 'shift-right)
+;; (global-set-key [C-S-left] 'shift-left)
+(global-set-key (kbd "M-]") 'shift-right)
+(global-set-key (kbd "M-[") 'shift-left)
+
 ;; END SHIFT-REGION
 
 ;; COPYING LINES WITHOUT SELECTING THEM

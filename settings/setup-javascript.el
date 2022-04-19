@@ -30,6 +30,14 @@
     )
   )
 
+(add-hook 'json-mode-hook
+  (lambda ()
+    (helm-gtags-mode)
+    (hs-minor-mode)
+    (flycheck-mode +1)
+    )
+  )
+
 ;; make the mocha output buffer smaller
 (add-hook 'mocha-compilation-mode-hook
           (lambda ()

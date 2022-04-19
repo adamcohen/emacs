@@ -58,3 +58,7 @@
     (local-set-key (kbd "C-c t") 'hs-toggle-hiding)
     )
   )
+
+(use-package flycheck-golangci-lint
+  :ensure t
+  :hook (go-mode . flycheck-golangci-lint-setup))

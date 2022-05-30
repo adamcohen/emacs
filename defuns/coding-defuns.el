@@ -158,7 +158,9 @@
           (setq beg (line-number-at-pos (line-beginning-position)) end (line-number-at-pos (line-end-position))))
         ;; github uses L%d-L%d, while GitLab uses L%d-%d
         ;; Update February 11, 2022: It seems GitLab now supports L%d-L%d as well as L%d-%d
-        (kill-new (format "%s/blob/%s%s#L%d-%d" (replace-regexp-in-string "^git@gitlab\.com:\\(.*?\\)\.git$" "https://gitlab.com/\\1" git-remote) most-recent-sha project-and-file-path beg end))
+        (kill-new (format "https://%s/blob/%s%s#L%d-%d" (string-trim-right (string-trim-left (string-trim-left git-remote "git@gitlab.com:") "https://gitlab.com/") ".git") most-recent-sha project-and-file-path beg end))
+        ;; can also use this regex
+        ;; (kill-new (format "%s/blob/%s%s#L%d-%d" (replace-regexp-in-string "^\\(?:git@gitlab.com:\\|https://gitlab\.com/\\)\\(.*\\)\.git" "https://gitlab.com/\\1" git-remote) most-recent-sha project-and-file-path beg end))
         )
       )
     )
@@ -175,6 +177,12 @@
   "runs godef-describe at point and saves result to kill ring"
   (interactive)
   (kill-new (godef-describe (point)))
+  )
+
+(defun imgfy ()
+  "convert a GitLab image string to the HTML equivalen"
+  (interactive)
+  (kill-new (replace-regexp-in-string "!\\[image\\](\\(.*?\\))" "<img src=\"\\1\" width=\"50%\" height=\"50%\" />" (car kill-ring)))
   )
 
 ;; (defun labelfy ()

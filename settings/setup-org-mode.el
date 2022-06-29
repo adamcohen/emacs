@@ -18,6 +18,11 @@
 ;; format bold/italic without displaying the markers
 (setq org-hide-emphasis-markers t)
 
+;; make sure that indentation in source code blocks works as expected.
+;; See https://emacs.stackexchange.com/questions/51681/indent-code-block-in-org-mode-headines for details
+(setq org-src-preserve-indentation nil)
+(setq org-edit-src-content-indentation 0)
+
 (custom-theme-set-faces 'user `(org-level-4 ((t (:foreground "#FF00FF")))))
 
 (provide 'setup-org-mode)

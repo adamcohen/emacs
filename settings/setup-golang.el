@@ -30,7 +30,6 @@
 
 (add-hook 'go-mode-hook
   (lambda ()
-    (set (make-local-variable 'company-backends) '(company-go))
     ;; (company-mode)
     ; Customize compile command to run go build
     (if (not (string-match "go" compile-command))

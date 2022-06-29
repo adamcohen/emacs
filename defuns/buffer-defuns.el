@@ -47,7 +47,7 @@ searches all buffers."
 (defun gf ()
   (interactive)
 "copy the full path to the current buffer into the clipboard"
-(kill-new buffer-file-name))
+(kill-new (shell-quote-argument(buffer-file-name))))
 
 (defun gff ()
   (interactive)

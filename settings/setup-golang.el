@@ -61,3 +61,12 @@
 (use-package flycheck-golangci-lint
   :ensure t
   :hook (go-mode . flycheck-golangci-lint-setup))
+
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]tmp\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]vrange/php\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]untracked\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]qa\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]fixtures\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]testdata\\'")
+)

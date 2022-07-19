@@ -14,10 +14,6 @@
 ;; Are we on a mac?
 (setq is-mac (equal system-type 'darwin))
 
-;; need to require Common Lisp to enable certain functions, such as the case statement
-;; see https://www.emacswiki.org/emacs/CommonLispForEmacs
-(require 'cl)
-
 (require 'package)
 ;; marmalade is no longer maintained
 ;; (add-to-list 'package-archives

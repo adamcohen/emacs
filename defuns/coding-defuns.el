@@ -25,7 +25,7 @@
   (interactive)
   "insert puts message containing clipboard contents"
   (set 'logmsg
-       (case major-mode
+       (cl-case major-mode
          ('sh-mode (concat "echo \"XXXXXXXXXXXXXXXX "
                            (upcase (car kill-ring))
                            ": ${" (car kill-ring)

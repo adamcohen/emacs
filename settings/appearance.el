@@ -11,7 +11,7 @@
 (load-theme 'clarity t)
 
 (set-face-attribute 'default nil
-                  :family "Monaco" :height (case system-type
+                  :family "Monaco" :height (cl-case system-type
                                            ('gnu/linux 130)
                                            ('darwin 160)) :weight 'normal)
 (font-lock-add-keywords

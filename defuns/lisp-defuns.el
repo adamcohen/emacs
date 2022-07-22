@@ -15,3 +15,13 @@
       (insert (concat "\n\n" (shell-command-to-string
                               (buffer-substring (mark) (point)))))
     'no))
+
+;; if you get the error: "apply: Cannot redirect stderr: Too many open files, /dev/null", run the following
+;; command to remove all watches from LSP
+(defun file-notify-rm-all-watches ()
+  "Remove all existing file notification watches from Emacs."
+  (interactive)
+  (maphash
+   (lambda (key _value)
+     (file-notify-rm-watch key))
+   file-notify-descriptors))

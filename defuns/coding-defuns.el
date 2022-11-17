@@ -133,10 +133,23 @@
     (save-match-data
       (and (string-match "See merge request \\(.*\\)" merge_commit)
            (let* (
-                  (mr_url (replace-regexp-in-string "!" "/-/merge_requests/" (format "https://gitlab.com/%s" (match-string 1 merge_commit))))
+                  (mr_url_or_path (match-string 1 merge_commit))
                   )
-             (kill-new mr_url)
-             (browse-url mr_url)
+             (if (string-prefix-p "https://" mr_url_or_path)
+                 (progn
+                   ;; mr_url_or_path was a URL
+                   (kill-new mr_url_or_path)
+                   (browse-url mr_url_or_path)
+                   )
+               ;; mr_url_or_path was not a URL, need to convert it to a URL
+               (progn
+                 (let* (
+                        (mr_url (replace-regexp-in-string "!" "/-/merge_requests/" (format "https://gitlab.com/%s" (match-string 1 merge_commit))))
+                        )
+                   (kill-new mr_url)
+                   (browse-url mr_url)
+                   ))
+               )
              )
            )
       )

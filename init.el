@@ -27,7 +27,7 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode company popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder protobuf-mode exec-path-from-shell gorepl-mode mocha rust-mode go-mode hydra helm yasnippet-snippets async auto-yasnippet helm-gtags all-the-icons css-eldoc org-bullets ox-gfm helm-projectile tuareg htmlize utop vue-mode csv-mode dockerfile-mode vterm dash lsp-mode lsp-ui flycheck tide dired-subtree dired-sidebar vscode-icon all-the-icons use-package flycheck-golangci-lint activity-watch-mode)
+(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode company popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder protobuf-mode exec-path-from-shell gorepl-mode mocha rust-mode go-mode hydra helm yasnippet-snippets async auto-yasnippet helm-gtags all-the-icons css-eldoc org-bullets ox-gfm helm-projectile tuareg htmlize utop vue-mode csv-mode dockerfile-mode vterm dash lsp-mode lsp-ui flycheck tide dired-subtree dired-sidebar vscode-icon all-the-icons use-package flycheck-golangci-lint robe)
    "A list of packages to ensure are installed at launch.")
 
 ;; bootstrap all of my required packages
@@ -125,22 +125,16 @@
 
 (require 'setup-dired-sidebar)
 
+(require 'setup-edit-with-emacs)
+
 ;; (add-to-list 'load-path (concat user-emacs-directory "/plugins/realtime-emacs-markdown-view/" ))
 ;; (require 'realtime-emacs-markdown-view)
 
 (require 'setup-eshell)
 
-;; Run at full power please
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-
 (require 'workarounds)
-(put 'downcase-region 'disabled nil)
 
 ;; disable for now - I don't think this is needed
 ;; (require 'asdf)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
-
-;; track what I'm doing during my day-to-day work
-(global-activity-watch-mode)

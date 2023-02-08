@@ -1,7 +1,11 @@
-(setq visible-bell t)
+;; no longer available in emacs-29
+;;(set visible-bell t)
 
 ;; put line numbers on all buffers
-(global-linum-mode t)
+;; for emacs-28
+;; (global-linum-mode t)
+;; for emacs-29 (although it seems to not be necessary)
+(global-display-line-numbers-mode t)
 
 ;; Highlight current line
 (global-hl-line-mode 1)

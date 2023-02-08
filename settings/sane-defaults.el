@@ -41,6 +41,9 @@
               (delete-trailing-whitespace)
               )))
 
+;; Remember and restore the last cursor location of opened files
+(save-place-mode 1)
+
 ;; Lines should be 80 characters wide, not 72
 (setq-default fill-column 80)
 
@@ -128,5 +131,15 @@
 
 ;; disable warning message `Symbolic link to Git-controlled source file; follow link? (y or n)' and default the answser to `yes`
 (setq vc-follow-symlinks t)
+
+;; Run at full power please
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; for LSP mode: https://emacs-lsp.github.io/lsp-mode/page/performance/#increase-the-amount-of-data-which-emacs-reads-from-the-process
+;; Increase the amount of data which Emacs reads from the process
+;; the emacs default is too low 4k considering that the some of the language server responses are in 800k - 3M range
+(setq read-process-output-max (* 1024 1024))
 
 (provide 'sane-defaults)

@@ -28,8 +28,7 @@
 ;; (eval-after-load 'flycheck
 ;;   '(add-hook 'flycheck-mode-hook #'flycheck-golangci-lint-setup))
 
-(add-hook 'go-mode-hook
-  (lambda ()
+(defun my-go-mode-hook ()
     ;; (company-mode)
     ; Customize compile command to run go build
     (if (not (string-match "go" compile-command))
@@ -55,8 +54,10 @@
     (local-set-key (kbd "C-c h") 'hs-hide-block)
     (local-set-key (kbd "C-c a") 'hs-show-all)
     (local-set-key (kbd "C-c t") 'hs-toggle-hiding)
-    )
   )
+
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+(add-hook 'go-ts-mode-hook 'my-go-mode-hook)
 
 (use-package flycheck-golangci-lint
   :ensure t

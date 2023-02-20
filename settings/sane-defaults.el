@@ -91,8 +91,9 @@
 (setq-default initial-scratch-message nil)
 (setq-default scroll-in-place t)
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+;; (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(tool-bar-mode -1)
 
 ;; Represent undo-history as an actual tree (visualize with C-x u)
 ;; (setq-default undo-tree-mode-lighter "")
@@ -121,6 +122,9 @@
 
 ;; flex (fuzzy) matching for helm (https://github.com/emacs-helm/helm/wiki/Fuzzy-matching)
 (setq helm-buffers-fuzzy-matching t)
+
+;; If non-nil and positive number, auto hide flycheck tooltips after number of seconds.
+(setq flycheck-pos-tip-timeout 1000)
 
 ;; dired-dwim-target is a variable defined in `dired.el'. Its value is nil
 

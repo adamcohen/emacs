@@ -9,6 +9,11 @@
 ;; use only one star and indents text to line with the heading
 (setq org-startup-indented 't)
 
+(setq org-startup-indented 't)
+
+;; don't expand org links when searching, only search the link text, not the URL
+(setq search-invisible 't)
+
 ;; When Emacs first visits an Org file, the global state is set to OVERVIEW,
 ;; i.e., only the top level headlines are visible. A nil value here will
 ;; change the startup to `showeverything`

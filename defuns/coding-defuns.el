@@ -24,32 +24,32 @@
 (defun lp ()
   (interactive)
   "insert puts message containing clipboard contents"
-  (set 'logmsg
+  (setq logmsg
        (cl-case major-mode
-         ('sh-mode (concat "echo \"XXXXXXXXXXXXXXXX "
+         (sh-mode (concat "echo \"XXXXXXXXXXXXXXXX "
                            (upcase (car kill-ring))
                            ": ${" (car kill-ring)
                            "} XXXXXXXXXXXXXXXX\"")
                    )
-         ('ruby-mode (concat "puts \"XXXXXXXXXXXXXXXX\", " "(%|"
+         (ruby-mode (concat "puts \"XXXXXXXXXXXXXXXX\", " "(%|"
                              (upcase (car kill-ring))
                              ": #{" (car kill-ring)
                              ".inspect}|), \"XXXXXXXXXXXXXXXX\"")
                      )
-         ('js2-mode  (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
+         (js2-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
                              (upcase (car kill-ring))
                              ":', (() => { try { return JSON.stringify("
                              (car kill-ring)
                              ", null, 2) } catch(_) { return "
                              (car kill-ring) " }})(), '\\nXXXXXXXXXXXXXXXX\\n');")
                      )
-         ('js-mode  (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
+         (js-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
                              (upcase (car kill-ring))
                              ":', JSON.stringify("
                              (car kill-ring)
                              ", null, 2), '\\nXXXXXXXXXXXXXXXX\\n');")
                      )
-         ('go-mode
+         ((go-mode go-ts-mode)
           (format "pretty.Printf(\"\\nXXXXXXXXXXXXXXXX\\n %s:\\n \
 %%# v \\nXXXXXXXXXXXXXXXX\\n\", %s)" (car kill-ring) (car kill-ring))
           )
@@ -171,8 +171,12 @@
           (setq beg (line-number-at-pos (line-beginning-position)) end (line-number-at-pos (line-end-position))))
         ;; github uses L%d-L%d, while GitLab uses L%d-%d
         ;; Update February 11, 2022: It seems GitLab now supports L%d-L%d as well as L%d-%d
-        (kill-new (format "https://gitlab.com/%s/blob/%s%s#L%d-%d" (string-trim-right (string-trim-left (string-trim-left git-remote "git@gitlab.com:") "https://gitlab.com/") ".git") most-recent-sha project-and-file-path beg end))
-
+        (let (
+              (url-to-file (format "https://gitlab.com/%s/blob/%s%s#L%d-%d" (string-trim-right (string-trim-left (string-trim-left git-remote "git@gitlab.com:") "https://gitlab.com/") ".git") most-recent-sha project-and-file-path beg end))
+              )
+          (kill-new url-to-file)
+          url-to-file
+          )
         ;; can also use this regex
         ;; (kill-new (format "%s/blob/%s%s#L%d-%d" (replace-regexp-in-string "^\\(?:git@gitlab.com:\\|https://gitlab\.com/\\)\\(.*\\)\.git" "https://gitlab.com/\\1" git-remote) most-recent-sha project-and-file-path beg end))
         )
@@ -196,7 +200,7 @@
 (defun imgfy ()
   "convert a GitLab image string to the HTML equivalen"
   (interactive)
-  (kill-new (replace-regexp-in-string "!\\[image\\](\\(.*?\\))" "<img src=\"\\1\" width=\"50%\" height=\"50%\" />" (car kill-ring)))
+  (kill-new (replace-regexp-in-string "!\\[.*?\\](\\(.*?\\))" "<img src=\"\\1\" width=\"50%\" height=\"50%\" />" (car kill-ring)))
   )
 
 ;; (defun labelfy ()

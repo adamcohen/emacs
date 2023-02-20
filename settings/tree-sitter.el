@@ -7,6 +7,8 @@
      (c . ("https://github.com/tree-sitter/tree-sitter-c"))
      (cpp . ("https://github.com/tree-sitter/tree-sitter-cpp"))
      (css . ("https://github.com/tree-sitter/tree-sitter-css"))
+     ;; note: tree-sitter for doesn't really work, it uses /Applications/Emacs.app/Contents/Resources/lisp/progmodes/go-ts-mode.el.gz
+     ;; which doens't provide support for gofmt-before-save and other stuff
      (go . ("https://github.com/tree-sitter/tree-sitter-go"))
      (html . ("https://github.com/tree-sitter/tree-sitter-html"))
      (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))

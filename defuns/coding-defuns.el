@@ -22,8 +22,8 @@
   )
 
 (defun lp ()
+  "Insert puts message containing clipboard contents."
   (interactive)
-  "insert puts message containing clipboard contents"
   (setq logmsg
        (cl-case major-mode
          (sh-mode (concat "echo \"XXXXXXXXXXXXXXXX "
@@ -63,8 +63,8 @@
 
 ;; $GOPATH/src/github.com/wrsinc/protobuf/identity/service/partyrelationship
 (defun resolve-proto ()
-  (interactive)
   "open protobuf file"
+  (interactive)
   (save-excursion
     (re-search-backward "&\\|\\*\\| " nil t)
     (forward-char)

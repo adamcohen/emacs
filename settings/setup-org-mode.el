@@ -9,8 +9,6 @@
 ;; use only one star and indents text to line with the heading
 (setq org-startup-indented 't)
 
-(setq org-startup-indented 't)
-
 ;; don't expand org links when searching, only search the link text, not the URL
 (setq search-invisible 't)
 

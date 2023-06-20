@@ -127,8 +127,6 @@
 
 (require 'setup-dired-sidebar)
 
-(require 'setup-edit-with-emacs)
-
 ;; (add-to-list 'load-path (concat user-emacs-directory "/plugins/realtime-emacs-markdown-view/" ))
 ;; (require 'realtime-emacs-markdown-view)
 

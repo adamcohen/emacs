@@ -1,15 +1,3 @@
-(defun westfield-email-address ()
-  (interactive)
-  "copy testing email address to clipboard"
-  (kill-new (concat "westfieldlabsdemo+" (number-to-string (truncate (time-to-seconds))) "@gmail.com"))
-  )
-
-(defun mailinator-email-address ()
-  (interactive)
-  "copy testing email address to clipboard"
-  (kill-new (concat "westfieldlabsdemo" (number-to-string (truncate (time-to-seconds))) "@mailinator.com"))
-  )
-
 (defun lw ()
   (interactive)
   "insert log message containing clipboard contents"

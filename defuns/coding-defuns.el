@@ -185,10 +185,21 @@
   )
 
 (defun git-url-to-file-with-text ()
-  "creates a makrdown link to the git URL using the clipboard contents as the link name"
+  "creates a markdown link to the git URL using the clipboard contents as the link name"
   (interactive)
   (kill-new (format "[%s](%s)" (car kill-ring) (git-url-to-file)))
   (deactivate-mark)
+  )
+
+(defun git-url-to-file-with-module ()
+  "creates a makrdown link to the git URL using the clipboard contents as the link name"
+  (interactive)
+  (let (
+        (current-context (robe-context))
+        )
+    (kill-new (format "[%s#%s](%s)" (car current-context) (car (last current-context)) (git-url-to-file)))
+    (deactivate-mark)
+    )
   )
 
 (defun godef-describe-and-copy ()

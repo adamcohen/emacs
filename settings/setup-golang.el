@@ -8,20 +8,23 @@
 (setq company-echo-delay 0)                          ; remove annoying blinking
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 
-(defun set-exec-path-from-shell-PATH ()
-  (let ((path-from-shell (replace-regexp-in-string
-                          "[ \t\n]*$"
-                          ""
-                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
-    (setenv "PATH" path-from-shell)
-    (setq eshell-path-env path-from-shell) ; for eshell users
-    (setq exec-path (split-string path-from-shell path-separator))))
+(use-package exec-path-from-shell
+  :custom
+  (exec-path-from-shell-variables '("PATH"
+                                    "MANPATH"
+                                    "TMPDIR"))
+  (exec-path-from-shell-arguments '("-l"))
+  (exec-path-from-shell-check-startup-files nil)
+  (exec-path-from-shell-debug nil)
 
-(when window-system (set-exec-path-from-shell-PATH))
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
 (setenv "GOPATH" "/Users/adam/golang")
 
 (add-to-list 'exec-path "/Users/adam/golang/bin")
+
 (setq gofmt-command "goimports")
 (setq gofmt-args (list "-local" "gitlab.com/gitlab-org"))
 

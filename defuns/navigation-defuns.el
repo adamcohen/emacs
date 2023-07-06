@@ -55,3 +55,28 @@
       (other-frame 1)
       )
 )
+
+(defun find-spec ()
+  "Searches for a directory called 'spec' starting from the directory of the current buffer file."
+  (interactive)
+  (let (
+        (current-dir (file-name-directory (buffer-file-name)))
+        (spec-name (concat (file-name-base (buffer-file-name)) "_spec.rb"))
+        )
+    (while (and current-dir
+                (not (file-equal-p current-dir "/"))
+                (not (file-directory-p (concat current-dir "spec"))))
+      (setq current-dir (file-name-directory (directory-file-name current-dir)))
+      )
+    (if (string-equal current-dir "/")
+        (message "No 'spec' directory found.")
+      (find-and-open-file spec-name (concat current-dir "spec"))
+      )))
+
+(defun find-and-open-file (filename path)
+  "Searches for a file using the 'find' command starting from the given path and opens it in Emacs if found. Displays a message if the file is not found."
+  (let* ((result (shell-command-to-string (concat "find " (shell-quote-argument path) " -type f -name " (shell-quote-argument filename) " -print -quit")))
+         (filepath (and (not (string-empty-p result)) (file-truename (substring result 0 -1)))))
+    (if filepath
+        (find-file filepath)
+      (message "File '%s' not found." filename))))

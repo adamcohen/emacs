@@ -23,6 +23,7 @@
 ;;(setq magit-auto-revert-mode nil)
 ;; get rid of this warning https://github.com/magit/magit/issues/1839
 (setq magit-last-seen-setup-instructions "1.4.0")
+(setq magit-save-repository-buffers nil)
 
 ;; Show active region
 (transient-mark-mode 1)

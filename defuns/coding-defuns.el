@@ -147,30 +147,22 @@
 (defun git-url-to-file ()
   "copies the git URL to the current version of the buffer file"
   (interactive)
-  (let (
-        (git-remote (shell-command-to-string "git remote -v | grep 'origin.*fetch' | cut -f 2 | sed 's/ (fetch)//' | tr -d '\n'"))
-        (most-recent-sha (substring (shell-command-to-string "git rev-parse --short HEAD") 0 -1))
-        (root-project-dir (substring (shell-command-to-string "git rev-parse --show-toplevel") 0 -1))
-        )
-    (let ((project-and-file-path (replace-regexp-in-string root-project-dir "" buffer-file-name)))
-      (let (beg end)
-        (if (region-active-p)
-            (setq beg (line-number-at-pos (region-beginning)) end (line-number-at-pos (region-end)))
-          (setq beg (line-number-at-pos (line-beginning-position)) end (line-number-at-pos (line-end-position))))
-        ;; github uses L%d-L%d, while GitLab uses L%d-%d
-        ;; Update February 11, 2022: It seems GitLab now supports L%d-L%d as well as L%d-%d
-        (let (
-              (url-to-file (format "https://gitlab.com/%s/blob/%s%s#L%d-%d" (string-trim-right (string-trim-left (string-trim-left git-remote "git@gitlab.com:") "https://gitlab.com/") ".git") most-recent-sha project-and-file-path beg end))
-              )
-          (kill-new url-to-file)
-          url-to-file
-          )
-        ;; can also use this regex
-        ;; (kill-new (format "%s/blob/%s%s#L%d-%d" (replace-regexp-in-string "^\\(?:git@gitlab.com:\\|https://gitlab\.com/\\)\\(.*\\)\.git" "https://gitlab.com/\\1" git-remote) most-recent-sha project-and-file-path beg end))
-        )
-      )
-    )
-  )
+  (let* ((git-remote (shell-command-to-string "git remote -v | grep 'origin.*fetch' | cut -f 2 | sed 's/ (fetch)//' | tr -d '\n'"))
+         (most-recent-sha (substring (shell-command-to-string "git rev-parse --short HEAD") 0 -1))
+         (root-project-dir (substring (shell-command-to-string "git rev-parse --show-toplevel") 0 -1))
+         (project-and-file-path (replace-regexp-in-string root-project-dir "" buffer-file-name))
+         (beg (if (region-active-p) (line-number-at-pos (region-beginning)) (line-number-at-pos (line-beginning-position))))
+         (end (if (region-active-p) (line-number-at-pos (region-end)) (line-number-at-pos (line-end-position))))
+         (url-to-file (if (string-match-p "gitlab\.com" git-remote)
+                         (format "https://gitlab.com/%s/blob/%s%s#L%d-%d"
+                                 (string-trim-right (string-trim-left (string-trim-left git-remote "git@gitlab.com:") "https://gitlab.com/") ".git")
+                                 most-recent-sha project-and-file-path beg end)
+                       (format "%s/blob/%s%s#L%d-%d"
+                               (string-trim-right git-remote ".git")
+                               most-recent-sha project-and-file-path beg end))))
+    (kill-new url-to-file)
+    url-to-file))
+
 
 (defun git-url-to-file-with-text ()
   "creates a markdown link to the git URL using the clipboard contents as the link name"
@@ -179,8 +171,19 @@
   (deactivate-mark)
   )
 
+(defun module-and-method-name ()
+  "copies the current module name and method"
+  (interactive)
+  (let (
+        (current-context (robe-context))
+        )
+    (kill-new (format "%s#%s" (car current-context) (car (last current-context))))
+    (deactivate-mark)
+    )
+  )
+
 (defun git-url-to-file-with-module ()
-  "creates a makrdown link to the git URL using the clipboard contents as the link name"
+  "creates a makrdown link to the git URL using the module and method name as the link name"
   (interactive)
   (let (
         (current-context (robe-context))

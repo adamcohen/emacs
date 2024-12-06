@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: rangetest
+# key: rtest
+# --
+	tests := []struct {
+		name string
+	}{
+		{
+			name: "complex",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+		})
+	}

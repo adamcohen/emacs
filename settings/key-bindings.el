@@ -165,6 +165,11 @@
 (global-set-key (kbd "C-c C-l") 'recenter-top-bottom)
 (global-set-key (kbd "C-c k") 'describe-key)
 
+(defun my-html-mode-keybindings ()
+  (define-key html-mode-map (kbd "M-o") 'other-window-or-frame))
+
+(add-hook 'html-mode-hook 'my-html-mode-keybindings)
+
 ;; (define-key (current-global-map) (kbd "M-o") 'other-window)
 (define-key (current-global-map) (kbd "M-o") 'other-window-or-frame)
 (define-key (current-global-map) (kbd "M-O") 'other-frame)

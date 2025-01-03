@@ -11,6 +11,16 @@
 ;; don't drop me into the debugger on an error
 (setq-default debug-on-error nil)
 
+;; darwin built-in ls does not support --dired. Switch to gnu ls, if available, so we can use --dired
+;; to enable faster parsing, improved accuracy and better performance
+(when (eq system-type 'darwin)
+  (let ((gls (executable-find "gls")))
+    (if gls
+        (progn
+          (setq insert-directory-program gls
+                dired-use-ls-dired t))
+      (setq dired-use-ls-dired nil))))
+
 ;; UTF-8 please
 (setq-default locale-coding-system 'utf-8) ; pretty
 (set-terminal-coding-system 'utf-8) ; pretty

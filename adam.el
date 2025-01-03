@@ -104,7 +104,7 @@
 
 ;; might be called sql-interactive-mode-hook
 (add-hook 'sql-interactive-mode-hook
-          '(lambda ()
+          (lambda ()
              (define-key sql-interactive-mode-map [f1] 'clear-shell)
              (define-key sql-interactive-mode-map (kbd "M-R") 'comint-history-isearch-backward-regexp)
              (setq global-hl-line-mode nil)
@@ -119,7 +119,7 @@
 
 ;; Remove completion buffer when done
 (add-hook 'minibuffer-exit-hook
-      '(lambda ()
+      (lambda ()
          (let ((buffer "*Completions*"))
            (and (get-buffer buffer)
             (kill-buffer buffer)))))

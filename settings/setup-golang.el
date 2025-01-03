@@ -40,7 +40,12 @@
     (push '("func" . ?ƒ) prettify-symbols-alist)
     (prettify-symbols-mode)
     ;; (add-hook 'go-mode-hook #'lsp-deferred)
-    (lsp-deferred)
+
+    ; don't load lsp for the following directory, because it's too large
+    (unless (string-prefix-p "/Users/adam/Documents/programming/testing/go"
+                             (expand-file-name (buffer-file-name)))
+      (lsp-deferred))
+
     (add-hook 'before-save-hook 'gofmt-before-save)
     (subword-mode)
     (helm-gtags-mode)

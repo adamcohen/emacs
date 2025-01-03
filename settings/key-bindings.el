@@ -117,6 +117,8 @@
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-c g") 'magit-dispatch)
+(global-set-key (kbd "C-c f") 'magit-file-dispatch)
 (with-eval-after-load 'magit-status
   ;; original command magit-diff-visit-file-worktree
   (define-key magit-hunk-section-map (kbd "C-j") 'next-line)
@@ -231,7 +233,9 @@
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
-  t " my-keys" 'my-keys-minor-mode-map)
+  :init-value t
+  :lighter " my-keys"
+  :keymap 'my-keys-minor-mode-map)
 
 ;; looks like I tried to disable my custom keys in the minibuffer, not sure why, they're useful.
 ;; I'll comment it out for now and see if I can figure out why I disabled it in the first place

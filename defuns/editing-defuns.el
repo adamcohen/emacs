@@ -180,24 +180,12 @@ n    (forward-line n)
    ((string-match-p "[^aeiou]y$" verb) (replace-regexp-in-string "y$" "ied" verb))
    (t (concat verb "ed"))))
 
-;; (defun change-verbs-to-past-tense (begin end)
-;;   "Change verbs in the current selection to past tense."
-;;   (interactive "r")
-;;   (let* ((text (buffer-substring-no-properties begin end))
-;;          (modified-text (replace-regexp-in-string
-;;                          "\\b\\(approve\\|create\\|investigate\\|merge\\|update\\|respond\\|review\\|start\\)\\b"
-;;                          (lambda (match) (past-tense match))
-;;                          text)))
-;;     (delete-region begin end)
-;;     (insert modified-text)))
-
-
 (defun change-verbs-to-past-tense (begin end)
   "Change verbs in the current selection to past tense."
   (interactive "r")
   (let* ((text (buffer-substring-no-properties begin end))
          (modified-text (replace-regexp-in-string
-                         "\\b\\(approve\\|create\\|investigate\\|merge\\|update\\|respond\\|review\\|start\\)\\b\\([^_]\\|$\\)"
+                         "\\b\\(continue\\|approve\\|create\\|investigate\\|merge\\|update\\|respond\\|review\\|start\\)\\b\\([^_]\\|$\\)"
                          (lambda (match)
                            (concat (past-tense (match-string 1 match))
                                    (match-string 2 match)))

@@ -185,7 +185,7 @@ n    (forward-line n)
   (interactive "r")
   (let* ((text (buffer-substring-no-properties begin end))
          (modified-text (replace-regexp-in-string
-                         "\\b\\(continue\\|approve\\|create\\|investigate\\|merge\\|update\\|respond\\|review\\|start\\)\\b\\([^_]\\|$\\)"
+                         "\\b\\(add\\|close\\|continue\\|approve\\|create\\|investigate\\|merge\\|update\\|respond\\|review\\|start\\)\\b\\([^_]\\|$\\)"
                          (lambda (match)
                            (concat (past-tense (match-string 1 match))
                                    (match-string 2 match)))

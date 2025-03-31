@@ -181,14 +181,17 @@ n    (forward-line n)
    (t (concat verb "ed"))))
 
 (defun change-verbs-to-past-tense (begin end)
-  "Change verbs in the current selection to past tense."
+  "Change verbs in the current selection to past tense, ignoring text between backticks."
   (interactive "r")
   (let* ((text (buffer-substring-no-properties begin end))
-         (modified-text (replace-regexp-in-string
-                         "\\b\\(add\\|close\\|continue\\|approve\\|create\\|investigate\\|merge\\|update\\|respond\\|review\\|start\\)\\b\\([^_]\\|$\\)"
-                         (lambda (match)
-                           (concat (past-tense (match-string 1 match))
-                                   (match-string 2 match)))
-                         text)))
+         (modified-text
+          (replace-regexp-in-string
+           "\\(`[^`]*`\\)\\|\\b\\(complete\\|help\\|add\\|close\\|continue\\|approve\\|create\\|investigate\\|merge\\|update\\|respond\\|review\\|start\\)\\b\\([^_]\\|$\\)"
+           (lambda (match)
+             (if (string-prefix-p "`" match)
+                 match  ; Return backticked text unchanged
+               (concat (past-tense (match-string 2 match))
+                       (match-string 3 match))))
+           text)))
     (delete-region begin end)
     (insert modified-text)))

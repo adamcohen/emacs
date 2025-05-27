@@ -23,6 +23,8 @@
   ido-enable-flex-matching t
   ido-max-prospects 8                 ; don't spam my minibuffer
   ido-confirm-unique-completion t     ; wait for RET, even with unique completion
+  ;; Display ido results vertically, rather than horizontally
+  ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
   )
 
 (add-to-list 'ido-ignore-directories "target")

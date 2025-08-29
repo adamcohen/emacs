@@ -137,6 +137,10 @@
 ;; If non-nil and positive number, auto hide flycheck tooltips after number of seconds.
 (setq flycheck-pos-tip-timeout 1000)
 
+;; Prevent content of the minibuffer being replaced by a suggested key binding
+;; see https://github.com/flycheck/flycheck/issues/2080
+(setq suggest-key-bindings nil)
+
 ;; dired-dwim-target is a variable defined in `dired.el'. Its value is nil
 
 ;; Documentation: If non-nil, Dired tries to guess a default target directory. This means: if there is a Dired buffer displayed in the next window, use its current directory, instead of this Dired buffer's current directory.

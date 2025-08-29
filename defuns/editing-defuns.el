@@ -186,7 +186,7 @@ n    (forward-line n)
   (let* ((text (buffer-substring-no-properties begin end))
          (modified-text
           (replace-regexp-in-string
-           "\\(`[^`]*`\\)\\|\\b\\(complete\\|help\\|add\\|close\\|continue\\|approve\\|create\\|investigate\\|merge\\|update\\|respond\\|review\\|start\\)\\b\\([^_]\\|$\\)"
+           "\\(`[^`]*`\\)\\|\\b\\(complete\\|help\\|add\\|fix\\|close\\|continue\\|approve\\|create\\|investigate\\|merge\\|update\\|respond\\|review\\|start\\)\\b\\([^_]\\|$\\)"
            (lambda (match)
              (if (string-prefix-p "`" match)
                  match  ; Return backticked text unchanged

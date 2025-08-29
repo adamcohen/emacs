@@ -30,10 +30,23 @@
  '(comint-scroll-to-bottom-on-input t)
  '(comint-scroll-to-bottom-on-output nil)
  '(debug-ignored-errors
-   '("^Exit the snippet first!$" beginning-of-line beginning-of-buffer end-of-line end-of-buffer end-of-file buffer-read-only file-supersession mark-inactive user-error "Command attempted to use minibuffer"))
+   '("^Exit the snippet first!$" beginning-of-line beginning-of-buffer end-of-line
+     end-of-buffer end-of-file buffer-read-only file-supersession mark-inactive
+     user-error "Command attempted to use minibuffer"))
  '(flycheck-go-vet-shadow t)
  '(helm-boring-file-regexp-list
-   '("^\\..*$" "\\.o$" "~$" "\\.bin$" "\\.lbin$" "\\.so$" "\\.a$" "\\.ln$" "\\.blg$" "\\.bbl$" "\\.elc$" "\\.lof$" "\\.glo$" "\\.idx$" "\\.lot$" "\\.svn\\(/\\|$\\)" "\\.hg\\(/\\|$\\)" "\\.git\\(/\\|$\\)" "\\.bzr\\(/\\|$\\)" "CVS\\(/\\|$\\)" "_darcs\\(/\\|$\\)" "_MTN\\(/\\|$\\)" "\\.fmt$" "\\.tfm$" "\\.class$" "\\.fas$" "\\.lib$" "\\.mem$" "\\.x86f$" "\\.sparcf$" "\\.dfsl$" "\\.pfsl$" "\\.d64fsl$" "\\.p64fsl$" "\\.lx64fsl$" "\\.lx32fsl$" "\\.dx64fsl$" "\\.dx32fsl$" "\\.fx64fsl$" "\\.fx32fsl$" "\\.sx64fsl$" "\\.sx32fsl$" "\\.wx64fsl$" "\\.wx32fsl$" "\\.fasl$" "\\.ufsl$" "\\.fsl$" "\\.dxl$" "\\.lo$" "\\.la$" "\\.gmo$" "\\.mo$" "\\.toc$" "\\.aux$" "\\.cp$" "\\.fn$" "\\.ky$" "\\.pg$" "\\.tp$" "\\.vr$" "\\.cps$" "\\.fns$" "\\.kys$" "\\.pgs$" "\\.tps$" "\\.vrs$" "\\.pyc$" "\\.pyo$"))
+   '("^\\..*$" "\\.o$" "~$" "\\.bin$" "\\.lbin$" "\\.so$" "\\.a$" "\\.ln$"
+     "\\.blg$" "\\.bbl$" "\\.elc$" "\\.lof$" "\\.glo$" "\\.idx$" "\\.lot$"
+     "\\.svn\\(/\\|$\\)" "\\.hg\\(/\\|$\\)" "\\.git\\(/\\|$\\)"
+     "\\.bzr\\(/\\|$\\)" "CVS\\(/\\|$\\)" "_darcs\\(/\\|$\\)" "_MTN\\(/\\|$\\)"
+     "\\.fmt$" "\\.tfm$" "\\.class$" "\\.fas$" "\\.lib$" "\\.mem$" "\\.x86f$"
+     "\\.sparcf$" "\\.dfsl$" "\\.pfsl$" "\\.d64fsl$" "\\.p64fsl$" "\\.lx64fsl$"
+     "\\.lx32fsl$" "\\.dx64fsl$" "\\.dx32fsl$" "\\.fx64fsl$" "\\.fx32fsl$"
+     "\\.sx64fsl$" "\\.sx32fsl$" "\\.wx64fsl$" "\\.wx32fsl$" "\\.fasl$"
+     "\\.ufsl$" "\\.fsl$" "\\.dxl$" "\\.lo$" "\\.la$" "\\.gmo$" "\\.mo$"
+     "\\.toc$" "\\.aux$" "\\.cp$" "\\.fn$" "\\.ky$" "\\.pg$" "\\.tp$" "\\.vr$"
+     "\\.cps$" "\\.fns$" "\\.kys$" "\\.pgs$" "\\.tps$" "\\.vrs$" "\\.pyc$"
+     "\\.pyo$"))
  '(helm-gtags-auto-update t)
  '(helm-gtags-ignore-case t)
  '(helm-gtags-path-style 'relative)
@@ -44,7 +57,25 @@
  '(org-src-preserve-indentation t)
  '(org-support-shift-select nil)
  '(package-selected-packages
-   '(dash inheritenv mise sideline-lsp sideline sideline-flycheck flycheck-pos-tip flycheck-inline posframe helm-core rake treemacs robe activity-watch-mode yafolding groovy-mode flycheck-golangci-lint use-package vscode-icon dired-sidebar dired-subtree scala-mode kotlin-mode mermaid-mode gradle-mode graphql-mode org-roam tide flycheck-mode dockerfile-mode csv-mode utop htmlize tuareg helm-projectile org-bullets helm-gtags yasnippet-snippets helm rust-mode mocha gorepl-mode exec-path-from-shell protobuf-mode reveal-in-osx-finder rubocop websocket rinari browse-kill-ring fill-column-indicator rhtml-mode yaml-mode expand-region js2-mode json-mode haml-mode ido-complete-space-or-hyphen edit-server smex multiple-cursors company rspec-mode rainbow-mode rainbow-delimiters puppet-mode smartparens idle-highlight-mode find-file-in-project projectile-rails projectile feature-mode coffee-mode vterm magit git-timemachine lsp-treemacs flycheck lsp-ui xref async auto-yasnippet vue-mode flymake-ruby ox-gfm css-eldoc all-the-icons ace-window inf-mongo go-autocomplete lineno iy-go-to-char w3 slime-js ack ace-jump-mode ac-ispell))
+   '(ac-ispell ace-jump-mode ace-window ack activity-watch-mode all-the-icons async
+               auto-yasnippet browse-kill-ring coffee-mode company css-eldoc
+               csv-mode dash dired-sidebar dired-subtree dockerfile-mode
+               edit-server exec-path-from-shell expand-region feature-mode
+               fill-column-indicator find-file-in-project flycheck
+               flycheck-golangci-lint flycheck-inline flycheck-mode
+               flycheck-pos-tip flymake-ruby git-timemachine go-autocomplete
+               gorepl-mode gradle-mode graphql-mode groovy-mode haml-mode helm
+               helm-core helm-gtags helm-projectile htmlize idle-highlight-mode
+               ido-complete-space-or-hyphen inf-mongo inheritenv iy-go-to-char
+               js2-mode json-mode kotlin-mode lineno lsp-treemacs lsp-ui magit
+               mermaid-mode mise mocha multiple-cursors org-bullets org-roam
+               ox-gfm posframe projectile projectile-rails protobuf-mode
+               puppet-mode rainbow-delimiters rainbow-mode rake
+               reveal-in-osx-finder rhtml-mode rinari robe rspec-mode rubocop
+               rust-mode scala-mode sideline sideline-flycheck sideline-lsp
+               slime-js smartparens smex swift-mode tide treemacs tuareg
+               use-package utop vscode-icon vterm vue-mode w3 websocket xref
+               yafolding yaml-mode yasnippet-snippets))
  '(protect-buffer-bury-p nil)
  '(redis-cli-executable "/usr/local/bin/redis-cli")
  '(sideline-flycheck-max-lines 1)

@@ -13,36 +13,42 @@
   "Insert puts message containing clipboard contents."
   (interactive)
   (setq logmsg
-       (cl-case major-mode
-         (sh-mode (concat "echo \"XXXXXXXXXXXXXXXX "
+        (cl-case major-mode
+          (sh-mode (concat "echo \"XXXXXXXXXXXXXXXX "
                            (upcase (car kill-ring))
                            ": ${" (car kill-ring)
                            "} XXXXXXXXXXXXXXXX\"")
                    )
-         (ruby-mode (concat "puts \"XXXXXXXXXXXXXXXX\", " "(%|"
+          (ruby-mode (concat "puts \"XXXXXXXXXXXXXXXX\", " "(%|"
                              (upcase (car kill-ring))
                              ": #{" (car kill-ring)
                              ".inspect}|), \"XXXXXXXXXXXXXXXX\"")
                      )
-         (js2-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
-                             (upcase (car kill-ring))
-                             ":', (() => { try { return JSON.stringify("
-                             (car kill-ring)
-                             ", null, 2) } catch(_) { return "
-                             (car kill-ring) " }})(), '\\nXXXXXXXXXXXXXXXX\\n');")
-                     )
-         (js-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
-                             (upcase (car kill-ring))
-                             ":', JSON.stringify("
-                             (car kill-ring)
-                             ", null, 2), '\\nXXXXXXXXXXXXXXXX\\n');")
-                     )
-         ((go-mode go-ts-mode)
-          (format "pretty.Printf(\"\\nXXXXXXXXXXXXXXXX\\n %s:\\n \
+          (js2-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
+                            (upcase (car kill-ring))
+                            ":', (() => { try { return JSON.stringify("
+                            (car kill-ring)
+                            ", null, 2) } catch(_) { return "
+                            (car kill-ring) " }})(), '\\nXXXXXXXXXXXXXXXX\\n');")
+                    )
+          (js-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
+                           (upcase (car kill-ring))
+                           ":', JSON.stringify("
+                           (car kill-ring)
+                           ", null, 2), '\\nXXXXXXXXXXXXXXXX\\n');")
+                   )
+          (typescript-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
+                                   (upcase (car kill-ring))
+                                   ":', JSON.stringify("
+                                   (car kill-ring)
+                                   ", null, 2), '\\nXXXXXXXXXXXXXXXX\\n');")
+                           )
+          ((go-mode go-ts-mode)
+           (format "pretty.Printf(\"\\nXXXXXXXXXXXXXXXX\\n %s:\\n \
 %%# v \\nXXXXXXXXXXXXXXXX\\n\", %s)" (car kill-ring) (car kill-ring))
+           )
           )
-         )
-       )
+        )
   (insert logmsg)
   )
 
@@ -114,10 +120,10 @@
   "copies the Merge Request for the current line"
   (interactive)
   (let* (
-        (sha (shell-command-to-string (format "git blame -L%s,%s %s | cut -f 1 -d ' ' | tr -d '\n'"  (line-number-at-pos) (line-number-at-pos) (buffer-file-name))))
-        (merge (shell-command-to-string (format "(git rev-list %s..HEAD --ancestry-path | cat -n; git rev-list %s..HEAD --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2" sha sha)))
-        (merge_commit (shell-command-to-string (format "git show %s" merge)))
-        )
+         (sha (shell-command-to-string (format "git blame -L%s,%s %s | cut -f 1 -d ' ' | tr -d '\n'"  (line-number-at-pos) (line-number-at-pos) (buffer-file-name))))
+         (merge (shell-command-to-string (format "(git rev-list %s..HEAD --ancestry-path | cat -n; git rev-list %s..HEAD --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2" sha sha)))
+         (merge_commit (shell-command-to-string (format "git show %s" merge)))
+         )
     (save-match-data
       (and (string-match "See merge request \\(.*\\)" merge_commit)
            (let* (
@@ -154,12 +160,12 @@
          (beg (if (region-active-p) (line-number-at-pos (region-beginning)) (line-number-at-pos (line-beginning-position))))
          (end (if (region-active-p) (line-number-at-pos (region-end)) (line-number-at-pos (line-end-position))))
          (url-to-file (if (string-match-p "gitlab\.com" git-remote)
-                         (format "https://gitlab.com/%s/blob/%s%s#L%d-%d"
-                                 (string-trim-right (string-trim-left (string-trim-left git-remote "git@gitlab.com:") "https://gitlab.com/") ".git")
-                                 most-recent-sha project-and-file-path beg end)
-                       (format "%s/blob/%s%s#L%d-%d"
-                               (string-trim-right git-remote ".git")
-                               most-recent-sha project-and-file-path beg end))))
+                          (format "https://gitlab.com/%s/blob/%s%s#L%d-%d"
+                                  (string-trim-right (string-trim-left (string-trim-left git-remote "git@gitlab.com:") "https://gitlab.com/") ".git")
+                                  most-recent-sha project-and-file-path beg end)
+                        (format "%s/blob/%s%s#L%d-%d"
+                                (string-trim-right git-remote ".git")
+                                most-recent-sha project-and-file-path beg end))))
     (kill-new url-to-file)
     url-to-file))
 

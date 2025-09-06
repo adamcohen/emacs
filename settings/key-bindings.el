@@ -6,9 +6,9 @@
 (global-set-key (kbd "C-c C-p") 'lp)
 (global-set-key (kbd "C-c C-g") 'generate-testing-email-address)
 
-;make F9 switch to *scratch*
+;; make F9 switch to *scratch*
 (global-set-key (kbd "<f9>")
-  (lambda()(interactive)(switch-to-buffer "*scratch*")))
+                (lambda()(interactive)(switch-to-buffer "*scratch*")))
 
 ;; duplicate a line
 (global-set-key (kbd "C-c y") 'djcb-duplicate-line)
@@ -53,7 +53,11 @@
 (with-eval-after-load "js2-mode"
   (define-key js2-mode-map (kbd "C-c t") 'mocha-test-at-point)
   (define-key js2-mode-map (kbd "C-x t") 'hs-toggle-hiding)
-)
+  )
+
+(with-eval-after-load 'dired
+  ;; Bind lowercase 'r' to enter wdired-mode
+  (define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode))
 
 ;; helm
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
@@ -68,7 +72,7 @@
 ;; org-mode
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "C-M-<return>") 'org-insert-heading-respect-content)
-)
+  )
 
 ;; this is necessary because of https://github.com/emacs-helm/helm/issues/1539
 (with-eval-after-load 'helm
@@ -79,7 +83,7 @@
   ;; original delete-char
   (define-key helm-map (kbd "C-d") 'helm-buffer-run-kill-persistent)
   (define-key helm-map (kbd "C-o") 'hydra-helm2/body)
-)
+  )
 
 ;; can also set keybindings for multiple maps in a loop
 ;; (with-eval-after-load 'helm
@@ -155,10 +159,10 @@
 ;;; I disabled flex matching for ido-find-file-in-tag-files because it's
 ;;; too slow
 (global-set-key (kbd "M-x") (lambda ()
-                             (interactive)
-                             (setq ido-enable-flex-matching t
-                                   ido-enable-regexp nil)
-                             (smex)))
+                              (interactive)
+                              (setq ido-enable-flex-matching t
+                                    ido-enable-regexp nil)
+                              (smex)))
 
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C--") 'er/contract-region)

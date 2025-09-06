@@ -6,7 +6,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; ignore case when completing input in shell/eshell mode
-(setq pcomplete-ignore-case t)
+(setq completion-ignore-case t)
 
 ;; don't drop me into the debugger on an error
 (setq-default debug-on-error nil)
@@ -80,7 +80,7 @@
 ;; Don't request confirmation before visiting a new file or buffer.
 (setq-default confirm-nonexistent-file-or-buffer nil)
 
-; automatically reload the TAGS table if it changes
+;; automatically reload the TAGS table if it changes
 (setq-default tags-revert-without-query 1)
 
 ;; List of warning types not to display immediately
@@ -96,7 +96,7 @@
 
 (setenv "PAGER" "cat")
 
-;remove annoying "Buffer `buffername' still has clients; kill it?" message
+;; remove annoying "Buffer `buffername' still has clients; kill it?" message
 (remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
 (setq-default initial-scratch-message nil)
@@ -122,8 +122,8 @@
 
 ;; Write backup files to own directory
 (setq-default backup-directory-alist
-      `(("." . ,(expand-file-name
-                 (concat user-emacs-directory "backups")))))
+              `(("." . ,(expand-file-name
+                         (concat user-emacs-directory "backups")))))
 
 ;; windmove shift-arrow keybindings conflict with org-mode, so let's use ctrl instead
 (windmove-default-keybindings 'ctrl)

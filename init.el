@@ -27,16 +27,13 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode company popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder protobuf-mode exec-path-from-shell gorepl-mode mocha rust-mode go-mode hydra helm-core helm yasnippet-snippets async auto-yasnippet helm-gtags all-the-icons css-eldoc org-bullets ox-gfm helm-projectile tuareg htmlize utop vue-mode csv-mode dockerfile-mode vterm dash lsp-mode lsp-ui flycheck flycheck-pos-tip tide dired-subtree dired-sidebar vscode-icon all-the-icons use-package flycheck-golangci-lint robe sideline-lsp sideline sideline-flycheck mise)
-   "A list of packages to ensure are installed at launch.")
+(defvar my-packages '(ace-jump-mode ack coffee-mode feature-mode projectile projectile-rails find-file-in-project idle-highlight-mode magit markdown-mode smartparens puppet-mode rainbow-delimiters rainbow-mode rspec-mode company popup auto-complete multiple-cursors smex edit-server ido-complete-space-or-hyphen haml-mode json-mode json-snatcher js2-mode expand-region yaml-mode rhtml-mode fill-column-indicator browse-kill-ring rinari websocket git-timemachine rubocop reveal-in-osx-finder protobuf-mode exec-path-from-shell gorepl-mode mocha rust-mode go-mode hydra helm-core helm yasnippet-snippets async auto-yasnippet helm-gtags all-the-icons css-eldoc org-bullets ox-gfm helm-projectile tuareg htmlize utop vue-mode csv-mode dockerfile-mode vterm dash lsp-mode lsp-ui flycheck flycheck-pos-tip tide dired-subtree dired-sidebar vscode-icon all-the-icons use-package flycheck-golangci-lint robe sideline-lsp sideline sideline-flycheck mise corfu apheleia orderless typescript-mode tree-sitter tree-sitter-langs)
+  "A list of packages to ensure are installed at launch.")
 
 ;; bootstrap all of my required packages
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-
-;(require 'edit-server)
-;(edit-server-start)
 
 ;; You can keep system- or user-specific customizations here
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
@@ -46,7 +43,7 @@
 
 (if (file-exists-p system-specific-config) (load system-specific-config))
 (if (file-exists-p user-specific-dir)
-  (mapc #'load (directory-files user-specific-dir nil ".*el$")))
+    (mapc #'load (directory-files user-specific-dir nil ".*el$")))
 (if (file-exists-p user-specific-config) (load user-specific-config))
 
 ;; Functions (load all files in defuns-dir)
@@ -90,7 +87,7 @@
 
 (when is-mac (require 'mac))
 
-;start the emacsclient server unless it's already running
+;; start the emacsclient server unless it's already running
 (require 'server)
 (or (server-running-p)
     (server-start))
@@ -106,6 +103,8 @@
 (require 'setup-ruby-rails)
 
 (require 'setup-javascript)
+
+(require 'setup-typescript)
 
 (require 'setup-golang)
 
@@ -135,4 +134,9 @@
 
 (require 'setup-eshell)
 
+(require 'setup-elisp)
+
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; make flycheck stop suggesting keybindings
+(setq suggest-key-bindings nil)

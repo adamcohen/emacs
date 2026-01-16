@@ -148,6 +148,11 @@
 ;; The target is used in the prompt for file copy, rename etc.
 (setq dired-dwim-target t)
 
+(require 'dired-x)
+(require 'wdired)
+(setq wdired-allow-to-change-permissions 'advanced)
+(define-key dired-mode-map (kbd "r") 'wdired-change-to-wdired-mode)
+
 ;; disable warning message `Symbolic link to Git-controlled source file; follow link? (y or n)' and default the answser to `yes`
 (setq vc-follow-symlinks t)
 

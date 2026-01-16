@@ -57,25 +57,21 @@
  '(org-src-preserve-indentation t)
  '(org-support-shift-select nil)
  '(package-selected-packages
-   '(ac-ispell ace-jump-mode ace-window ack activity-watch-mode all-the-icons async
-               auto-yasnippet browse-kill-ring coffee-mode company css-eldoc
-               csv-mode dash dired-sidebar dired-subtree dockerfile-mode
-               edit-server exec-path-from-shell expand-region feature-mode
-               fill-column-indicator find-file-in-project flycheck
-               flycheck-golangci-lint flycheck-inline flycheck-mode
-               flycheck-pos-tip flymake-ruby git-timemachine go-autocomplete
-               gorepl-mode gradle-mode graphql-mode groovy-mode haml-mode helm
-               helm-core helm-gtags helm-projectile htmlize idle-highlight-mode
-               ido-complete-space-or-hyphen inf-mongo inheritenv iy-go-to-char
-               js2-mode json-mode kotlin-mode lineno lsp-treemacs lsp-ui magit
-               mermaid-mode mise mocha multiple-cursors org-bullets org-roam
-               ox-gfm posframe projectile projectile-rails protobuf-mode
-               puppet-mode rainbow-delimiters rainbow-mode rake
-               reveal-in-osx-finder rhtml-mode rinari robe rspec-mode rubocop
-               rust-mode scala-mode sideline sideline-flycheck sideline-lsp
-               slime-js smartparens smex swift-mode tide treemacs tuareg
-               use-package utop vscode-icon vterm vue-mode w3 websocket xref
-               yafolding yaml-mode yasnippet-snippets))
+   '(ace-jump-mode ack all-the-icons auto-complete auto-yasnippet browse-kill-ring
+                   coffee-mode company css-eldoc csv-mode dired-sidebar
+                   dockerfile-mode edit-server exec-path-from-shell
+                   expand-region feature-mode fill-column-indicator
+                   find-file-in-project flycheck-golangci-lint flycheck-inline
+                   flycheck-pos-tip git-timemachine go-mode gorepl-mode
+                   haml-mode helm-gtags helm-projectile htmlize
+                   idle-highlight-mode ido-complete-space-or-hyphen jinja2-mode
+                   json-mode lsp-ui magit mise mocha multiple-cursors
+                   org-bullets ox-gfm projectile-rails protobuf-mode puppet-mode
+                   rainbow-delimiters rainbow-mode reveal-in-osx-finder
+                   rhtml-mode rinari robe rspec-mode rubocop rust-mode
+                   sideline-flycheck sideline-lsp smartparens smex solidity-mode
+                   swift-mode tide utop vscode-icon vterm vue-mode websocket
+                   yaml-mode yasnippet-snippets))
  '(protect-buffer-bury-p nil)
  '(redis-cli-executable "/usr/local/bin/redis-cli")
  '(sideline-flycheck-max-lines 1)

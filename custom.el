@@ -56,22 +56,7 @@
  '(org-export-backends '(ascii html icalendar latex md odt confluence))
  '(org-src-preserve-indentation t)
  '(org-support-shift-select nil)
- '(package-selected-packages
-   '(ace-jump-mode ack all-the-icons auto-complete auto-yasnippet browse-kill-ring
-                   coffee-mode company css-eldoc csv-mode dired-sidebar
-                   dockerfile-mode edit-server exec-path-from-shell
-                   expand-region feature-mode fill-column-indicator
-                   find-file-in-project flycheck-golangci-lint flycheck-inline
-                   flycheck-pos-tip git-timemachine go-mode gorepl-mode
-                   haml-mode helm-gtags helm-projectile htmlize
-                   idle-highlight-mode ido-complete-space-or-hyphen jinja2-mode
-                   json-mode lsp-ui magit mise mocha multiple-cursors
-                   org-bullets ox-gfm projectile-rails protobuf-mode puppet-mode
-                   rainbow-delimiters rainbow-mode reveal-in-osx-finder
-                   rhtml-mode rinari robe rspec-mode rubocop rust-mode
-                   sideline-flycheck sideline-lsp smartparens smex solidity-mode
-                   swift-mode tide utop vscode-icon vterm vue-mode websocket
-                   yaml-mode yasnippet-snippets))
+ '(package-selected-packages nil)
  '(protect-buffer-bury-p nil)
  '(redis-cli-executable "/usr/local/bin/redis-cli")
  '(sideline-flycheck-max-lines 1)

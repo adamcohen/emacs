@@ -1,5 +1,10 @@
 ;; Buffer-related defuns
 
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max)))
+
 (defun transpose-buffers (arg)
   "Transpose the buffers shown in two windows."
   (interactive "p")
@@ -46,13 +51,13 @@ searches all buffers."
 
 (defun gf ()
   (interactive)
-"copy the full path to the current buffer into the clipboard"
-(kill-new (shell-quote-argument(buffer-file-name))))
+  "copy the full path to the current buffer into the clipboard"
+  (kill-new (shell-quote-argument(buffer-file-name))))
 
 (defun gff ()
   (interactive)
-"copy the relative path to the current buffer into the clipboard"
-(kill-new (replace-regexp-in-string "/Users/adam/.*?/" "" buffer-file-name)))
+  "copy the relative path to the current buffer into the clipboard"
+  (kill-new (replace-regexp-in-string "/Users/adam/.*?/" "" buffer-file-name)))
 
 (defun gfff ()
   (interactive)
@@ -120,8 +125,8 @@ This is the same as using \\[set-mark-command] with the prefix argument."
       (set-buffer-modified-p nil))
     (message "Renamed to %s." new-name)))
 
-;if a file is already open in read only mode, use this to re-open the
-;file with sudo access
+                                        ;if a file is already open in read only mode, use this to re-open the
+                                        ;file with sudo access
 (defun find-alternative-file-with-sudo ()
   (interactive)
   (let ((fname (or buffer-file-name

@@ -10,47 +10,34 @@
   )
 
 (defun lp ()
-  "Insert puts message containing clipboard contents."
+  "Insert puts/echo/log message containing clipboard contents, depending on major mode.
+If major mode is not supported, insert a reminder message."
   (interactive)
-  (setq logmsg
-        (cl-case major-mode
-          (sh-mode (concat "echo \"XXXXXXXXXXXXXXXX "
-                           (upcase (car kill-ring))
-                           ": ${" (car kill-ring)
-                           "} XXXXXXXXXXXXXXXX\"")
-                   )
-          (ruby-mode (concat "puts \"XXXXXXXXXXXXXXXX\", " "(%|"
-                             (upcase (car kill-ring))
-                             ": #{" (car kill-ring)
-                             ".inspect}|), \"XXXXXXXXXXXXXXXX\"")
-                     )
-          (js2-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
-                            (upcase (car kill-ring))
-                            ":', (() => { try { return JSON.stringify("
-                            (car kill-ring)
-                            ", null, 2) } catch(_) { return "
-                            (car kill-ring) " }})(), '\\nXXXXXXXXXXXXXXXX\\n');")
-                    )
-          (js-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
-                           (upcase (car kill-ring))
-                           ":', JSON.stringify("
-                           (car kill-ring)
-                           ", null, 2), '\\nXXXXXXXXXXXXXXXX\\n');")
-                   )
-          (typescript-mode (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
-                                   (upcase (car kill-ring))
-                                   ":', JSON.stringify("
-                                   (car kill-ring)
-                                   ", null, 2), '\\nXXXXXXXXXXXXXXXX\\n');")
-                           )
-          ((go-mode go-ts-mode)
-           (format "pretty.Printf(\"\\nXXXXXXXXXXXXXXXX\\n %s:\\n \
-%%# v \\nXXXXXXXXXXXXXXXX\\n\", %s)" (car kill-ring) (car kill-ring))
-           )
-          )
-        )
-  (insert logmsg)
-  )
+  (let ((sym (car kill-ring)))
+    (setq logmsg
+          (cl-case major-mode
+            (sh-mode
+             (concat "echo \"XXXXXXXXXXXXXXXX "
+                     (upcase sym)
+                     ": ${" sym "} XXXXXXXXXXXXXXXX\""))
+            (ruby-mode
+             (concat "puts \"XXXXXXXXXXXXXXXX\", "
+                     "(%|" (upcase sym)
+                     ": #{" sym ".inspect}|), \"XXXXXXXXXXXXXXXX\""))
+            ((js2-mode js-mode javascript-mode typescript-mode js-ts-mode ts-ts-mode)
+             (concat "console.log('\\nXXXXXXXXXXXXXXXX\\n"
+                     (upcase sym)
+                     ":', (() => { try { return JSON.stringify("
+                     sym
+                     ", null, 2) } catch(_) { return "
+                     sym
+                     " }})(), '\\nXXXXXXXXXXXXXXXX\\n'); // prettier-ignore"))
+            ((go-mode go-ts-mode)
+             (format "pretty.Printf(\"\\nXXXXXXXXXXXXXXXX\\n %s:\\n %%# v \\nXXXXXXXXXXXXXXXX\\n\", %s)"
+                     sym sym))
+            (t
+             (format ";; Please add conditional for %s" major-mode))))
+    (insert logmsg)))
 
 (defun replace-in-string (what with in)
   (replace-regexp-in-string (regexp-quote what) with in nil 'literal)q)
